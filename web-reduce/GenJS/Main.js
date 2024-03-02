@@ -391,7 +391,7 @@ centreTypesetMathsCheckbox.addEventListener("change", event => {
         pre.error {background-color: #ff000040;} /* red, 1/4 opaque */
     </style>
     <script>MathJax = { tex: { macros: { "*": "\\\\," } } };</script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script async="async" src="./node_modules/mathjax/es5/tex-chtml.js"></script>
 </head>
 <body>
     By default, REDUCE should load automatically.
