@@ -1,0 +1,1865 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="The REDUCE Computer Algebra System" />
+    <meta name="keywords" content="Open Source, Software, Development, Developers, Projects, Downloads, SF.net, SourceForge,
+                    BSD License, Science/Research, OS Portable (Source code to work with many OS platforms),
+                    Mathematics, Lisp, REDUCE, reduce-algebra, computer algebra system, CAS" />
+    <title>
+        Web REDUCE    </title>
+    <link rel="canonical" href="https://reduce-algebra.sourceforge.io/web-reduce/index.php" />
+    <link rel="icon" type="image/png" href="/images/icon.png" />
+    <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="StyleSheet.css" /><style type="text/css">
+    #IODisplayIframe,
+    #InputDiv {
+        width: 100%
+    }
+
+    #IODisplayIframe {
+        border: medium solid black;
+        height: 25em;
+        resize: vertical;
+        /* Works in Chrome but not Firefox; see
+        https://stackoverflow.com/questions/8117761/how-can-i-make-an-iframe-resizable */
+    }
+
+    #InputDiv {
+        font-family: var(--bs-font-monospace);
+        /* Bootstrap pre default */
+        border: thin solid black;
+        height: 7em;
+        resize: vertical;
+        padding: 2px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+    }
+
+    #InputDiv:focus {
+        background-color: white;
+        outline: medium outset blue;
+    }
+
+    div.labelling {
+        font-weight: bold;
+        margin-top: 5px;
+        margin-bottom: 2px;
+    }
+
+    #buttons {
+        margin-top: 5px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    div.modal-body input[type="text"] {
+        text-align: center;
+        font-style: italic;
+    }
+
+    div.function-templates {
+        display: grid;
+        grid-row-gap: 20px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    div.function-templates.three-col {
+        grid-template-columns: repeat(auto-fill, 250px);
+    }
+
+    div.function-templates.two-col {
+        grid-template-columns: repeat(auto-fill, 340px);
+    }
+
+    div.function-templates>div.selected {
+        outline: auto blue medium;
+    }
+
+    div.function-templates p {
+        margin-bottom: 0;
+    }
+
+    .fs-big {
+        font-size: 150%;
+    }
+
+    .fs-normal {
+        font-size: medium;
+    }
+</style>
+
+</head>
+<body>
+    <div class="container-fluid">
+        <header class="navbar navbar-expand-md navbar-light">
+            <a class="navbar-brand d-none d-md-block" href="https://sourceforge.net/p/reduce-algebra/" title="REDUCE project page">
+                <img src="/images/icon.png" alt="" />
+            </a>
+            <span class="mx-auto">REDUCE</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- The following link is hidden on the search page! -->
+            <a id="top-search-button" class="btn d-none d-md-block" title="Search the REDUCE web site" href="/search.php">
+                <svg width="13" height="13" viewBox="0 0 13 13">
+                    <path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z">
+                    </path>
+                </svg>
+            </a>
+        </header>
+        <div class="row">
+            ﻿<nav id="navmenu" class="col-md-3 col-xl-2 d-md-block collapse">
+    <div class="sticky-top">
+        <ul>
+            <li title="The REDUCE Computer Algebra System"><a href="/index.php">Home</a></li>
+<li title="REDUCE features and design characteristics"><a href="/features.php">Features</a></li>
+<li title="How to download, install and run REDUCE"><a href="/obtaining.php">Obtain and Run</a></li>
+<li title="User guides for REDUCE, its packages and Lisp systems"><a href="/documentation.php">Documentation</a></li>
+<li title="Details of books about REDUCE"><a href="/books.php">Books</a></li>
+<li title="Answers to questions about using REDUCE"><a href="/support.php">Support Q & A</a></li>
+<li title="Simple examples of using REDUCE"><a href="/tutorials.php">Tutorials</a></li>
+<li title="External packages that use REDUCE"><a href="/packages.php">External Packages</a></li>
+<li title="Join the REDUCE developer community!"><a href="/helpwanted.php">Help Wanted!</a></li>
+<li title="Publications that reference REDUCE"><a href="/bibliography.php">Bibliography</a></li>
+<li title="REDUCE history and contributors"><a href="/about.php">About REDUCE</a></li>
+<li title="Projects related to REDUCE"><a href="/projects.php">Related Projects</a></li>
+<li title="Search the REDUCE web site"><a href="/search.php">Search&nbsp;
+      <svg width="13" height="13" viewBox="0 0 13 13">
+        <path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z">
+        </path>
+      </svg></a></li>
+<li title="Full REDUCE site map and recently updated files"><a href="/sitemap.php">Site Map / Recent</a></li>
+<li title="Run REDUCE as a web app in your web browser"><a href="/web-reduce/about.php?start">Web REDUCE</a></li>
+        </ul>
+
+        <a href="https://sourceforge.net/p/reduce-algebra/" rel="nofollow">
+            <p>
+	        Download REDUCE from<br />
+	        <img alt="SourceForge" src="https://sourceforge.net/sflogo.php?type=13&amp;group_id=248416">
+            </p>
+        </a>
+
+        <div id="google_translate_element"></div>
+        <script>
+         function googleTranslateElementInit() {
+	     new google.translate.TranslateElement( { pageLanguage: 'en' } , 'google_translate_element');
+         }
+        </script>
+        <script defer="defer" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    </div>
+</nav>
+            <div id="main" class="col-md-9 col-xl-7">
+                <h1>Web REDUCE</h1>
+
+<!-- Menu bar -->
+<nav id="Menubar" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <!-- REDUCE Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle disabled" href="#" id="REDUCEMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">REDUCE</a>
+                    <ul class="dropdown-menu" aria-labelledby="REDUCEMenuLink">
+                        <li><button id="StartREDUCEMenuItem" class="dropdown-item" type="button">Start REDUCE</button>
+                        </li>
+                        <li><button id="LoadPackagesMenuItem" class="dropdown-item" data-bs-toggle="modal"
+                                data-bs-target="#LoadPackagesDialogue" type="button">Load Packages&hellip;</button></li>
+                        <li><button id="StopREDUCEMenuItem" class="dropdown-item" type="button">Stop REDUCE</button>
+                        </li>
+                        <li><button id="RestartREDUCEMenuItem" class="dropdown-item" type="button">Restart
+                                REDUCE</button></li>
+                        <li><button id="ClearDisplayMenuItem" class="dropdown-item" type="button">Clear I/O
+                                Display</button></li>
+                        <li><button id="PrintDisplayMenuItem" class="dropdown-item" type="button">Print I/O
+                                Display</button></li>
+                    </ul>
+                </li>
+                <!-- File Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="FileMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">File</a>
+                    <ul class="dropdown-menu" aria-labelledby="FileMenuLink">
+                        <li class="dropdown-item">
+                            <input id="EchoFileInputCheckbox" type="checkbox" checked="checked" />
+                            <label for="EchoFileInputCheckbox">Echo File Input</label>
+                        </li>
+                        <li><button id="InputFileMenuItem" class="dropdown-item" type="button">Input from
+                                File&hellip;</button></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><button id="OutputFileMenuItem" class="dropdown-item" type="button">Output to
+                                File&hellip;</button></li>
+                        <li><button id="OutputHereMenuItem" class="dropdown-item" type="button">Output Here</button>
+                        </li>
+                        <li><button id="OutputOpenMenuItem" class="dropdown-item" type="button">Output to Open
+                                File</button></li>
+                        <li><button id="ShutFileMenuItem" class="dropdown-item" type="button">Shut Output File</button>
+                        </li>
+                    </ul>
+                </li>
+                <!-- View Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="ViewMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">View</a>
+                    <ul class="dropdown-menu" aria-labelledby="ViewMenuLink">
+                        <li class="dropdown-item">
+                            <input id="FullWindowCheckbox" type="checkbox" />
+                            <label for="FullWindowCheckbox">Full Window</label>
+                        </li>
+                        <hr class="dropdown-divider">
+                        <li class="dropdown-item">
+                            <input id="IOColouringCheckbox" type="checkbox" checked="checked" />
+                            <label for="IOColouringCheckbox">I/O Colouring</label>
+                        </li>
+                        <li class="dropdown-item">
+                            <input id="TypesetMathsCheckbox" type="checkbox" checked="checked" disabled="disabled" />
+                            <label for="TypesetMathsCheckbox">Typeset Maths</label>
+                        </li>
+                        <li class="dropdown-item">
+                            <input id="CentreTypesetMathsCheckbox" type="checkbox" checked="checked" />
+                            <label for="CentreTypesetMathsCheckbox">Centre Typeset Maths</label>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="dropdown-item">
+                            <input id="MatchDelimsCheckbox" type="checkbox" checked="checked" />
+                            <label for="MatchDelimsCheckbox">Highlight Matching Delimiters</label>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Templates Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="TemplatesMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">Templates</a>
+                    <ul class="dropdown-menu" aria-labelledby="TemplatesMenuLink">
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#DerivativeTemplate"
+                                type="button">Derivative&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#IntegralTemplate"
+                                type="button">Integral&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#LimitTemplate"
+                                type="button">Limit&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#SumProdTemplate"
+                                type="button">Sum or Product&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#MatrixTemplate"
+                                type="button">Matrix&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#SolveTemplate"
+                                type="button">Solve Equation(s)&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ODESolveTemplate"
+                                type="button">Solve an ODE&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ForTemplate"
+                                type="button">For Statement&hellip;</button></li>
+                    </ul>
+                </li>
+                <!-- Functions Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="FunctionsMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">Functions</a>
+                    <ul class="dropdown-menu" aria-labelledby="FunctionsMenuLink">
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ExpLogFunctions"
+                                type="button">Exp, Log, Power, Root, etc&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#GammaEtcFunctions"
+                                type="button">Gamma &amp; Beta Functions, etc&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#IntegralFunctions"
+                                type="button">Integral Functions&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#AiryBesselFunctions"
+                                type="button">Airy &amp; Bessel Functions, etc&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#StruveEtcFunctions"
+                                type="button">Struve &amp; Kummer Functions, etc&hellip;</button></li>
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#OrthoPolyFunctions"
+                                type="button">Classical Orthogonal Polynomials&hellip;</button></li>
+                    </ul>
+                </li>
+                <!-- Help Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="HelpMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">Help</a>
+                    <ul class="dropdown-menu" aria-labelledby="HelpMenuLink">
+                        <li><a class="dropdown-item" href="about.php" target="_blank" title="Opens in a new tab.">About
+                                Web REDUCE</a></li>
+                        <li><a class="dropdown-item" href="UserGuide.php" target="_blank"
+                                title="Opens in a new tab.">Web REDUCE User Guide</a></li>
+                        <li><a class="dropdown-item" href="/manual/manual.html" target="_blank"
+                                title="Opens in a new tab.">REDUCE Manual</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="labelling">
+    <label for="IODisplayIframe">Input/Output Display</label>
+</div>
+<iframe id="IODisplayIframe">
+    The obsolete browser does not support the iframe HTML element and so cannot run Web REDUCE.
+</iframe>
+
+<div class="labelling">
+    <label for="InputDiv">Input Editor</label>
+</div>
+<div id="InputDiv" contenteditable="true" spellcheck="false"></div>
+<div id="buttons">
+    <button id="EarlierButton" type="button" disabled="disabled"
+        title="Select earlier keyboard input. Keyboard Shortcut: Control+UpArrow.">▲ Earlier Input</button>
+    <button id="SendInputButton" type="button" title="Send the input above to REDUCE, terminating with a semicolon if necessary.
+Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)">Send
+        Input</button>
+    <button id="LaterButton" type="button" disabled="disabled"
+        title="Select later keyboard input. Keyboard Shortcut: Control+DownArrow.">▼ Later Input</button>
+</div>
+
+</div><!-- opened in begin-body.php -->
+
+<footer class="col-xl-3">
+    <div class="sticky-top">
+        <hr class="d-display d-xl-none" />
+        <p>
+            Page last modified on
+            Tuesday 2nd January 2024.
+        </p>
+        <p>
+            All information available through this web site is
+            Copyright &copy; Anthony C. Hearn and the
+            <a href="https://sourceforge.net/p/reduce-algebra/_members/">REDUCE
+                developers</a> 2009&ndash;2024. All Rights Reserved.
+        </p>
+        <p>
+            Please report broken links (both in-coming and out-going), other
+            errors or suggestions for improvement to
+            <a href="https://sites.google.com/site/fjwcentaur/feedback">webmaster</a>.
+        </p>
+        <p>
+            This web site is built using <a id="php" href="https://www.php.net/">PHP</a>
+            and <a id="bootstrap" href="https://getbootstrap.com/">Bootstrap</a>.
+            It should be
+            <a href="javascript:void(location.href =
+                     'https://html5.validator.nu/?doc='+encodeURIComponent(location.href))" style="color:black;text-decoration:none;">valid</a>
+            <!-- target="_blank" or holding down ctrl causes this to fail! -->
+            <a href="https://en.wikipedia.org/wiki/XHTML#XHTML5">XHTML5</a>.
+        </p>
+        <p>
+            Microsoft Internet Explorer does not display this web site
+            correctly; please use a current web browser.
+        </p>
+        <div style="display: flex; flex-wrap: wrap-reverse; justify-content: space-around;">
+            <!-- Begin SF Tag -->
+            <div class="sf-root" data-id="248416" data-badge="oss-open-source-excellence-white" data-metadata="achievement=oss-open-source-excellence" style="width:125px">
+                <a href="https://sourceforge.net/projects/reduce-algebra/" target="_blank">REDUCE</a>
+            </div>
+            <script>
+                (function() {
+                    var sc = document.createElement('script');
+                    sc.type = 'text/javascript';
+                    sc.async = true;
+                    sc.src = 'https://b.sf-syn.com/badge_js?sf_id=248416';
+                    var p = document.getElementsByTagName('script')[0];
+                    p.parentNode.insertBefore(sc, p);
+                })();
+            </script>
+            <!-- End SF Tag -->
+            <a href="https://www.mathjax.org">
+                <img title="Powered by MathJax" src="https://www.mathjax.org/badge/badge.gif" alt="Powered by MathJax" />
+            </a>
+        </div>
+    </div>
+</footer>
+
+</div>
+</div>
+
+<!-- Bootstrap JavaScript bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script>
+    document.getElementById("php").append(" " + "8.2.12");
+    document.getElementById("bootstrap").append(" " + bootstrap.Tooltip.VERSION);
+</script>
+<script type="module" src="GenJS/Main.js"></script>
+<script type="module" src="GenJS/InputEditor.js"></script>
+<script type="module" src="GenJS/FileMenu.js"></script>
+
+<!-- Modal Dialogues -->
+<script type="module" src="GenJS/TempFuncs.js"></script>
+<script type="module" src="GenJS/Templates.js"></script>
+<div id="LoadPackagesDialogue" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Load Packages</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body text-center">
+				<p>
+					<small>
+						Select one or more packages then press the Load button below,
+						or double-press a single package.
+						Right-click / press-and-hold a package, or select <strong>one</strong>
+						package and press the Manual button below,
+						to display the manual entry (if it exists) for the package in a new tab.
+						Note that many packages autoload.
+					</small>
+				</p>
+				<div style="display: grid; align-items: center; justify-content: center; grid-gap: 1px 1px;
+				grid-template-columns: repeat(auto-fill, 5em);" class="btn-group-sm">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary me-auto" title="Clear all selections">Reset</button>
+				<button type="button" class="btn btn-secondary me-auto"
+					title="Display the manual entry (if it exists) for the *single* selected package in a new tab.">Manual</button>
+				<button type="button" class="btn btn-primary" title="Load the selected package(s).">Load</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="module" src="GenJS/LoadPackagesDialogue.js"></script>
+<!-- Support for the Template and Functions menus. -->
+
+<!-- The modal-dialogue custom element is based on this template. -->
+<template id="modal-dialogue-template">
+	<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"></h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body text-center"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary me-auto"
+						title="Reset to default inputs">Reset</button>
+					<button type="button" class="btn btn-primary" title="Insert into input editor">Edit</button>
+					<button type="button" class="btn btn-primary" title="Send to REDUCE">Evaluate</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<!-- The header HTML common to special-functions dialogues, included by the <modal-dialogue> funcsHeader attribute. -->
+<template id="special-functions-header">
+	<p class="text-center"><small>Click on the function you want to use. Hover over a function for a hint at
+			its definition. Click on a function name to open the full definition in the <a href="https://dlmf.nist.gov/"
+				target="_blank" title="Opens in a new tab.">NIST Digital
+				Library of Mathematical Functions</a> in a new tab.</small></p>
+	<p class="text-center">
+		<small>REDUCE Manual:&ensp;
+			<a href="/manual-lookup.php?Mathematical%20Functions" target="_blank"
+				title="Opens in a new tab.">Mathematical Functions</a>&ensp;
+			<a href="/manual-lookup.php?SPECFN:" target="_blank" title="Opens in a new tab.">SPECFN
+				Package</a></small>
+	</p>
+</template>
+<modal-dialogue dialogueId="DerivativeTemplate" dialogueTitle="Evaluate a Multiple (Partial) Derivative">
+	<p>
+		<small>
+			The dependent variable or expression and an independent variable are required. Other fields may be left
+			empty. Superscripts represent orders, which unless empty must be positive integers.
+		</small>
+	</p>
+	<p>
+		<small>REDUCE Manual:&ensp;
+			<a href="/manual-lookup.php?DF%20Operator" target="_blank" title="Opens in a new tab.">DF
+				Operator</a></small>
+	</p>
+	<div class="pattern">
+		<div>
+			∂ <sup></sup>
+			<input type="text" placeholder="algebraic" style="width: 11em" value="ws" />
+		</div>
+		<div style="display: inline-block; margin-top: 5px; border-top: thin solid black; padding-top: 5px;">
+			∂<input type="text" data-index="0" placeholder="var" style="width: 2em" value="x" /><sup><input type="text"
+					data-index="0" style="width: 2em; font-style: normal" /></sup>
+			∂<input type="text" data-index="1" style="width: 2em" /><sup><input type="text" data-index="1"
+					style="width: 2em; font-style: normal" /></sup>
+			∂<input type="text" data-index="2" style="width: 2em" /><sup><input type="text" data-index="2"
+					style="width: 2em; font-style: normal" /></sup>
+		</div>
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	import { Template } from "./GenJS/TempFuncs.js";
+
+	class DerivativeTemplate extends Template {
+		constructor() {
+			super("Derivative Template");
+			this.totalOrdSup = this.pattern.querySelector("sup");
+			this.depVarTextField = this.inputs[0];
+			this.indVarTextFields = [this.inputs[1], this.inputs[3], this.inputs[5]];
+			this.ordTextFields = [this.inputs[2], this.inputs[4], this.inputs[6]];
+			this.orders = [1, 0, 0];
+
+			for (let n = 0; n < 3; n++) {
+				this.indVarTextFields[n].addEventListener("input", (event) => this.indVarAction(event));
+				this.ordTextFields[n].addEventListener("input", (event) => this.indVarAction(event));
+			}
+		}
+
+		resetButtonAction() {
+			super.resetButtonAction();
+			this.totalOrdSup.innerText = "";
+			this.orders[0] = 1; this.orders[1] = this.orders[2] = 0;
+		}
+
+		indVarAction(event) {
+			const n = event.target.dataset.index;
+			const indVar = this.indVarTextFields[n].value.trim();
+			let order = this.ordTextFields[n].value.trim();
+			if (indVar.length == 0) {
+				if (order.length > 0) {
+					alert(this.alertHeader +
+						"Specify the independent variable before specifying its order.");
+					this.ordTextFields[n].value = "";
+				}
+				order = 0;
+			} else if (order.length == 0)
+				order = 1;
+			else {
+				order = Number(order);
+				if (!Number.isInteger(order) || order <= 0) {
+					alert(this.alertHeader +
+						"An order must be a positive integer.");
+					this.ordTextFields[n].value = "";
+					return;
+				}
+			}
+			this.orders[n] = order;
+			order = this.orders.reduce((acc, val) => acc + val); // sum of orders
+			if (order > 1) {
+				this.totalOrdSup.innerText = order + " ";
+			} else {
+				this.totalOrdSup.innerText = "";
+			}
+		}
+
+		result() {
+			const depVar = this.depVarTextField.value.trim();
+			let indVarFound = false;
+			if (this.checkNonEmpty && !depVar) {
+				alert(this.alertHeader +
+					"A dependent variable or expression is required.");
+				throw new Error("empty field");
+			}
+			let text = "df(" + depVar;
+			for (let n = 0; n < 3; n++) {
+				const indVar = this.indVarTextFields[n].value.trim();
+				if (indVar.length != 0) {
+					indVarFound = true;
+					text += ", " + indVar;
+					if (this.orders[n] > 1) text += ", " + this.orders[n];
+				}
+			}
+			if (!this.checkNonEmpty || indVarFound) return text + ")";
+			else {
+				alert(this.alertHeader +
+					"At least one independent variable is required.");
+				throw new Error("empty field");
+			}
+		}
+	}
+
+	window.addEventListener("load", () => new DerivativeTemplate());
+</script>
+<modal-dialogue dialogueId="IntegralTemplate" dialogueTitle="Evaluate a Multiple Integral" dialogueSize="modal-lg">
+	<p>
+		<small>
+			The integrand and first integration variable are required. Enter additional integration variables to create
+			a double or triple integral and display additional ∫ and d symbol pairs, which nest and their colours show
+			how they match. Each pair of limits must be both empty, giving an indefinite integral, or both specified,
+			giving a definite integral.
+		</small>
+	</p>
+	<p>
+		<small>REDUCE Manual:&ensp;
+			<a href="/manual-lookup.php?INT%20Operator" target="_blank" title="Opens in a new tab.">INT
+				Operator</a></small>
+	</p>
+	<div class="pattern" style="display: flex; justify-content: center; align-items: center;">
+		<div style="display: inline-block; vertical-align: middle; min-width: 1em; flex: 0 1 3em;">
+			<input type="text" style="width: 100%;" />
+			<div style="margin-top: -1rem; font-size: 300%; color: red">∫</div>
+			<input type="text" style="width: 100%;" />
+		</div>
+		&nbsp;
+		<div style="display: inline-block; vertical-align: middle; min-width: 1em; flex: 0 1 3em;">
+			<input type="text" style="width: 100%;" />
+			<div style="margin-top: -1rem; font-size: 300%; color: green">∫</div>
+			<input type="text" style="width: 100%;" />
+		</div>
+		&nbsp;
+		<div style="display: inline-block; vertical-align: middle; min-width: 1em; flex: 0 1 3em;">
+			<input type="text" style="width: 100%;" />
+			<div style="margin-top: -1rem; font-size: 300%; color: blue">∫</div>
+			<input type="text" style="width: 100%;" />
+		</div>
+		&nbsp;
+		<input placeholder="algebraic" type="text" value="ws" style="min-width: 5em; flex: 0 1 15em;" />
+		&nbsp; <span style=" color: blue">d</span>
+		<input placeholder="var" type="text" value="x" style="min-width: 1em; flex: 0 2 2em;" />
+		&nbsp; <span style="color: green">d</span>
+		<input type="text" style="min-width: 1em; flex: 0 2 2em;" />
+		&nbsp; <span style="color: red">d</span>
+		<input type="text" style="min-width: 1em; flex: 0 2 2em;" />
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	import { Template } from "./GenJS/TempFuncs.js";
+
+	class IntegralTemplate extends Template {
+		constructor() {
+			super("Integral Template");
+			const fields = this.pattern.children;
+			this.zIntDiv = fields[0];
+			const zLimTextFields = this.zIntDiv.querySelectorAll("input"); // [upper, lower]
+			this.yIntDiv = fields[1];
+			const yLimTextFields = this.yIntDiv.querySelectorAll("input");
+			const xIntDiv = fields[2];
+			const xLimTextFields = xIntDiv.querySelectorAll("input");
+			this.limTextFields = [xLimTextFields, yLimTextFields, zLimTextFields];
+			this.integrandTextField = fields[3];
+			this.intVarTextFields = [fields[5], fields[7], fields[9]];
+			this.yDSpan = fields[6];
+			this.zDSpan = fields[8];
+
+			this.intVarTextFields[0].addEventListener("input", () => {
+				this.intVarTextFields[1].hidden = (this.intVarTextFields[0].value.trim().length == 0);
+			});
+
+			this.intVarTextFields[1].addEventListener("input", () => {
+				const hidden = (this.intVarTextFields[1].value.trim().length == 0);
+				this.yIntDiv.hidden = hidden;
+				this.yDSpan.hidden = hidden;
+				this.intVarTextFields[2].hidden = hidden;
+			});
+
+			this.intVarTextFields[2].addEventListener("input", () => {
+				const hidden = (this.intVarTextFields[2].value.trim().length == 0);
+				this.zIntDiv.hidden = hidden;
+				this.zDSpan.hidden = hidden;
+			});
+
+			this.init();
+		}
+
+		init() {
+			this.zIntDiv.hidden = this.yIntDiv.hidden = true;
+			this.yDSpan.hidden = this.zDSpan.hidden = true;
+			this.intVarTextFields[1].hidden = false;
+			this.intVarTextFields[2].hidden = true;
+		}
+
+		resetButtonAction() {
+			super.resetButtonAction();
+			this.init();
+		}
+
+		result() {
+			let text = this.integrandTextField.value.trim();
+			if (this.checkNonEmpty && (!text || !this.intVarTextFields[0].value.trim())) {
+				alert(this.alertHeader +
+					"The integrand and integration variable are both required.");
+				throw new Error("empty field");
+			}
+			// Wrap integrand in nested integrals:
+			for (let i = 0; i < 3; i++) {
+				const intVar = this.intVarTextFields[i].value.trim();
+				if (intVar) {
+					text = "int(" + text;
+					const lowLim = this.limTextFields[i][1].value.trim();
+					const upLim = this.limTextFields[i][0].value.trim();
+					if (this.checkNonEmpty && (!lowLim !== !upLim)) {
+						// boolean !== is equivalent to exclusive or.
+						alert(this.alertHeader +
+							"The limits must be both empty or both specified.");
+						throw new Error("empty field");
+					}
+					text += ", " + intVar;
+					if (lowLim) text += ", " + lowLim + ", " + upLim;
+					text += ")";
+				}
+			}
+			return text;
+		}
+	}
+
+	window.addEventListener("load", () => new IntegralTemplate());
+</script>
+<modal-dialogue dialogueId="LimitTemplate" dialogueTitle="Evaluate a Limit of a Function">
+	<p>
+		<small>
+			Only limits of (mostly) continuous functions are supported, not sequences. All fields
+			are required. The variable must be an identifier. Click the superscript box immediately after the limit
+			point to cycle through the directions: from right / above (+), left / below (−), both sides (blank).
+		</small>
+	</p>
+	<p>
+		<small>REDUCE Manual:&ensp;
+			<a href="/manual-lookup.php?LIMIT%20Operator" target="_blank" title="Opens in a new tab.">LIMIT Operator</a></small>
+	</p>
+	<div class="pattern" style="display: flex; justify-content: center; align-items: flex-start;">
+		<div style="display: inline-block; vertical-align: middle; flex: 0 0 auto;">
+			lim<br />
+			<input type="text" placeholder="var" style="width: 3em; font-size: small;" value="x" />
+			→
+			<input type="text" placeholder="alg" style="width: 3em; font-size: small;" value="0" />
+			<sup style="border: gray solid thin; cursor: pointer;">&ensp;</sup>
+		</div>
+		&ensp;
+		<input type="text" placeholder="algebraic" value="ws" style="flex: 0 1 10em;" />
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	// Imported classes:
+	import { Template } from "./GenJS/TempFuncs.js";
+
+	// Imported functions:
+	// import { loadPackage } from "./GenJS/Main.js";
+
+	class LimitTemplate extends Template {
+		constructor() {
+			super("Limit Template");
+			// this.dialogue.addEventListener("show.bs.modal", () => loadPackage("matrix"));
+			this.dirInd = 0;
+			this.DIRSTRINGS = ["\u2000", "+", "−"]; // En Quad = U+2000
+			this.dirSup = this.pattern.querySelector("sup");
+			this.dirSup.addEventListener("click", () =>
+				this.dirSup.innerText = this.DIRSTRINGS[this.dirInd = (++this.dirInd) % 3]);
+		}
+
+		resetButtonAction() {
+			super.resetButtonAction();
+			this.dirSup.innerText = this.DIRSTRINGS[this.dirInd = 0];
+		}
+
+		result() {
+			// if (loadSPECFN.isSelected()) preamble("load_package specfn;\n");
+			const dir = ["", "!+", "!-"][this.dirInd];
+			const values = Array.from(this.inputs).map(input => this.getValueCheckNonEmpty(input));
+			return `limit${dir}(${values[2]}, ${values[0]}, ${values[1]})`;
+		}
+	}
+
+	window.addEventListener("load", () => new LimitTemplate());
+</script>
+<modal-dialogue dialogueId="SumProdTemplate" dialogueTitle="Evaluate a Sum or Product">
+	<p>
+		<small>
+			The main operand must be specified and may be any algebraic expression. The control variable (bottom left
+			field) must also be specified. Sums and products over symbolic ranges are exact, may be indefinite, so the
+			upper or both limits may be omitted, or the limits may be symbolic, and the variable may be a kernel. Sums
+			and products over numeric ranges require both limits to evaluate to numbers.
+		</small>
+	</p>
+	<div style="display: flex; justify-content: space-evenly; flex-wrap: wrap;">
+		<div class="btn-group btn-group-sm mb-2" role="group" aria-label="Basic radio toggle button group">
+			<input type="radio" class="btn-check" name="SumProdTemplate-SumProdButtons" id="SumProdTemplate-Sum"
+				autocomplete="off" value="∑" checked="checked" />
+			<label class="btn btn-outline-primary" for="SumProdTemplate-Sum">Sum</label>
+			<input type="radio" class="btn-check" name="SumProdTemplate-SumProdButtons" id="SumProdTemplate-Prod"
+				autocomplete="off" value="∏" />
+			<label class="btn btn-outline-primary" for="SumProdTemplate-Prod">Product</label>
+		</div>
+		<div class="btn-group btn-group-sm mb-2" role="group" aria-label="Basic radio toggle button group">
+			<input type="radio" class="btn-check" name="SumProdTemplate-SymNumButtons" id="SumProdTemplate-Sym"
+				autocomplete="off" checked="checked" />
+			<label class="btn btn-outline-primary" for="SumProdTemplate-Sym" title="Seek a closed-form result.">Symbolic
+				Range</label>
+			<input type="radio" class="btn-check" name="SumProdTemplate-SymNumButtons" id="SumProdTemplate-Num"
+				autocomplete="off" />
+			<label class="btn btn-outline-primary" for="SumProdTemplate-Num" title="Use a for loop.">Numeric
+				Range</label>
+		</div>
+	</div>
+	<p>
+		<small>REDUCE Manual:&ensp;
+			<a href="/manual-lookup.php?SUM:%20A%20package%20for%20series%20summation" target="_blank"
+				title="Opens in a new tab.">SUM Package</a>
+			<a href="/manual-lookup.php?FOR%20Statements" target="_blank" title="Opens in a new tab.">FOR
+				Statements</a>
+		</small>
+	</p>
+	<div class="pattern">
+		<table style="margin-left: auto; margin-right: auto;">
+			<tbody>
+				<tr>
+					<td><input type="text" placeholder="alg" style="width: 3em; font-size: small;" /></td>
+				</tr>
+				<tr>
+					<td style="font-size: xx-large; line-height: 95%; padding-bottom: 0.4em;">∑</td>
+					<td><input type="text" placeholder="algebraic" value="ws" /></td>
+				</tr>
+				<tr>
+					<td style="white-space: nowrap;">
+						<input type="text" placeholder="var" style="width: 3em; font-size: small;" value="i" />
+						=
+						<input type="text" placeholder="alg" style="width: 3em; font-size: small;" value="0" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	// Imported classes:
+	import { Template } from "./GenJS/TempFuncs.js";
+
+	class SumProdTemplate extends Template {
+		constructor() {
+			super("SumProd Template");
+			const sumProdTdElement = this.pattern.querySelector("table tr+tr>td:first-child");
+			document.getElementsByName("SumProdTemplate-SumProdButtons").forEach(element =>
+				element.addEventListener("change", () => sumProdTdElement.innerText = element.value));
+			const aElements = document.querySelectorAll("#SumProdTemplate a");
+			aElements[1].hidden = true;
+			document.getElementsByName("SumProdTemplate-SymNumButtons").forEach(element =>
+				element.addEventListener("change", () => aElements.forEach(el => el.hidden = !el.hidden)));
+		}
+
+		resetButtonAction() {
+			super.resetButtonAction();
+			document.getElementById("SumProdTemplate-Sum").click();
+			document.getElementById("SumProdTemplate-Sym").click();
+		}
+
+		result() {
+			const sumProd = document.getElementById("SumProdTemplate-Sum").checked ? "sum" : "prod";
+			if (document.getElementById("SumProdTemplate-Sym").checked) {
+				// symbolic range: use sum/prod function:
+				let text = sumProd + "(" +
+					this.getValueCheckNonEmpty(this.inputs[1]) // operand
+					+ ", " + this.getValueCheckNonEmpty(this.inputs[2]); // var
+				let t = this.inputs[3].value.trim(); // lowLim
+				if (t) {
+					text += ", " + t;
+					t = this.inputs[0].value.trim(); // upLim
+					if (t) text += ", " + t;
+				}
+				return text + ")";
+			} else {
+				// numeric range: use for loop:
+				// switchNameOnOff("rounded");
+				return "for " + this.getValueCheckNonEmpty(this.inputs[2]) // var
+					+ " := " + this.getValueCheckNonEmpty(this.inputs[3]) // lowLim
+					+ " : " + this.getValueCheckNonEmpty(this.inputs[0]) // upLim
+					+ " " + sumProd + " "
+					+ this.getValueCheckNonEmpty(this.inputs[1]); // operand
+			}
+		}
+	}
+
+	window.addEventListener("load", () => new SumProdTemplate());
+</script>
+<modal-dialogue dialogueId="MatrixTemplate" dialogueTitle="Create a Matrix">
+	<p>
+		<small>
+			Form a matrix in the top left-hand corner of the grid, leaving any cells outside this matrix empty. The
+			right-most and lowest non-empty cells define the matrix size. Any empty cells within this matrix default to
+			zero.
+		</small>
+	</p>
+	<p>
+		<small>REDUCE Manual:&ensp;
+			<a href="/manual-lookup.php?MAT%20Operator" target="_blank" title="Opens in a new tab.">MAT
+				Operator</a></small>
+	</p>
+	<div class="pattern" style="display: grid; justify-content: center; grid-template-areas:
+	'L . . . . R'
+	'L . . . . R'
+	'L . . . . R'
+	'L . . . . R';
+	grid-template-columns: min-content repeat(4, minmax(1em,5em)) min-content;
+	grid-gap: 2px 2px;">
+		<span style="font-size: 10em; line-height: 50%; grid-area: L;">(</span>
+		<input type="text" /><input type="text" /><input type="text" /><input type="text" />
+		<input type="text" /><input type="text" /><input type="text" /><input type="text" />
+		<input type="text" /><input type="text" /><input type="text" /><input type="text" />
+		<input type="text" /><input type="text" /><input type="text" /><input type="text" />
+		<span style="font-size: 10em; line-height: 50%; grid-area: R;">)</span>
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	// Imported classes:
+	import { Template } from "./GenJS/TempFuncs.js";
+
+	// Imported functions:
+	import { loadPackage } from "./GenJS/Main.js";
+
+	class MatrixTemplate extends Template {
+		constructor() {
+			super("Matrix Template");
+			this.dialogue.addEventListener("show.bs.modal", () => loadPackage("matrix"));
+		}
+
+		result() {
+			const maxRows = 4, maxCols = 4, rows = [];
+			// Determine the matrix dimensions (nRows * nCols) and convert empty values to "0":
+			let nColsI, nCols = 0, nRows = 0;
+			for (let i = 0; i < maxRows; i++) {
+				const row = [];
+				nColsI = 0;
+				for (let j = 0; j < maxCols; j++) {
+					const value = this.inputs[i * maxCols + j].value;
+					if (value) {
+						row.push(value);
+						nColsI = j + 1;
+					} else row.push("0");
+				}
+				if (nColsI > nCols) nCols = nColsI;
+				if (nColsI > 0) nRows = i + 1;
+				rows.push(row);
+			}
+			// Construct and return the REDUCE input:
+			let text = "mat((";
+			for (let i = 0; i < nRows; i++) {
+				if (i > 0) text += "), (";
+				const row = rows[i];
+				for (let j = 0; j < nCols; j++) {
+					if (j > 0) text += ", ";
+					text += row[j];
+				}
+			}
+			return text + "))";
+		}
+	}
+
+	window.addEventListener("load", () => new MatrixTemplate());
+</script>
+<modal-dialogue dialogueId="SolveTemplate" dialogueTitle="Solve Algebraic Equations">
+	<p>
+		<small>
+			At least one equation or expression is required. If no unknowns are specified then REDUCE solves for all
+			those found. Unknowns must be kernels.
+		</small>
+	</p>
+	<p>
+		<small>REDUCE Manual:&ensp;
+			<a href="/manual-lookup.php?SOLVE%20Operator" target="_blank" title="Opens in a new tab.">SOLVE
+				Operator</a></small>
+	</p>
+	<div class="pattern">
+		<table>
+			<colgroup>
+				<col style="width: 75%">
+				<col style="width: 5%;">
+				<col>
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>Equations or expressions</th>
+					<th></th>
+					<th>Unknowns</th>
+				</tr>
+				<tr>
+					<td><input type="text" placeholder="equation or expression" style="width: 100%;" value="ws" /></td>
+					<td></td>
+					<td><input type="text" placeholder="unknown" style="width: 100%;" /></td>
+				</tr>
+				<tr>
+					<td><input type="text" placeholder="equation or expression" style="width: 100%;" /></td>
+					<td></td>
+					<td><input type="text" placeholder="unknown" style="width: 100%;" /></td>
+				</tr>
+				<tr>
+					<td><input type="text" placeholder="equation or expression" style="width: 100%;" /></td>
+					<td></td>
+					<td><input type="text" placeholder="unknown" style="width: 100%;" /></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- <table style="margin-left: auto; margin-right: auto; margin-top: 1em;" class="text-start">
+			<colgroup>
+				<col>
+				<col style="width: 20%;">
+				<col>
+			</colgroup>
+			<tbody>
+				<tr>
+					<td>
+						<div class="form-check" title="Include multiple solutions">
+							<input class="form-check-input" type="checkbox" value="" id="multiplicitiesCheckBox">
+							<label class="form-check-label" for="multiplicitiesCheckBox">
+								multiplicities
+							</label>
+						</div>
+					</td>
+					<td></td>
+					<td>
+						<div class="form-check" title="Use arbitrary constants for degenerate systems">
+							<input class="form-check-input" type="checkbox" value="" id="solvesingularCheckBox"
+								checked="checked">
+							<label class="form-check-label" for="solvesingularCheckBox">
+								solvesingular
+							</label>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-check" title="Output full roots of cubics and quartics">
+							<input class="form-check-input" type="checkbox" value="" id="fullrootsCheckBox">
+							<label class="form-check-label" for="fullrootsCheckBox">
+								fullroots
+							</label>
+						</div>
+					</td>
+					<td></td>
+					<td>
+						<div class="form-check" title="Include all branches">
+							<input class="form-check-input" type="checkbox" value="" id="allbranchCheckBox"
+								checked="checked">
+							<label class="form-check-label" for="allbranchCheckBox">
+								allbranch
+							</label>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-check" title="Use trigonometric forms for roots of cubics and quartics">
+							<input class="form-check-input" type="checkbox" value="" id="trigformCheckBox"
+								checked="checked">
+							<label class="form-check-label" for="trigformCheckBox">
+								trigform
+							</label>
+						</div>
+					</td>
+					<td></td>
+					<td>
+						<div class="form-check" title="Use new indeterminate kernels">
+							<input class="form-check-input" type="checkbox" value="" id="arbvarsCheckBox"
+								checked="checked">
+							<label class="form-check-label" for="arbvarsCheckBox">
+								arbvars
+							</label>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table> -->
+
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	// Imported classes:
+	import { Template } from "./GenJS/TempFuncs.js";
+
+	class SolveTemplate extends Template {
+		constructor() {
+			super("Solve Template");
+		}
+
+		result() {
+			// Process equations and unknowns:
+			const eqns = [], vars = [];
+			for (let i = 0; i < this.inputs.length; i++) {
+				let value = this.inputs[i].value.trim();
+				if (value) eqns.push(value);
+				value = this.inputs[++i].value.trim();
+				if (value) vars.push(value);
+			}
+			if (eqns.length === 0) {
+				alert(this.alertHeader +
+					"At least one equation/expression is required.");
+				throw new Error("empty field");
+			}
+			// Construct and return the REDUCE input:
+			let text = "solve(";
+			if (eqns.length === 1) text += eqns[0];
+			else text += "{" + eqns.join(", ") + "}";
+			// Process variables and, if numeric, start values:
+			if (vars.length > 0) {
+				text += ", ";
+				if (vars.length === 1) text += vars[0];
+				else text += "{" + vars.join(", ") + "}";
+			}
+			return text + ")";
+		}
+	}
+
+	window.addEventListener("load", () => new SolveTemplate());
+</script>
+<modal-dialogue dialogueId="ODESolveTemplate" dialogueTitle="Solve an Ordinary Differential Equation">
+	<p>
+		<small>
+			The ordinary differential equation (ODE) can be an expression that is implicitly equated to zero. All other
+			entries are optional; REDUCE can normally deduce the dependent variable or function, and the independent
+			variable. Derivatives can be specified using primes (single forward quotes) provided the independent
+			variable is specified.
+		</small>
+	</p>
+	<p>
+		<small>REDUCE Manual:&ensp;
+			<a href="/manual-lookup.php?ODESOLVE:" target="_blank" title="Opens in a new tab.">ODESOLVE:
+				Ordinary differential equation solver</a></small>
+	</p>
+	<div class="pattern">
+		<p title="Required ordinary differential equation or expression" style="display: flex;">
+			<b>ODE:</b>&nbsp;<input type="text" placeholder="ordinary differential equation" style="flex: 1 0;" />
+		</p>
+		<p style="display: flex; justify-content: space-evenly;">
+			<span title="Optional dependent variable or function (kernel)"><b>Dep Var:</b>&nbsp;
+				<input type="text" placeholder="kernel" style="width: 5em;" /></span>
+			<span title="Optional independent variable (kernel)"><b>Ind Var:</b>&nbsp;
+				<input type="text" placeholder="kernel" style="width: 5em;" /></span>
+		</p>
+		<p title="Optional conditions as equations or lists of equations" style="display: flex;">
+			<b>Conds:</b>&nbsp;<input type="text" placeholder="eqn, eqn, ... or {eqns}, {eqns}, ..."
+				style="flex: 1 0;" />
+		</p>
+		<div style="display: grid; justify-content: center; align-items: center; justify-items: left;
+			grid-template-columns: repeat(auto-fill, 6em); grid-column-gap: 0.5em;">
+			<span title="fully explicit"><input id="ODESolveTemplate1" type="checkbox" />
+				<label for="ODESolveTemplate1">explicit</label></span>
+			<span title="expand roots of unity"><input id="ODESolveTemplate2" type="checkbox" />
+				<label for="ODESolveTemplate2">expand</label></span>
+			<span title="fully explicit and expanded"><input id="ODESolveTemplate3" type="checkbox" />
+				<label for="ODESolveTemplate3">full</label></span>
+			<span title="implicit instead of parametric"><input id="ODESolveTemplate4" type="checkbox" />
+				<label for="ODESolveTemplate4">implicit</label></span>
+			<span title="turn on algint locally"><input id="ODESolveTemplate5" type="checkbox" />
+				<label for="ODESolveTemplate5">algint</label></span>
+			<span title="turn off selected integrations"><input id="ODESolveTemplate6" type="checkbox" />
+				<label for="ODESolveTemplate6">noint</label></span>
+			<span title="display ODE and conditions"><input id="ODESolveTemplate7" type="checkbox" />
+				<label for="ODESolveTemplate7">verbose</label></span>
+			<span title="output basis solution for linear ODE"><input id="ODESolveTemplate8" type="checkbox" />
+				<label for="ODESolveTemplate8">basis</label></span>
+			<span title="turn on algorithm tracing"><input id="ODESolveTemplate9" type="checkbox" />
+				<label for="ODESolveTemplate9">tracing</label></span>
+			<span title="turn on increased algorithm tracing"><input id="ODESolveTemplate10" type="checkbox" />
+				<label for="ODESolveTemplate10">tracing+</label></span>
+			<span title="turn off heuristics"><input id="ODESolveTemplate11" type="checkbox" />
+				<label for="ODESolveTemplate11">fast</label></span>
+			<span title="turn on solution checking"><input id="ODESolveTemplate12" type="checkbox" />
+				<label for="ODESolveTemplate12">check</label></span>
+		</div>
+	</div>
+</modal-dialogue>
+<modal-dialogue dialogueId="ForTemplate" dialogueTitle="Repetition using a For Statement" dialogueSize="modal-lg">
+	<p>
+		<small>
+			A 'var' entry must be an identifier. For iteration over a numerical range, the 'number' entries must
+			*evaluate* to numbers. For iteration over a list, the 'list' entry must *evaluate* to a list; the 'on'
+			option is allowed only in symbolic mode and makes the 'for variable' evaluate to successive 'cdr's of the
+			list.
+		</small>
+	</p>
+	<p>
+		<small>REDUCE Manual:&ensp;
+			<a href="/manual-lookup.php?FOR%20Statements" target="_blank" title="Opens in a new tab.">FOR
+				Statements</a></small>
+	</p>
+	<p>
+		Iterate over a
+		<span class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+			<input type="radio" class="btn-check" name="ForTemplate-EachButtons" id="ForTemplate-ForButton"
+				autocomplete="off" checked="checked" />
+			<label class="btn btn-outline-primary" for="ForTemplate-ForButton" title="Use a 'for' loop">numeric
+				range</label>
+			<input type="radio" class="btn-check" name="ForTemplate-EachButtons" id="ForTemplate-EachButton"
+				autocomplete="off" />
+			<label class="btn btn-outline-primary" for="ForTemplate-EachButton"
+				title="Use a 'for each' loop">list</label>
+		</span>
+	</p>
+	<div class="pattern" style="max-width: 40em; margin-left: auto; margin-right: auto;">
+		<div style="display: flex;">
+			<div class="for" style="min-width: 0; display: flex; justify-content: space-between; flex: auto;">
+				for
+				<input type="text" placeholder="var" style="min-width: 1em; flex: 0 1 6em"
+					title="Must be an identifier" />
+				:=
+				<input type="text" placeholder="number" style="min-width: 1em; flex: 0 1 6em"
+					title="Must evaluate to a number" />
+				step
+				<input type="text" placeholder="number" style="min-width: 1em; flex: 0 1 6em"
+					title="Must evaluate to a number" value="1" />
+				until
+				<input type="text" placeholder="number" style="min-width: 1em; flex: 0 1 6em"
+					title="Must evaluate to a number" />
+			</div>
+			<div class="for" style="min-width: 0; display: flex; justify-content: space-between; flex: auto;">
+				for&nbsp;each
+				<input type="text" placeholder="var" style="min-width: 1em; flex: 0 1 6em"
+					title="Must be an identifier" />
+				<span class="dropdown">
+					<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="ForTemplate-InButton"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						in
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="ForTemplate-InButton">
+						<li><button class="dropdown-item" type="button" value="in"
+								title="The 'for variable' evaluates to successive elements of the list.">in</button>
+						</li>
+						<li><button class="dropdown-item" type="button" value="on"
+								title="Allowed only in symbolic mode; the 'for variable' evaluates to successive 'cdr's of the list.">on</button>
+						</li>
+					</ul>
+				</span>
+				<input type="text" placeholder="list" style="min-width: 3em; flex: 0 1 20em"
+					title="Must evaluate to a list" />
+			</div>
+			&nbsp;
+			<div class="dropdown"
+				title="The action to perform on the following statement or expression; all but 'do' cause the 'for' to return a value.">
+				<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="ForTemplate-DoButton"
+					data-bs-toggle="dropdown" aria-expanded="false" style="width: 6em;">
+					do
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="ForTemplate-DoButton">
+					<li><button class="dropdown-item" type="button" value="do"
+							title="Execute the following statement; no value is returned.">do</button></li>
+					<li><button class="dropdown-item" type="button" value="sum"
+							title="Return the sum of the values of the following expression.">sum</button></li>
+					<li><button class="dropdown-item" type="button" value="product"
+							title="Return the product of the values of the following expression.">product</button>
+					</li>
+					<li><button class="dropdown-item" type="button" value="collect"
+							title="Return a list of the values of the following expression.">collect</button>
+					</li>
+					<li><button class="dropdown-item" type="button" value="join"
+							title="Join the values of the following expression, which must be lists, into a new list and return it.">join</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<textarea class="mt-1" title="Any expression, which is evaluated on each iteration"
+			placeholder="A single statement or expression, which can be a group (<<&hellip;>>) or compound (begin&hellip;end) statement."
+			rows="2" style="width: 100%"></textarea>
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	// Imported classes:
+	import { Template } from "./GenJS/TempFuncs.js";
+
+	class ForTemplate extends Template {
+		constructor() {
+			super("For Template");
+			const forElements = this.pattern.querySelectorAll("div.for");
+			forElements[1].hidden = true;
+			document.getElementsByName("ForTemplate-EachButtons").forEach(element =>
+				element.addEventListener("change", () =>
+					forElements.forEach(el => { el.hidden = !el.hidden })));
+			this.inOn = "in";
+			this.inButton = document.getElementById("ForTemplate-InButton");
+			this.inButton.parentElement.querySelectorAll("ul>li>button").forEach(element =>
+				element.addEventListener("click", () => {
+					this.inOn = element.value;
+					this.inButton.innerText = this.inOn;
+				}));
+			this.doWhat = "do";
+			this.doButton = document.getElementById("ForTemplate-DoButton");
+			this.doButton.parentElement.querySelectorAll("ul>li>button").forEach(element =>
+				element.addEventListener("click", () => {
+					this.doWhat = element.value;
+					this.doButton.innerText = this.doWhat;
+				}));
+			this.forButton = document.getElementById("ForTemplate-ForButton");
+			this.textArea = this.pattern.querySelector("textarea");
+		}
+
+		resetButtonAction() {
+			super.resetButtonAction();
+			this.forButton.click();
+			this.inButton.innerText = this.inOn = "in";
+			this.doButton.innerText = this.doWhat = "do";
+			this.textArea.value = "";
+		}
+
+		result() {
+			let text = "for ";
+			if (this.forButton.checked) {
+				// Iterate over a numerical range:
+				text += this.getValueCheckNonEmpty(this.inputs[0]) // forVar
+					+ " := " + this.getValueCheckNonEmpty(this.inputs[1]); // from
+				const step = this.inputs[2].value.trim(); // step
+				if (!step || step === "1")
+					text += " : ";
+				else
+					text += " step " + step + " until ";
+				text += this.getValueCheckNonEmpty(this.inputs[3]); // until
+			} else  // Iterate over a list:
+				text += "each " + this.getValueCheckNonEmpty(this.inputs[4]) // foreachVar
+					+ " " + this.inOn
+					+ " " + this.getValueCheckNonEmpty(this.inputs[5]); // foreachList
+			return text + " " + this.doWhat
+				+ " " + this.getValueCheckNonEmpty(this.textArea); // exprn
+		}
+	}
+
+	window.addEventListener("load", () => new ForTemplate());
+</script>
+<modal-dialogue dialogueId="ExpLogFunctions" dialogueTitle="Exponentials, Logarithms, Powers, Roots, etc."
+	dialogueSize="modal-lg">
+	<p class="text-center"><small>Click on the function you want to use. Hover over a function for a brief
+			description. Some functions do not simplify symbolically but evaluate numerically, as indicated
+			in their tooltips.</small></p>
+	<p class="text-center">
+		<small>REDUCE Manual:&ensp;
+			<a href="/manual-lookup.php?Mathematical%20Functions" target="_blank"
+				title="Opens in a new tab.">Mathematical Functions</a>&ensp;
+			<a href="/manual-lookup.php?SPECFN:" target="_blank" title="Opens in a new tab.">SPECFN
+				Package</a>&ensp;
+			<a href="/manual-lookup.php?TRIGD:" target="_blank" title="Opens in a new tab.">TRIGD
+				Package</a></small>
+	</p>
+	<div class="function-templates three-col">
+		<div data-function="exp" title="Exponential: e^x = exp(x)">
+			<span class="fs-big">e</span> <sup><input type="text" size="3" value="ws" /></sup>
+		</div>
+		<div data-function="log" title="Natural, i.e. base e, logarithm: ln e = 1">
+			<span class="fs-big">ln</span> <input type="text" size="3" value="ws" />
+		</div>
+		<div data-function="logb" title="Logarithm to any base, e.g. 2">
+			<span class="fs-big">log</span><sub><input type="text" size="2" value="2"
+					style="font-style: normal" /></sub>
+			<input type="text" size="3" value="ws" />
+		</div>
+		<div data-function="power" title="Power, e.g. x^2">
+			<input type="text" size="3" value="ws" />
+			<sup><input type="text" size="2" value="2" style="font-style: normal" /></sup>
+		</div>
+		<div data-function="sqrt" title="Square root">
+			<span class="fs-big">√</span>
+			<input type="text" size="3" value="ws" />
+		</div>
+		<div data-function="hypot" title="hypot(x,y) = √(x^2+y^2); numerical only!">
+			<span class="fs-big">hypot(</span><input type="text" size="3" value="x" />
+			<span class="fs-big">,</span>
+			<input type="text" size="3" value="y" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="log10" title="Base 10 logarithm">
+			<span class="fs-big">log<sub>10</sub></span>
+			<input type="text" size="3" value="ws" />
+		</div>
+		<div data-function="root" title="Any root, e.g. cube or third root: (n√x)^n = x">
+			<sup><input type="text" size="2" value="3" style="font-style: normal" /></sup>
+			<span class="fs-big">√</span>
+			<input type="text" size="3" value="ws" />
+		</div>
+		<div data-function="atan2"
+			title="Two argument version of atan(y/x) that returns an angle in the interval (-π/2, π/2] in the correct quadrant depending on the signs of x and y">
+			<span class="fs-big">atan<sub>2</sub>(</span><input type="text" size="3" value="y" />
+			<span class="fs-big">/</span>
+			<input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="factorial" title="Factorial: n! = n×(n-1)×…×2×1">
+			<input type="text" size="3" value="ws" />
+			<span class="fs-big">!</span>
+		</div>
+		<div data-function="binomial" title="Binomial coefficient: (n over m) = n!/((n-m)!m!)">
+			<span style="font-size: 400%; line-height: 0.8">(</span>
+			<span style="display: inline-block">
+				<input type="text" size="3" value="n" /><br />
+				<input type="text" size="3" value="m" />
+			</span>
+			<span style="font-size: 400%; line-height: 0.8">)</span>
+		</div>
+		<!-- This needs better handling of the load_package and a manual link to trigd. -->
+		<div data-function="atan2d"
+			title="Two argument version of atand(y/x) that returns an angle in the interval (-90°, 90°] in the correct quadrant depending on the signs of x and y">
+			<span class="fs-big">atan<sub>2</sub>d(</span><input type="text" size="3" value="y" />
+			<span class="fs-big">/</span>
+			<input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	// Imported classes:
+	import { Functions } from "./GenJS/TempFuncs.js";
+
+	// Imported functions:
+	import { loadPackage } from "./GenJS/Main.js";
+
+	class ExpLogFunctions extends Functions {
+		constructor() {
+			super("ExpLogFunctions");
+			this.dialogue.querySelector("div.function-templates>div:last-child")
+				.addEventListener("click", () => loadPackage("trigd"));
+		}
+
+		result() {
+			const values = [...this.selectedFunction.getElementsByTagName("input")]
+				.map(el => el.value.trim());
+			const fn = this.selectedFunction.dataset.function;
+			switch (fn) {
+				case "logb":
+					return `logb(${values[1]},${values[0]})`;
+				case "power":
+					return `(${values[0]})^(${values[1]})`;
+				case "root":
+					return `(${values[1]})^(1/(${values[0]}))`;
+				default:
+					return `${fn}(${values.join()})`;
+			}
+		}
+	}
+
+	window.addEventListener("load", () => new ExpLogFunctions());
+</script>
+<modal-dialogue dialogueId="GammaEtcFunctions" dialogueTitle="Gamma, Beta and Related Functions" dialogueSize="modal-lg"
+	specfnsHeader="specfnsHeader">
+	<div class="function-templates two-col">
+		<div data-function="Gamma" title="Γ(z) = (z-1)!">
+			<p><a href="https://dlmf.nist.gov/5.2.E1" target="_blank" title="Opens in a new tab.">Gamma
+					Function</a></p>
+			<span class="fs-big">Γ(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Beta" title="B(a,b) = Γ(a)Γ(b)/Γ(a+b)">
+			<p><a href="https://dlmf.nist.gov/5.12" target="_blank" title="Opens in a new tab.">Beta
+					Function</a></p>
+			<span class="fs-big">Β(</span><input type="text" size="3" value="a" />
+			<span class="fs-big">,</span>
+			<input type="text" size="3" value="b" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="psi" title="ψ(z) = Γ′(z)/Γ(z)">
+			<p><a href="https://dlmf.nist.gov/5.2.E2" target="_blank" title="Opens in a new tab.">Digamma
+					Function</a></p>
+			<span class="fs-big">ψ(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="polygamma" title="ψ^(n)(z) = d^nψ(z)/dz^n">
+			<p><a href="https://dlmf.nist.gov/5.15" target="_blank" title="Opens in a new tab.">Polygamma
+					Function</a></p>
+			<span class="fs-big">ψ<sup>(<span class="fs-normal"><input type="text" size="2"
+							value="n" /></span>)</sup>(</span><input type="text" size="3" value="z" /><span
+				class="fs-big">)</span>
+		</div>
+		<div data-function="iGamma" title="P(a,z) = 1/Γ(a) ∫_0^z t^{a-1} e^{-t} dt">
+			<p><a href="https://dlmf.nist.gov/8.2.i" target="_blank" title="Opens in a new tab.">Normalized
+					Incomplete Gamma</a></p>
+			<span class="fs-big"><i>P</i>(</span><input type="text" size="3" value="a" />
+			<span class="fs-big">,</span>
+			<input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="iBeta" title="I_x(a,b) = 1/B(a,b) ∫_0^x t^{a-1} (1-t)^{b-1} dt">
+			<p><a href="https://dlmf.nist.gov/8.17.i" target="_blank" title="Opens in a new tab.">Normalized
+					Incomplete Beta</a></p>
+			<span class="fs-big"><i>I</i></span><sub><input type="text" size="2" value="x" /></sub><span
+				class="fs-big">(</span><input type="text" size="3" value="a" />
+			<span class="fs-big">,</span>
+			<input type="text" size="3" value="b" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="dilog" title="Li_2(z) ≡ ∑_{n=1}^∞ z^n/n^2">
+			<p><a href="https://dlmf.nist.gov/25.12.i" target="_blank" title="Opens in a new tab.">Dilogarithm</a></p>
+			<span class="fs-big">Li<sub>2</sub>(</span><input type="text" size="3" value="z" /><span
+				class="fs-big">)</span>
+		</div>
+		<div data-function="Pochhammer" title="(a)_n = Γ(a+n)/Γ(a)">
+			<p><a href="https://dlmf.nist.gov/5.2.iii" target="_blank" title="Opens in a new tab.">Pochhammer&quot;s
+					Symbol</a></p>
+			<span class="fs-big">(</span><input type="text" size="3" value="a" /><span
+				class="fs-big">)</span><sub><input type="text" size="2" value="n" /></sub>
+		</div>
+		<div data-function="binomial" title="(n over m) = n!/((n-m)!m!)">
+			<p><a href="https://dlmf.nist.gov/26.3.E1" target="_blank" title="Opens in a new tab.">Binomial
+					Coefficient</a></p>
+			<span style="font-size: 400%; line-height: 0.8">(</span>
+			<span style="display: inline-block">
+				<input type="text" size="3" value="n" /><br />
+				<input type="text" size="3" value="m" />
+			</span>
+			<span style="font-size: 400%; line-height: 0.8">)</span>
+		</div>
+		<div data-function="zeta" title="ζ(s) = ∑_{n=1}^∞ 1/n^s">
+			<p><a href="https://dlmf.nist.gov/25.2.E1" target="_blank" title="Opens in a new tab.">Riemann
+					Zeta Function</a></p>
+			<span class="fs-big">ζ(</span><input type="text" size="3" value="s" /><span class="fs-big">)</span>
+		</div>
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	import { Functions } from "./GenJS/TempFuncs.js";
+
+	class GammaEtcFunctions extends Functions {
+		constructor() {
+			super("GammaEtcFunctions");
+		}
+
+		result() {
+			const values = [...this.selectedFunction.getElementsByTagName("input")]
+				.map(el => el.value.trim());
+			const fn = this.selectedFunction.dataset.function;
+			if (fn === "iBeta") return `iBeta(${values[1]},${values[2]},${values[0]})`;
+			return `${fn}(${values.join()})`;
+		}
+	}
+
+	window.addEventListener("load", () => new GammaEtcFunctions());
+</script>
+<modal-dialogue dialogueId="IntegralFunctions" dialogueTitle="Integral Functions" dialogueSize="modal-lg"
+	specfnsHeader="specfnsHeader">
+	<div class="function-templates two-col">
+		<div data-function="Ei" title="Ei(x) = ⨍_{-∞}^x e^t/t dt">
+			<p><a href="https://dlmf.nist.gov/6.2.E5" target="_blank" title="Opens in a new tab.">Exponential
+					Integral</a></p>
+			<span class="fs-big">Ei(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="li" title="li(x) = ⨍_0^x 1/ln(t) dt = Ei(ln x)">
+			<p><a href="https://dlmf.nist.gov/6.2.E8" target="_blank" title="Opens in a new tab.">Logarithmic
+					Integral</a></p>
+			<span class="fs-big">li(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Si" title="Si(z) = ∫_0^z sin(t)/t dt">
+			<p><a href="https://dlmf.nist.gov/6.2.E9" target="_blank" title="Opens in a new tab.">Sine
+					Integral</a></p>
+			<span class="fs-big">Si(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Ci" title="Ci(z) = -∫_z^∞ cos(t)/t dt">
+			<p><a href="https://dlmf.nist.gov/6.2.E11" target="_blank" title="Opens in a new tab.">Cosine
+					Integral</a></p>
+			<span class="fs-big">Ci(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Shi" title="Shi(z) = ∫_0^z sinh(t)/t dt">
+			<p><a href="https://dlmf.nist.gov/6.2.E15" target="_blank" title="Opens in a new tab.">Hyperbolic
+					Sine Integral</a></p>
+			<span class="fs-big">Shi(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Chi" title="Chi(z) = γ + ln z + ∫_0^z (cosh t - 1)/t dt">
+			<p><a href="https://dlmf.nist.gov/6.2.E16" target="_blank" title="Opens in a new tab.">Hyperbolic
+					Cosine Integral</a></p>
+			<span class="fs-big">Chi(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="erf" title="erf z = 2/√π ∫_0^z e^{-t^2} dt">
+			<p><a href="https://dlmf.nist.gov/7.2.E1" target="_blank" title="Opens in a new tab.">Error
+					Function</a></p>
+			<span class="fs-big">erf</span><input type="text" size="3" value="z" />
+		</div>
+		<div data-function="erfc" title="erfc z = 2/√π ∫_z^∞ e^{-t^2} dt = 1 - erf z">
+			<p><a href="https://dlmf.nist.gov/7.2.E2" target="_blank" title="Opens in a new tab.">Complementary
+					Error Function</a></p>
+			<span class="fs-big">erfc</span><input type="text" size="3" value="z" />
+		</div>
+		<div data-function="Fresnel_S" title="S(z) = ∫_0^z sin(½πt^2) dt">
+			<p><a href="https://dlmf.nist.gov/7.2.E8" target="_blank" title="Opens in a new tab.">Fresnel
+					Sine Integral</a></p>
+			<span class="fs-big">S(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Fresnel_C" title="C(z) = ∫_0^z cos(½πt^2) dt">
+			<p><a href="https://dlmf.nist.gov/7.2.E7" target="_blank" title="Opens in a new tab.">Fresnel
+					Cosine Integral</a></p>
+			<span class="fs-big">C(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	import { Functions } from "./GenJS/TempFuncs.js";
+
+	class IntegralFunctions extends Functions {
+		constructor() {
+			super("IntegralFunctions");
+		}
+	}
+
+	window.addEventListener("load", () => new IntegralFunctions());
+</script>
+<modal-dialogue dialogueId="AiryBesselFunctions" dialogueTitle="Airy, Bessel and Related Functions"
+	dialogueSize="modal-lg" specfnsHeader="specfnsHeader">
+	<div class="function-templates two-col">
+		<div data-function="Airy_Ai" title="Solution of d^2w/dz^2 = z w">
+			<p><a href="https://dlmf.nist.gov/9.2" target="_blank" title="Opens in a new tab.">Airy Function of
+					the First Kind</a></p>
+			<span class="fs-big">Ai(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Airy_Bi" title="Solution of d^2w/dz^2 = z w">
+			<p><a href="https://dlmf.nist.gov/9.2" target="_blank" title="Opens in a new tab.">Airy Function of
+					the Second Kind</a></p>
+			<span class="fs-big">Bi(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Airy_AiPrime" title="dAi(z)/dz">
+			<p><a href="https://dlmf.nist.gov/9.2" target="_blank" title="Opens in a new tab.">Derivative of
+					Airy Function of the First Kind</a></p>
+			<span class="fs-big">Ai'(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Airy_BiPrime" title="dBi(z)/dz">
+			<p><a href="https://dlmf.nist.gov/9.2" target="_blank" title="Opens in a new tab.">Derivative of
+					Airy Function of the Second Kind</a></p>
+			<span class="fs-big">Bi'(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="BesselJ" title="Solution of z^2 d^2w/dz^2 + z dw/dz + (z^2 - ν^2) w = 0">
+			<p><a href="https://dlmf.nist.gov/10.2" target="_blank" title="Opens in a new tab.">Bessel Function
+					of the First Kind</a></p>
+			<span class="fs-big"><i>J</i></span><sub><input type="text" size="2" value="ν" /></sub>
+			<span class="fs-big">(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="BesselY" title="Solution of z^2 d^2w/dz^2 + z dw/dz + (z^2 - ν^2) w = 0">
+			<p><a href="https://dlmf.nist.gov/10.2" target="_blank" title="Opens in a new tab.">Bessel Function
+					of the Second Kind</a></p>
+			<span class="fs-big"><i>Y</i></span><sub><input type="text" size="2" value="ν" /></sub>
+			<span class="fs-big">(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="BesselI" title="Solution of z^2 d^2w/dz^2 + z dw/dz - (z^2 + ν^2) w = 0">
+			<p><a href="https://dlmf.nist.gov/10.25" target="_blank" title="Opens in a new tab.">Modified Bessel
+					Function
+					of the First Kind</a></p>
+			<span class="fs-big"><i>I</i></span><sub><input type="text" size="2" value="ν" /></sub>
+			<span class="fs-big">(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="BesselK" title="Solution of z^2 d^2w/dz^2 + z dw/dz - (z^2 + ν^2) w = 0">
+			<p><a href="https://dlmf.nist.gov/10.25" target="_blank" title="Opens in a new tab.">Modified Bessel
+					Function
+					of the Second Kind</a></p>
+			<span class="fs-big"><i>K</i></span><sub><input type="text" size="2" value="ν" /></sub>
+			<span class="fs-big">(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Hankel1" title="Solution of z^2 d^2w/dz^2 + z dw/dz + (z^2 - ν^2) w = 0">
+			<p><a href="https://dlmf.nist.gov/10.2" target="_blank" title="Opens in a new tab.">Hankel Function
+					of the First Kind</a></p>
+			<span class="fs-big"><i>H</i></span><span style="display: inline-block; vertical-align: -50%;">
+				<span style="font-size: small">(1)</span><br />
+				<input type="text" size="2" value="ν" style="font-size: small" /></span><span
+				class="fs-big">(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Hankel2" title="Solution of z^2 d^2w/dz^2 + z dw/dz + (z^2 - ν^2) w = 0">
+			<p><a href="https://dlmf.nist.gov/10.2" target="_blank" title="Opens in a new tab.">Hankel Function
+					of the Second Kind</a></p>
+			<span class="fs-big"><i>H</i></span><span style="display: inline-block; vertical-align: -50%;">
+				<span style="font-size: small">(2)</span><br />
+				<input type="text" size="2" value="ν" style="font-size: small" /></span><span
+				class="fs-big">(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	import { Functions } from "./GenJS/TempFuncs.js";
+
+	class AiryBesselFunctions extends Functions {
+		constructor() {
+			super("AiryBesselFunctions");
+		}
+	}
+
+	window.addEventListener("load", () => new AiryBesselFunctions());
+</script>
+<modal-dialogue dialogueId="StruveEtcFunctions"
+	dialogueTitle="Struve, Lommel, Kummer, Whittaker and Spherical Harmonic Functions" dialogueSize="modal-lg"
+	specfnsHeader="specfnsHeader">
+	<div class="function-templates two-col">
+		<div data-function="StruveH"
+			title="Solution of d^2w/dz^2 + 1/z dw/dz + (1 - ν^2/z^2) w = (½z)^{ν-1}/(√π Γ(ν+½))">
+			<p><a href="https://dlmf.nist.gov/11.2" target="_blank" title="Opens in a new tab.">Struve
+					Function</a></p>
+			<span class="fs-big"><b>H</b></span><sub><input type="text" size="2" value="ν" /></sub><span
+				class="fs-big">(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="StruveL"
+			title="Solution of d^2w/dz^2 + 1/z dw/dz - (1 + ν^2/z^2) w = (½z)^{ν-1}/(√π Γ(ν+½))">
+			<p><a href="https://dlmf.nist.gov/11.2" target="_blank" title="Opens in a new tab.">Modified Struve
+					Function</a></p>
+			<span class="fs-big"><b>L</b></span><sub><input type="text" size="2" value="ν" /></sub><span
+				class="fs-big">(</span><input type="text" size="3" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Lommel1" title="Related to the solution of d^2w/dz^2 + 1/z dw/dz + (1-ν^2/z^2) w = z^{μ-1}">
+			<p><a href="https://dlmf.nist.gov/11.9.i" target="_blank" title="Opens in a new tab.">Lommel
+					Function of the First Kind</a></p>
+			<span class="fs-big"><i>s</i></span><sub><input type="text" size="2" value="μ" />,<input type="text"
+					size="2" value="ν" /></sub><span class="fs-big">(</span><input type="text" size="3"
+				value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="Lommel2" title="Related to the solution of d^2w/dz^2 + 1/z dw/dz + (1-ν^2/z^2) w = z^{μ-1}">
+			<p><a href="https://dlmf.nist.gov/11.9.i" target="_blank" title="Opens in a new tab.">Lommel
+					Function of the Second Kind</a></p>
+			<span class="fs-big"><i>S</i></span><sub><input type="text" size="2" value="μ" />,<input type="text"
+					size="2" value="ν" /></sub><span class="fs-big">(</span><input type="text" size="3"
+				value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="KummerM" title="Solution of z d^2w/dz^2 + (b - z) dw/dz - a w = 0">
+			<p><a href="https://dlmf.nist.gov/13.2" target="_blank" title="Opens in a new tab.">Kummer M
+					Function</a></p>
+			<span class="fs-big"><i>M</i>(</span><input type="text" size="2" value="a" />,<input type="text" size="2"
+				value="b" />,<input type="text" size="2" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="KummerU" title="Solution of z d^2w/dz^2 + (b - z) dw/dz - a w = 0">
+			<p><a href="https://dlmf.nist.gov/13.2" target="_blank" title="Opens in a new tab.">Kummer U
+					Function</a></p>
+			<span class="fs-big"><i>U</i>(</span><input type="text" size="2" value="a" />,<input type="text" size="2"
+				value="b" />,<input type="text" size="2" value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="WhittakerM" title="Solution of d^2W/dz^2 + (-¼ + κ/z + (¼-μ^2)/z^2) W = 0">
+			<p><a href="https://dlmf.nist.gov/13.14" target="_blank" title="Opens in a new tab.">Whittaker M
+					Function</a></p>
+			<span class="fs-big"><i>M</i></span><sub><input type="text" size="2" value="κ" />,<input type="text"
+					size="2" value="μ" /></sub><span class="fs-big">(</span><input type="text" size="2"
+				value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="WhittakerW" title="Solution of d^2W/dz^2 + (-¼ + κ/z + (¼-μ^2)/z^2) W = 0">
+			<p><a href="https://dlmf.nist.gov/13.14" target="_blank" title="Opens in a new tab.">Whittaker W
+					Function</a></p>
+			<span class="fs-big"><i>W</i></span><sub><input type="text" size="2" value="κ" />,<input type="text"
+					size="2" value="μ" /></sub><span class="fs-big">(</span><input type="text" size="2"
+				value="z" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="SphericalHarmonicY"
+			title="Solution of angular component of Laplace's PDE in 3D; Y_{n,m}(θ,ϕ) in notation of DLMF">
+			<p><a href="https://dlmf.nist.gov/14.30" target="_blank" title="Opens in a new tab.">Spherical
+					Harmonic Function</a></p>
+			<span class="fs-big"><i>Y</i></span>
+			<span style="display: inline-block; font-size: small; vertical-align: -50%;">
+				<input type="text" size="2" value="m" title="Must be, or evaluate to, an integer." /><br />
+				<input type="text" size="2" value="n" title="Must be, or evaluate to, an integer." />
+			</span><span class="fs-big">(</span><input type="text" size="3" value="θ" />,<input type="text" size="3"
+				value="φ" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="SolidHarmonicY" title="Homogeneous polynomial solution of Laplace's PDE in 3D">
+			<p>Solid Harmonic Function</p>
+			<span class="fs-big"><i>Y</i></span>
+			<span style="display: inline-block; font-size: small; vertical-align: -50%;">
+				<input type="text" size="2" value="m" title="Must be, or evaluate to, an integer." /><br />
+				<input type="text" size="2" value="n" title="Must be, or evaluate to, an integer." />
+			</span><span class="fs-big">(</span><input type="text" size="3" value="x" />,<input type="text" size="3"
+				value="y" />,<input type="text" size="3" value="z" />,<input type="text" size="3" value="r²" /><span
+				class="fs-big">)</span>
+		</div>
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	// Imported classes:
+	import { Functions } from "./GenJS/TempFuncs.js";
+
+	// Imported functions:
+	import { loadPackage } from "./GenJS/Main.js";
+
+	class StruveEtcFunctions extends Functions {
+		constructor() {
+			super("StruveEtcFunctions");
+			this.dialogue.querySelectorAll("div.function-templates>div[data-function$='HarmonicY']")
+				.forEach(element => element.addEventListener("click", () => loadPackage("specfn")));
+		}
+	}
+
+	window.addEventListener("load", () => new StruveEtcFunctions());
+</script>
+<modal-dialogue dialogueId="OrthoPolyFunctions" dialogueTitle="Classical Orthogonal Polynomials" dialogueSize="modal-lg"
+	specfnsHeader="specfnsHeader">
+	<div class="function-templates two-col">
+		<div data-function="JacobiP" title="Orthogonal on (-1,1) with weight function (1-x)^α (1+x)^β">
+			<p><a href="https://dlmf.nist.gov/18.3#T1.t1.r2" target="_blank" title="Opens in a new tab.">Jacobi
+					Polynomials</a></p>
+			<span class="fs-big"><i>P</i></span><span style="display: inline-block; vertical-align: -50%;">
+				(<input type="text" size="2" value="α" style="font-size: small" />,<input type="text" size="2" value="β"
+					style="font-size: small" />)<br />
+				<input type="text" size="2" value="n" style="font-size: small" />
+			</span><span class="fs-big">(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="GegenbauerP" title="Orthogonal on (-1,1) with weight function (1-x^2)^{λ-½}">
+			<p><a href="https://dlmf.nist.gov/18.3#T1.t1.r3" target="_blank" title="Opens in a new tab.">Ultraspherical
+					(Gegenbauer) Polynomials</a></p>
+			<span class="fs-big"><i>C</i></span><span style="display: inline-block; vertical-align: -50%;">
+				(<input type="text" size="2" value="λ" style="font-size: small" />)<br />
+				<input type="text" size="2" value="n" style="font-size: small" />
+			</span><span class="fs-big">(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="ChebyshevT" title="Orthogonal on (-1,1) with weight function (1-x^2)^{-½}">
+			<p><a href="https://dlmf.nist.gov/18.3#T1.t1.r4" target="_blank" title="Opens in a new tab.">Chebyshev
+					Polynomials of the First Kind</a></p>
+			<span class="fs-big"><i>T</i></span><sub><input type="text" size="2" value="n" /></sub><span
+				class="fs-big">(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="ChebyshevU" title="Orthogonal on (-1,1) with weight function (1-x^2)^½">
+			<p><a href="https://dlmf.nist.gov/18.3#T1.t1.r5" target="_blank" title="Opens in a new tab.">Chebyshev
+					Polynomials of the Second Kind</a></p>
+			<span class="fs-big"><i>U</i></span><sub><input type="text" size="2" value="n" /></sub><span
+				class="fs-big">(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="LegendreP" title="Orthogonal on (-1,1) with weight function 1">
+			<p><a href="https://dlmf.nist.gov/18.3#T1.t1.r10" target="_blank" title="Opens in a new tab.">Legendre
+					Polynomials</a></p>
+			<span class="fs-big"><i>P</i></span><sub><input type="text" size="2" value="n" /></sub><span
+				class="fs-big">(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="AssocLegendreP" title="P_n^m(x) = (-1)^m (1-x^2)^{m/2} d^m/dx^m P_n(x)">
+			<p><a href="https://dlmf.nist.gov/14.7.E8" target="_blank" title="Opens in a new tab.">Associated
+					Legendre Polynomials</a></p>
+			<span class="fs-big"><i>P</i></span><span style="display: inline-block; vertical-align: -50%;">
+				(<input type="text" size="2" value="m" style="font-size: small" />)<br />
+				<input type="text" size="2" value="n" style="font-size: small" />
+			</span><span class="fs-big">(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="LaguerreP" title="Orthogonal on (0,∞) with weight function e^{-x}">
+			<p><a href="https://dlmf.nist.gov/18.3#T1.t1.r12" target="_blank" title="Opens in a new tab.">Laguerre
+					Polynomials</a></p>
+			<span class="fs-big"><i>L</i></span><sub><input type="text" size="2" value="n" /></sub><span
+				class="fs-big">(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="GenLaguerreP" title="Orthogonal on (0,∞) with weight function e^{-x} x^α">
+			<p><a href="https://dlmf.nist.gov/18.3#T1.t1.r12" target="_blank" title="Opens in a new tab.">Generalized
+					Laguerre Polynomials</a></p>
+			<span class="fs-big"><i>L</i></span><span style="display: inline-block; vertical-align: -50%;">
+				(<input type="text" size="2" value="α" style="font-size: small" />)<br />
+				<input type="text" size="2" value="n" style="font-size: small" />
+			</span><span class="fs-big">(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+		<div data-function="HermiteP" title="Orthogonal on (-∞,∞) with weight function e^{-x^2}">
+			<p><a href="https://dlmf.nist.gov/18.3#T1.t1.r13" target="_blank" title="Opens in a new tab.">Hermite
+					Polynomials</a></p>
+			<span class="fs-big"><i>H</i></span><sub><input type="text" size="2" value="n" /></sub><span
+				class="fs-big">(</span><input type="text" size="3" value="x" /><span class="fs-big">)</span>
+		</div>
+	</div>
+</modal-dialogue>
+
+<script type="module">
+	// Imported classes:
+	import { Functions } from "./GenJS/TempFuncs.js";
+
+	// Imported functions:
+	import { loadPackage } from "./GenJS/Main.js";
+
+	class OrthoPolyFunctions extends Functions {
+		constructor() {
+			super("OrthoPolyFunctions");
+			this.dialogue.addEventListener("show.bs.modal", () => loadPackage("specfn"));
+		}
+
+		result() {
+			const values = [...this.selectedFunction.getElementsByTagName("input")]
+				.map(el => el.value.trim());
+			const fn = this.selectedFunction.dataset.function;
+			switch (fn) {
+				case "JacobiP":
+					return `JacobiP(${values[2]},${values[0]},${values[1]},${values[3]})`;
+				case "GegenbauerP":
+					return `GegenbauerP(${values[1]},${values[0]},${values[2]})`;
+				case "AssocLegendreP":
+					return `LegendreP(${values[1]},${values[0]},${values[2]})`;
+				case "GenLaguerreP":
+					return `LaguerreP(${values[1]},${values[0]},${values[2]})`;
+				default:
+					return `${fn}(${values.join()})`;
+			}
+		}
+	}
+
+	window.addEventListener("load", () => new OrthoPolyFunctions());
+</script>
+</body>
+
+</html>
