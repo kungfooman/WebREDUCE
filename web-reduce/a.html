@@ -362,13 +362,13 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     document.getElementById("php").append(" " + "8.2.12");
     document.getElementById("bootstrap").append(" " + bootstrap.Tooltip.VERSION);
 </script>
-<script type="module" src="GenJS/Main.js"></script>
-<script type="module" src="GenJS/InputEditor.js"></script>
-<script type="module" src="GenJS/FileMenu.js"></script>
+<script type="module" src="src/Main.js"></script>
+<script type="module" src="src/InputEditor.js"></script>
+<script type="module" src="src/FileMenu.js"></script>
 
 <!-- Modal Dialogues -->
-<script type="module" src="GenJS/TempFuncs.js"></script>
-<script type="module" src="GenJS/Templates.js"></script>
+<script type="module" src="src/TempFuncs.js"></script>
+<script type="module" src="src/Templates.js"></script>
 <div id="LoadPackagesDialogue" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
 	aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg">
@@ -403,7 +403,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 	</div>
 </div>
 
-<script type="module" src="GenJS/LoadPackagesDialogue.js"></script>
+<script type="module" src="src/LoadPackagesDialogue.js"></script>
 <!-- Support for the Template and Functions menus. -->
 
 <!-- The modal-dialogue custom element is based on this template. -->
@@ -471,7 +471,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 </modal-dialogue>
 
 <script type="module">
-	import { Template } from "./GenJS/TempFuncs.js";
+	import { Template } from "./src/TempFuncs.js";
 
 	class DerivativeTemplate extends Template {
 		constructor() {
@@ -597,7 +597,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 </modal-dialogue>
 
 <script type="module">
-	import { Template } from "./GenJS/TempFuncs.js";
+	import { Template } from "./src/TempFuncs.js";
 
 	class IntegralTemplate extends Template {
 		constructor() {
@@ -705,10 +705,10 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 
 <script type="module">
 	// Imported classes:
-	import { Template } from "./GenJS/TempFuncs.js";
+	import { Template } from "./src/TempFuncs.js";
 
 	// Imported functions:
-	// import { loadPackage } from "./GenJS/Main.js";
+	// import { loadPackage } from "./src/Main.js";
 
 	class LimitTemplate extends Template {
 		constructor() {
@@ -797,7 +797,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 
 <script type="module">
 	// Imported classes:
-	import { Template } from "./GenJS/TempFuncs.js";
+	import { Template } from "./src/TempFuncs.js";
 
 	class SumProdTemplate extends Template {
 		constructor() {
@@ -876,10 +876,10 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 
 <script type="module">
 	// Imported classes:
-	import { Template } from "./GenJS/TempFuncs.js";
+	import { Template } from "./src/TempFuncs.js";
 
 	// Imported functions:
-	import { loadPackage } from "./GenJS/Main.js";
+	import { loadPackage } from "./src/Main.js";
 
 	class MatrixTemplate extends Template {
 		constructor() {
@@ -1040,7 +1040,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 
 <script type="module">
 	// Imported classes:
-	import { Template } from "./GenJS/TempFuncs.js";
+	import { Template } from "./src/TempFuncs.js";
 
 	class SolveTemplate extends Template {
 		constructor() {
@@ -1230,7 +1230,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 
 <script type="module">
 	// Imported classes:
-	import { Template } from "./GenJS/TempFuncs.js";
+	import { Template } from "./src/TempFuncs.js";
 
 	class ForTemplate extends Template {
 		constructor() {
@@ -1367,10 +1367,10 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 
 <script type="module">
 	// Imported classes:
-	import { Functions } from "./GenJS/TempFuncs.js";
+	import { Functions } from "./src/TempFuncs.js";
 
 	// Imported functions:
-	import { loadPackage } from "./GenJS/Main.js";
+	import { loadPackage } from "./src/Main.js";
 
 	class ExpLogFunctions extends Functions {
 		constructor() {
@@ -1470,7 +1470,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 </modal-dialogue>
 
 <script type="module">
-	import { Functions } from "./GenJS/TempFuncs.js";
+	import { Functions } from "./src/TempFuncs.js";
 
 	class GammaEtcFunctions extends Functions {
 		constructor() {
@@ -1545,7 +1545,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 </modal-dialogue>
 
 <script type="module">
-	import { Functions } from "./GenJS/TempFuncs.js";
+	import { Functions } from "./src/TempFuncs.js";
 
 	class IntegralFunctions extends Functions {
 		constructor() {
@@ -1624,7 +1624,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 </modal-dialogue>
 
 <script type="module">
-	import { Functions } from "./GenJS/TempFuncs.js";
+	import { Functions } from "./src/TempFuncs.js";
 
 	class AiryBesselFunctions extends Functions {
 		constructor() {
@@ -1718,10 +1718,10 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 
 <script type="module">
 	// Imported classes:
-	import { Functions } from "./GenJS/TempFuncs.js";
+	import { Functions } from "./src/TempFuncs.js";
 
 	// Imported functions:
-	import { loadPackage } from "./GenJS/Main.js";
+	import { loadPackage } from "./src/Main.js";
 
 	class StruveEtcFunctions extends Functions {
 		constructor() {
@@ -1804,10 +1804,10 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 
 <script type="module">
 	// Imported classes:
-	import { Functions } from "./GenJS/TempFuncs.js";
+	import { Functions } from "./src/TempFuncs.js";
 
 	// Imported functions:
-	import { loadPackage } from "./GenJS/Main.js";
+	import { loadPackage } from "./src/Main.js";
 
 	class OrthoPolyFunctions extends Functions {
 		constructor() {
