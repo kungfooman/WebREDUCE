@@ -1838,6 +1838,10 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 
 	window.addEventListener("load", () => new OrthoPolyFunctions());
 </script>
+<script type="module">
+	import * as WebREDUCE from './src/index.js';
+	Object.assign(window, {WebREDUCE, ...WebREDUCE});
+</script>
 </body>
 
 </html>
