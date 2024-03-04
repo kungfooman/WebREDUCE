@@ -15,12 +15,20 @@ var Module = {
   printErr: stderr => STDOUT.push(stderr),
   // When the module is ready
   onRuntimeInitialized: function() {
-    document.getElementById("loading").style.display = "none";
+    const l = document.getElementById("loading");
+    if (l) {
+      // Not used for REDUCE
+      l.style.display = "none";
+    }
     document.getElementById("gnuplot").style.display = "block";
     document.getElementById("load-button").disabled = false;
     document.getElementById("download-button").disabled = false;
     document.getElementById("template-select").disabled = false;
-    document.getElementById("version").innerHTML = "Powered by " + run_gnuplot("","--version");
+    const v = document.getElementById("version");
+    if (v) {
+      // Not used for REDUCE
+      v.innerHTML = "Powered by " + run_gnuplot("","--version");
+    }
   },
   preRun: function() {
     function stdin() {
