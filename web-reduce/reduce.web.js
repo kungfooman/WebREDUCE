@@ -1,6 +1,57 @@
 var Module = typeof Module !== "undefined" ? Module : {};
+let debugFS = false;
 if (typeof Module === "undefined") Module = {};
+let op_buffer = '';
+let op_debug = true;
+let op_started = false;
+function ob_start() {
+  op_debug && console.log('ob_start');
+  op_started = true;
+}
+function ob_get_contents() {
+  const javascriptMarkerAt = op_buffer.indexOf('JAVASCRIPT:');
+  if (javascriptMarkerAt) {
+    op_buffer = op_buffer.substring(0, javascriptMarkerAt);
+  }
+  op_debug && console.log('ob_get_contents:', op_buffer);
+  return op_buffer;
+}
+function ob_end_clean() {
+  op_debug && console.log('ob_end_clean');
+  op_started = false;
+  op_buffer = '';
+}
+function plot_start() {
+  ob_start();
+}
+function plot_end() {
+  const plotconfig = ob_get_contents();
+  ob_end_clean();
+  const tmpname = plotconfig.match(/plot '(\/tmp\/.*\.tmp)'/);
+  if (tmpname) {
+    const filename = tmpname[1];
+    console.log("emscripten filename", filename);
+    const content = FS.readFile(filename, {encoding: 'utf8'});
+    console.log("emscripten content", content);
+  }
+}
 Module["print"] = function(s) {
+  // symbolic put("idk", "idk",'"JAVASCRIPT:alert('lol')");
+  // symbolic put("idk", "idk",'"JAVASCRIPT:1+2");
+  if (op_started) {
+    op_buffer += `${s}\n`;
+  }
+  if (s.slice(1, -1).startsWith("JAVASCRIPT:")) {
+    const code = s.slice(1, -1).slice(11);
+    console.log("JAVASCRIPT TEST", code);
+    try {
+      const ret = eval(code);
+      console.log("JAVASCRIPT RET", ret);
+    } catch (e) {
+      console.log("error running JS", e);
+    }
+  }
+  console.log('print', s);
   self.postMessage({
     channel: "stdout",
     line: s
@@ -725,6 +776,18 @@ function getRandomDevice() {
     abort("randomDevice")
   }
 }
+function getRandomDeviceKung() {
+  if (typeof crypto === "object" && typeof crypto["getRandomValues"] === "function") {
+    var randomBuffer = new Uint8Array(1);
+    return function() {
+      crypto.getRandomValues(randomBuffer);
+      console.log("getRandomDeviceKung", randomBuffer);
+      return randomBuffer[0]
+    }
+  } else return function() {
+    abort("randomDevice")
+  }
+}
 var PATH_FS = {
   resolve: function() {
     var resolvedPath = "",
@@ -1124,6 +1187,7 @@ var MEMFS = {
       return size
     },
     write: function(stream, buffer, offset, length, position, canOwn) {
+      debugFS && console.log('MEMFS#stream_ops#write', {stream, buffer, offset, length, position, canOwn});
       if (!length) return 0;
       var node = stream.node;
       node.timestamp = Date.now();
@@ -1553,6 +1617,7 @@ var FS = {
     return ma << 8 | mi
   },
   registerDevice: function(dev, ops) {
+    debugFS && console.log("FS#registerDevice", {dev, ops});
     FS.devices[dev] = {
       stream_ops: ops
     }
@@ -1869,6 +1934,10 @@ var FS = {
     return PATH_FS.resolve(FS.getPath(link.parent), link.node_ops.readlink(link))
   },
   stat: function(path, dontFollow) {
+    // if (path == "//gnuplot") {
+    //   path = "/gnuplot";
+    // }
+    debugFS && console.log("FS#stat", {path, dontFollow});
     var lookup = FS.lookupPath(path, {
       follow: !dontFollow
     });
@@ -1990,6 +2059,7 @@ var FS = {
     })
   },
   open: function(path, flags, mode, fd_start, fd_end) {
+    debugFS && console.log("FS#open", {path, flags, mode, fd_start, fd_end});
     if (path === "") {
       throw new FS.ErrnoError(44)
     }
@@ -2221,6 +2291,7 @@ var FS = {
     return ret
   },
   writeFile: function(path, data, opts) {
+    debugFS && console.log('FS#writeFile', {path, data, opts});
     opts = opts || {};
     opts.flags = opts.flags || 577;
     var stream = FS.open(path, opts.flags, opts.mode);
@@ -2275,7 +2346,9 @@ var FS = {
     FS.mkdev("/dev/tty", FS.makedev(5, 0));
     FS.mkdev("/dev/tty1", FS.makedev(6, 0));
     var random_device = getRandomDevice();
+    var random_device_kung = getRandomDeviceKung();
     FS.createDevice("/dev", "random", random_device);
+    FS.createDevice("/dev", "kung", random_device_kung);
     FS.createDevice("/dev", "urandom", random_device);
     FS.mkdir("/dev/shm");
     FS.mkdir("/dev/shm/tmp")
@@ -2447,11 +2520,13 @@ var FS = {
     return current
   },
   createFile: function(parent, name, properties, canRead, canWrite) {
+    debugFS && console.log('FS#createFile', {parent, name, properties, canRead, canWrite});
     var path = PATH.join2(typeof parent === "string" ? parent : FS.getPath(parent), name);
     var mode = FS.getMode(canRead, canWrite);
     return FS.create(path, mode)
   },
   createDataFile: function(parent, name, data, canRead, canWrite, canOwn) {
+    debugFS && console.log('FS#createDataFile', {parent, name, data, canRead, canWrite, canOwn});
     var path = name ? PATH.join2(typeof parent === "string" ? parent : FS.getPath(parent), name) : parent;
     var mode = FS.getMode(canRead, canWrite);
     var node = FS.create(path, mode);
@@ -2505,6 +2580,7 @@ var FS = {
         return bytesRead
       },
       write: function(stream, buffer, offset, length, pos) {
+        debugFS && console.log("FS#createDevice#write", {stream, buffer, offset, length, pos});
         for (var i = 0; i < length; i++) {
           try {
             output(buffer[offset + i])
@@ -4104,8 +4180,10 @@ function _fd_seek(fd, offset_low, offset_high, whence, newOffset) {
 }
 
 function _fd_write(fd, iov, iovcnt, pnum) {
+  debugFS && console.log('_fd_write', {fd, iov, iovcnt, pnum});
   try {
     var stream = SYSCALLS.getStreamFromFD(fd);
+    debugFS && console.log('_fd_write stream', stream);
     var num = SYSCALLS.doWritev(stream, iov, iovcnt);
     HEAP32[pnum >> 2] = num;
     return 0
