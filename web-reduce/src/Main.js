@@ -62,7 +62,7 @@ const functionsMenuLink = document.getElementById("FunctionsMenuLink");
 let ioDisplayWindow, ioDisplayHead, ioDisplayBody;
 /** True if REDUCE has not yet produced any output. */
 export let noOutput = true;
-let worker;
+export let worker;
 function setRunningState(running) {
     startREDUCEMenuItem.disabled = running;
     loadPackagesMenuItem.disabled = !running;
@@ -123,6 +123,13 @@ function reduceWebMessageHandler(event) {
     if (Global.hideOutput) { // hide changes of switches etc.
         Global.hideOutput = false;
         return;
+    }
+    // console.log("reduceWebMessageHandler, event:", event);
+    if (event.data.channel === 'plot') {
+        const {script, data} = event.data;
+        editorInput.setValue(script.replace('/tmp/plotdata.txt', 'data.txt'));
+        editorData.setValue(data);
+        launch();
     }
     if (event.data.channel === 'stdout') {
         let output = event.data.line;
@@ -213,7 +220,15 @@ export let sendToReduce = (str) => {
         data: buf
     });
 };
-function startREDUCE() {
+/**
+ * @param {number} ms - How long to sleep in milliseconds.
+ */
+function sleep(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
+}
+async function startREDUCE() {
     ioDisplayBody.innerHTML = "REDUCE is loading. Please wait&hellip;";
     try {
         // Doesn't seem to catch errors in the worker!
@@ -225,6 +240,34 @@ function startREDUCE() {
         // on MDN don't seem to work or to be in the official spec!
         sendToReduce('<< lisp (!*redefmsg := nil); load_package tmprint;' +
             ' on nat, fancy, errcont; off int >>$');
+        loadPackage('gnuplot');
+        await sleep(100);
+        loadPackage('turtle');
+        await sleep(200);
+        //sendToReduce('symbolic procedure plot!-filename(); "/tmp/data.txt"');
+        // Test: symbolic plot!-filename(); % Should return "/tmp/data.txt"
+        sendToReduce(`<<
+            symbolic procedure plot!-filename();
+            begin
+                return "/tmp/plotdata.txt";
+            end;
+            symbolic procedure PlotOpenDisplay();
+            begin
+                plotpipe!* := open("/tmp/plotcmds.txt", 'output);
+                if null plotheader!* then <<
+                    nil
+                >> else if atom plotheader!* then <<
+                    plotprin2 plotheader!*;
+                    plotterpri()
+                >> else if eqcar(plotheader!*,'list) then
+                    for each x in cdr plotheader!* do <<
+                    plotprin2 x;
+                    plotterpri()
+                >> else <<
+                    typerr(plotheader!*,"gnuplot header");
+                >>
+            end;
+        >>$`);
     }
     catch (error) {
         reduceWebErrorHandler(error);
@@ -255,7 +298,7 @@ const toASCII = {
  * @param {string} text - Input text to be sent to REDUCE.
  * @returns string
  */
-function asciify(text) {
+export function asciify(text) {
     let result = "";
     for (const char of text)
         if (char > "\x7F") {
@@ -273,7 +316,10 @@ function asciify(text) {
  * @param {string} text - Input text to be sent to REDUCE.
  */
 export function sendToReduceAndEcho(text) {
+    // still searching a bug that occues when copypasting turtle code from html manual...
+    // console.log("BEFORE ASCIIFY", text);
     text = asciify(text);
+    // console.log("AFTER ASCIIFY", text);
     sendToReduceAndEchoNoAsciify(text);
 }
 /**
@@ -282,7 +328,7 @@ export function sendToReduceAndEcho(text) {
  * Called in this file, InputEditor.mjs and TempFuncs.mjs.
  * @param {string} text - Input text to be sent to REDUCE.
  */
-function sendToReduceAndEchoNoAsciify(text) {
+export function sendToReduceAndEchoNoAsciify(text) {
     sendPlainTextToIODisplay(text, "input");
     sendToReduce(text);
 }

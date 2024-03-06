@@ -11,6 +11,7 @@ function ob_start() {
 function ob_get_contents() {
   const javascriptMarkerAt = op_buffer.indexOf('JAVASCRIPT:');
   if (javascriptMarkerAt) {
+    console.log("FULL", op_buffer);
     op_buffer = op_buffer.substring(0, javascriptMarkerAt);
   }
   op_debug && console.log('ob_get_contents:', op_buffer);
@@ -25,22 +26,54 @@ function plot_start() {
   ob_start();
 }
 function plot_end() {
-  const plotconfig = ob_get_contents();
+  let script = ob_get_contents();
   ob_end_clean();
-  const tmpname = plotconfig.match(/plot '(\/tmp\/.*\.tmp)'/);
-  if (tmpname) {
-    const filename = tmpname[1];
-    console.log("emscripten filename", filename);
-    const content = FS.readFile(filename, {encoding: 'utf8'});
-    console.log("emscripten content", content);
+  //const tmpname = script.match(/plot '(\/tmp\/.*\.tmp)'/);
+  console.log("plot script", script);
+  //if (tmpname)
+  {
+    //const filename = tmpname[1];
+    //script = script.replace(filename, 'data.txt');
+    //console.log("emscripten filename", filename);
+    const data = FS.readFile("/tmp/data.txt", {encoding: 'utf8'});
+    console.log("plot data", data);
+    postMessage({channel: "plot", script, data});
   }
 }
+const plots = [];
+// Called every print - JAVASCRIPT: mechanism isn't the nicest lol
+function test_plot_is_ready() {
+  // debugger;
+  if (!FS.root.contents.tmp.contents["plotdata.txt"]) {
+    return;
+  }
+  const data = FS.readFile("/tmp/plotdata.txt", {encoding: 'utf8'});
+  // console.log("/tmp/plotdata.txt", data);
+  let cmds = FS.readFile("/tmp/plotcmds.txt", {encoding: 'utf8'});
+  // console.log("/tmp/plotcmds.txt", cmds);
+  FS.unlink("/tmp/plotdata.txt");
+  FS.unlink("/tmp/plotcmds.txt");
+  if (cmds.trim() === '') {
+    cmds = '# temp turtle fix\nplot "data.txt" with lines\n';
+  }
+  plots.push({cmds, data});
+  postMessage({channel: "plot", script: cmds, data});
+}
 Module["print"] = function(s) {
-  // symbolic put("idk", "idk",'"JAVASCRIPT:alert('lol')");
-  // symbolic put("idk", "idk",'"JAVASCRIPT:1+2");
+  test_plot_is_ready();
   if (op_started) {
     op_buffer += `${s}\n`;
   }
+  // if (s.includes('BEGIN-PLOT-EVAL')) {
+  //   plot_start();
+  //   return;
+  // }
+  // if (s.includes('END-PLOT-EVAL')) {
+  //   plot_end();
+  //   return;
+  // }
+  // symbolic put("idk", "idk",'"JAVASCRIPT:alert('lol')");
+  // symbolic put("idk", "idk",'"JAVASCRIPT:1+2");
   if (s.slice(1, -1).startsWith("JAVASCRIPT:")) {
     const code = s.slice(1, -1).slice(11);
     console.log("JAVASCRIPT TEST", code);
@@ -51,7 +84,7 @@ Module["print"] = function(s) {
       console.log("error running JS", e);
     }
   }
-  console.log('print', s);
+  // console.log('print', s);
   self.postMessage({
     channel: "stdout",
     line: s
