@@ -33,7 +33,7 @@ function mathjson2reduce(mathjson) {
   } else if (type === 'Subtract') {
     const lhs = mathjson2reduce(mathjson[1]);
     const rhs = mathjson2reduce(mathjson[2]);
-    return `(${lhs} + ${rhs})`;
+    return `(${lhs} - ${rhs})`;
   } else if (type === 'Delimiter') {
     const val = mathjson2reduce(mathjson[1]);
     return `(${val})`;
