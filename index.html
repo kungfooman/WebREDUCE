@@ -13,7 +13,29 @@
   <link rel="canonical" href="https://reduce-algebra.sourceforge.io/web-reduce/index.php" />
   <link rel="icon" type="image/png" href="images/icon.png" />
   <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link rel="stylesheet" href="StyleSheet.css" /><style type="text/css">
+  <link rel="stylesheet" href="StyleSheet.css" />
+  <script src="node_modules/mathlive/dist/mathlive.mjs" type="module"></script>
+  <!-- https://github.com/cortex-js/compute-engine -->
+  <script src="node_modules/@cortex-js/compute-engine/dist/compute-engine.esm.js" type="module"></script>
+  <script type="module">
+	import {ComputeEngine} from "./node_modules/@cortex-js/compute-engine/dist/compute-engine.esm.js";
+	const ce = new ComputeEngine();
+	ce.numericMode = 'auto';
+	ce.precision = 200;
+	ce.latexOptions.precision = 7;
+	window.ce = ce;
+  </script>
+
+  <style type="text/css">
+	.mathfield {
+		height: 7em;
+		width: 100%;
+		margin-top: 0.5em;
+		/*
+		display: inline-flex;
+		align-items: center;
+		*/
+	}
     #IODisplayIframe,
     #InputDiv {
       width: 100%
@@ -302,6 +324,47 @@
     <label for="InputDiv">Input Editor</label>
 </div>
 <div id="InputDiv" contenteditable="true" spellcheck="false"></div>
+
+<div style="width: 100%;">
+	<!--
+		const mi = document.getElementById('mathinput');
+		// '1+2+3+\\cdots+10=\\sum_{n=1}^{10}n'
+		mi._mathfield.getValue('latex');
+		// '<mrow><mn>1</mn><mo>+</mo><mn>2</mn><mo>+</mo><mn>3</mn><mo>+</mo><mi>⋯</mi><mo>+</mo><mn>10</mn><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mn>10</mn></msubsup><mi>n</mi></mrow>'
+		mi._mathfield.getValue("math-ml");
+		mi._mathfield.getValue("ascii-math");
+		// '1+2+3+⋯+10= sum  _(n=1)^(10)n'
+		mi._mathfield.getValue("math-json"); // needs CortexJS Compute Engine library
+		mi._mathfield.getValue("spoken-text");
+		mi._mathfield.getValue("spoken-ssml");
+		mi._mathfield.executeCommand("speak")
+		// "1 plus 2 plus 3 plus dot dot dot plus 10 equals the summation from 'N' equals 1 to 10 of 'N'"
+		// https://cortexjs.io/mathlive/guides/speech/
+
+
+        mi._mathfield.model.root.children.map(_ => {
+          const {type, value, command, _branches} = _;
+          return {type, value, command, _branches};
+        });
+
+
+		https://cortexjs.io/compute-engine/demo/
+	-->
+
+	<math-field class="mathfield" id="mathinput">
+		% Summation in LaTeX
+		% \[
+		% 1+2+3+\cdots+10=\sum_{n=1}^{10}n
+		% \]
+		\sum_{n=10}^{12}n
+	</math-field>
+	<script>
+		const mi = document.getElementById('mathinput');
+		// For example:
+		// const json = JSON.parse(mi._mathfield.getValue("math-json"));
+	</script>
+</div>
+
 <div id="buttons">
     <button id="EarlierButton" type="button" disabled="disabled"
         title="Select earlier keyboard input. Keyboard Shortcut: Control+UpArrow.">▲ Earlier Input</button>
@@ -310,6 +373,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
         Input</button>
     <button id="LaterButton" type="button" disabled="disabled"
         title="Select later keyboard input. Keyboard Shortcut: Control+DownArrow.">▼ Later Input</button>
+	<button id="mathjson2reduceButton">mathjson2reduce</button>
 </div>
 
 </div><!-- opened in begin-body.php -->

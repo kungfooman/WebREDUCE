@@ -15,3 +15,15 @@ plot((x+y)**4);
 ```
 
 Press Ctrl+Enter to execute it and see a fancy plot.
+
+
+
+
+Testing mathlive / compute-engine:
+
+```js
+const mi = document.getElementById('mathinput');
+json = JSON.parse(mi._mathfield.getValue("math-json"));
+boxedFunction = ce.box(json);
+boxedFunction.evaluate();
+```

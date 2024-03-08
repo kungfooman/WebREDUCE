@@ -1,3 +1,4 @@
+import {mathjson2reduce} from "./mathjson2reduce.js";
 /**
  * Main source code
  * @module Main
@@ -53,6 +54,12 @@ export const earlierButton = document.getElementById('EarlierButton');
 earlierButton.disabled = true;
 /** Send Input Button HTML Element. */
 export const sendInputButton = document.getElementById('SendInputButton');
+const mathjson2reduceButton = document.getElementById("mathjson2reduceButton");
+mathjson2reduceButton.onclick = () => {
+  const json = JSON.parse(mi._mathfield.getValue("math-json"));
+  const red = mathjson2reduce(json);
+  inputDiv.innerText = red;
+}
 /** Later Button HTML Element. */
 export const laterButton = document.getElementById('LaterButton');
 laterButton.disabled = true;
