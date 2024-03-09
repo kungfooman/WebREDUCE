@@ -245,15 +245,19 @@ async function startREDUCE() {
         worker.onerror = reduceWebErrorHandler;
         // The rejectionhandled and unhandledrejection events described
         // on MDN don't seem to work or to be in the official spec!
-        sendToReduce('<< lisp (!*redefmsg := nil); load_package tmprint;' +
-            ' on nat, fancy, errcont; off int >>$');
+        sendToReduce(`<<
+            lisp (!*redefmsg := nil);
+            load_package tmprint;
+            on nat, fancy, errcont;
+            off int;
+        >>$`);
+        await sleep(200);
         loadPackage('gnuplot');
-        await sleep(100);
+        await sleep(200);
         loadPackage('turtle');
         await sleep(200);
-        //sendToReduce('symbolic procedure plot!-filename(); "/tmp/data.txt"');
-        // Test: symbolic plot!-filename(); % Should return "/tmp/data.txt"
         sendToReduce(`<<
+            % Test: symbolic plot!-filename(); % Should return "/tmp/data.txt"
             symbolic procedure plot!-filename();
             begin
                 return "/tmp/plotdata.txt";
