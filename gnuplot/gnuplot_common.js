@@ -41,7 +41,7 @@ gnuplot.T = function (x,y,fontsize,justify,string) {
     xx = zoom.x; yy = zoom.y;
     if (gnuplot.plot_xmin < xx && xx < gnuplot.plot_xmax && gnuplot.plot_ybot > yy && yy > gnuplot.plot_ytop)
       if ((typeof(gnuplot.zoom_text) != "undefined") && (gnuplot.zoom_text == true))
-	fontsize = Math.sqrt(gnuplot.zoomW(fontsize)*gnuplot.zoomH(fontsize));
+  fontsize = Math.sqrt(gnuplot.zoomW(fontsize)*gnuplot.zoomH(fontsize));
   }
   if (justify=="") ctx.drawText("sans", fontsize, xx, yy, string);
   else if (justify=="Right") ctx.drawTextRight("sans", fontsize, xx, yy, string);
@@ -55,7 +55,7 @@ gnuplot.TR = function (x,y,angle,fontsize,justify,string) {
     xx = zoom.x; yy = zoom.y;
     if (gnuplot.plot_xmin < xx && xx < gnuplot.plot_xmax && gnuplot.plot_ybot > yy && yy > gnuplot.plot_ytop)
       if ((typeof(gnuplot.zoom_text) != "undefined") && (gnuplot.zoom_text == true))
-	fontsize = Math.sqrt(gnuplot.zoomW(fontsize)*gnuplot.zoomH(fontsize));
+  fontsize = Math.sqrt(gnuplot.zoomW(fontsize)*gnuplot.zoomH(fontsize));
   }
   ctx.save();
   ctx.translate(xx,yy);
@@ -83,47 +83,47 @@ gnuplot.Pt = function (N,x,y,w) {
     switch (N)
     {
     case 0:
-	ctx.beginPath();
-	ctx.moveTo(xx-w,yy); ctx.lineTo(xx+w,yy);
-	ctx.moveTo(xx,yy-w); ctx.lineTo(xx,yy+w);
-	ctx.stroke();
-	break;
+  ctx.beginPath();
+  ctx.moveTo(xx-w,yy); ctx.lineTo(xx+w,yy);
+  ctx.moveTo(xx,yy-w); ctx.lineTo(xx,yy+w);
+  ctx.stroke();
+  break;
     case 1:
-	var ww = w * 3/4;
-	ctx.beginPath();
-	ctx.moveTo(xx-ww,yy-ww); ctx.lineTo(xx+ww,yy+ww);
-	ctx.moveTo(xx+ww,yy-ww); ctx.lineTo(xx-ww,yy+ww);
-	ctx.stroke();
-	break;
+  var ww = w * 3/4;
+  ctx.beginPath();
+  ctx.moveTo(xx-ww,yy-ww); ctx.lineTo(xx+ww,yy+ww);
+  ctx.moveTo(xx+ww,yy-ww); ctx.lineTo(xx-ww,yy+ww);
+  ctx.stroke();
+  break;
     case 2:
-	gnuplot.Pt(0,x,y,w); gnuplot.Pt(1,x,y,w);
-	break;
+  gnuplot.Pt(0,x,y,w); gnuplot.Pt(1,x,y,w);
+  break;
     case 3:
-	ctx.strokeRect(xx-w/2,yy-w/2,w,w);
-	break;
+  ctx.strokeRect(xx-w/2,yy-w/2,w,w);
+  break;
     case 4:
-	ctx.save(); ctx.strokeRect(xx-w/2,yy-w/2,w,w); ctx.restore();
-	ctx.fillRect(xx-w/2,yy-w/2,w,w);
-	break;
+  ctx.save(); ctx.strokeRect(xx-w/2,yy-w/2,w,w); ctx.restore();
+  ctx.fillRect(xx-w/2,yy-w/2,w,w);
+  break;
     case 5:
-	ctx.beginPath(); ctx.arc(xx,yy,w/2,0,Math.PI*2,true); ctx.stroke();
-	break;
+  ctx.beginPath(); ctx.arc(xx,yy,w/2,0,Math.PI*2,true); ctx.stroke();
+  break;
     default:
     case 6:
-	ctx.beginPath(); ctx.arc(xx,yy,w/2,0,Math.PI*2,true); ctx.fill();
-	break;
+  ctx.beginPath(); ctx.arc(xx,yy,w/2,0,Math.PI*2,true); ctx.fill();
+  break;
     case 7:
-	ctx.beginPath();
-	ctx.moveTo(xx,yy-w); ctx.lineTo(xx-w,yy+w/2); ctx.lineTo(xx+w,yy+w/2);
-	ctx.closePath();
-	ctx.stroke();
-	break;
+  ctx.beginPath();
+  ctx.moveTo(xx,yy-w); ctx.lineTo(xx-w,yy+w/2); ctx.lineTo(xx+w,yy+w/2);
+  ctx.closePath();
+  ctx.stroke();
+  break;
     case 8:
-	ctx.beginPath();
-	ctx.moveTo(xx,yy-w); ctx.lineTo(xx-w,yy+w/2); ctx.lineTo(xx+w,yy+w/2);
-	ctx.closePath();
-	ctx.fill();
-	break;
+  ctx.beginPath();
+  ctx.moveTo(xx,yy-w); ctx.lineTo(xx-w,yy+w/2); ctx.lineTo(xx+w,yy+w/2);
+  ctx.closePath();
+  ctx.fill();
+  break;
     }
 }
 
@@ -149,9 +149,9 @@ gnuplot.ZI = function (image, m, n, x1, y1, x2, y2) {
     if (x1raw < dx) sx = m * (dx - x1raw) / (x2raw - x1raw);
     if (y1raw < dy) sy = n * (dy - y1raw) / (y2raw - y1raw);
     if (x2raw > zoom.x)
-	sw = m * (1. - ((x2raw - zoom.x) / (x2raw - x1raw)));
+  sw = m * (1. - ((x2raw - zoom.x) / (x2raw - x1raw)));
     if (y2raw > zoom.y)
-	sh = n * (1. - ((y2raw - zoom.y) / (y2raw - y1raw)));
+  sh = n * (1. - ((y2raw - zoom.y) / (y2raw - y1raw)));
     sw = sw - sx; sh = sh - sy;
 
     ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
