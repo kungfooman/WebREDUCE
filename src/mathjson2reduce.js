@@ -7,8 +7,20 @@
  */
 function mathjson2reduce(mathjson) {
   const type = mathjson[0];
-  if (typeof mathjson === 'string' || typeof mathjson === 'number') {
+  if (typeof mathjson === 'string') {
+    if (mathjson === 'ExponentialE') {
+      return 'e';
+    }
+    const parts = mathjson.split('_');
+    if (parts.length === 2) {
+      const lhs = mathjson2reduce(parts[0]);
+      const rhs = mathjson2reduce(parts[1]);
+      return `mkid(${lhs}, ${rhs})`;
+    }
     // take it as it is
+    return mathjson;
+  }
+  if (typeof mathjson === 'number') {
     return mathjson;
   }
   if (type === 'Sum') {
@@ -18,22 +30,17 @@ function mathjson2reduce(mathjson) {
     console.assert(triple === 'Triple');
     const bodyReduce = mathjson2reduce(body);
     return `for ${name} := ${from} : ${to} sum ${bodyReduce}`;
-  } else if (type === 'Multiply') {
-    const lhs = mathjson2reduce(mathjson[1]);
-    const rhs = mathjson2reduce(mathjson[2]);
-    return `(${lhs} * ${rhs})`;
-  } else if (type === 'Power') {
-    const lhs = mathjson2reduce(mathjson[1]);
-    const rhs = mathjson2reduce(mathjson[2]);
-    return `(${lhs} ** ${rhs})`;
-  } else if (type === 'Add') {
-    const lhs = mathjson2reduce(mathjson[1]);
-    const rhs = mathjson2reduce(mathjson[2]);
-    return `(${lhs} + ${rhs})`;
-  } else if (type === 'Subtract') {
-    const lhs = mathjson2reduce(mathjson[1]);
-    const rhs = mathjson2reduce(mathjson[2]);
-    return `(${lhs} - ${rhs})`;
+  } else if (
+    type === 'Multiply' ||
+    type === 'Power' || 
+    type === 'Add' ||
+    type === 'Subtract'
+  ) {
+    const op = {Multiply: '*', Power: '**', Add: '+', Subtract: '-'}[type];
+    const [,...args] = mathjson;
+    const argsReduce = args.map(mathjson2reduce).join(` ${op} `);
+    console.log("mathjson", mathjson);
+    return `(${argsReduce})`;
   } else if (type === 'Delimiter') {
     const val = mathjson2reduce(mathjson[1]);
     return `(${val})`;
