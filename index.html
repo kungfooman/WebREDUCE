@@ -1,7 +1,6 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -25,7 +24,6 @@
   ce.latexOptions.precision = 7;
   window.ce = ce;
   </script>
-
   <style type="text/css">
   .mathfield {
     height: 7em;
@@ -57,62 +55,50 @@
         overflow-y: auto;
         white-space: pre-wrap;
     }
-
     #InputDiv:focus {
         background-color: white;
         outline: medium outset blue;
     }
-
     div.labelling {
         font-weight: bold;
         margin-top: 5px;
         margin-bottom: 2px;
     }
-
     #buttons {
         margin-top: 5px;
         margin-bottom: 10px;
         display: flex;
         justify-content: space-evenly;
     }
-
     div.modal-body input[type="text"] {
         text-align: center;
         font-style: italic;
     }
-
     div.function-templates {
         display: grid;
         grid-row-gap: 20px;
         align-items: center;
         justify-content: center;
     }
-
     div.function-templates.three-col {
         grid-template-columns: repeat(auto-fill, 250px);
     }
-
     div.function-templates.two-col {
         grid-template-columns: repeat(auto-fill, 340px);
     }
-
     div.function-templates>div.selected {
         outline: auto blue medium;
     }
-
     div.function-templates p {
         margin-bottom: 0;
     }
-
     .fs-big {
         font-size: 150%;
     }
-
     .fs-normal {
         font-size: medium;
     }
 </style>
-
 </head>
 <body>
     <div class="container-fluid">
@@ -156,7 +142,6 @@
 <li title="Full REDUCE site map and recently updated files"><a href="/sitemap.php">Site Map / Recent</a></li>
 <li title="Run REDUCE as a web app in your web browser"><a href="/web-reduce/about.php?start">Web REDUCE</a></li>
         </ul>
-
         <a href="https://sourceforge.net/p/reduce-algebra/" rel="nofollow">
             <p>
           Download REDUCE from<br />
@@ -167,7 +152,6 @@
 </nav>
             <div id="main" class="col-md-9 col-xl-7">
                 <h1>Web REDUCE</h1>
-
 <!-- Menu bar -->
 <nav id="Menubar" class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -312,19 +296,16 @@
         </div>
     </div>
 </nav>
-
 <div class="labelling">
     <label for="IODisplayIframe">Input/Output Display</label>
 </div>
 <iframe id="IODisplayIframe">
     The obsolete browser does not support the iframe HTML element and so cannot run Web REDUCE.
 </iframe>
-
 <div class="labelling">
     <label for="InputDiv">Input Editor</label>
 </div>
 <div id="InputDiv" contenteditable="true" spellcheck="false"></div>
-
 <div style="width: 100%;">
   <!--
     const mi = document.getElementById('mathinput');
@@ -340,17 +321,12 @@
     mi._mathfield.executeCommand("speak")
     // "1 plus 2 plus 3 plus dot dot dot plus 10 equals the summation from 'N' equals 1 to 10 of 'N'"
     // https://cortexjs.io/mathlive/guides/speech/
-
-
         mi._mathfield.model.root.children.map(_ => {
           const {type, value, command, _branches} = _;
           return {type, value, command, _branches};
         });
-
-
     https://cortexjs.io/compute-engine/demo/
   -->
-
   <math-field class="mathfield" id="mathinput">
     \sum_{n=10}^{12}n
   </math-field>
@@ -360,7 +336,6 @@
     // const json = JSON.parse(mi._mathfield.getValue("math-json"));
   </script>
 </div>
-
 <div id="buttons">
     <button id="EarlierButton" type="button" disabled="disabled"
         title="Select earlier keyboard input. Keyboard Shortcut: Control+UpArrow.">▲ Earlier Input</button>
@@ -371,9 +346,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
         title="Select later keyboard input. Keyboard Shortcut: Control+DownArrow.">▼ Later Input</button>
   <button id="mathjson2reduceButton">mathjson2reduce</button>
 </div>
-
 </div><!-- opened in begin-body.php -->
-
 <footer class="col-xl-3">
     <div class="sticky-top">
         <hr class="d-display d-xl-none" />
@@ -412,7 +385,6 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
         </div>
     </div>
 </footer>
-
 </div>
 </div>
 <!-- Bootstrap JavaScript bundle with Popper -->
@@ -424,7 +396,6 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 <script type="module" src="src/Main.js"></script>
 <script type="module" src="src/InputEditor.js"></script>
 <script type="module" src="src/FileMenu.js"></script>
-
 <!-- Modal Dialogues -->
 <script type="module" src="src/TempFuncs.js"></script>
 <script type="module" src="src/Templates.js"></script>
@@ -461,10 +432,8 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </div>
   </div>
 </div>
-
 <script type="module" src="src/LoadPackagesDialogue.js"></script>
 <!-- Support for the Template and Functions menus. -->
-
 <!-- The modal-dialogue custom element is based on this template. -->
 <template id="modal-dialogue-template">
   <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
@@ -486,7 +455,6 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </div>
   </div>
 </template>
-
 <!-- The header HTML common to special-functions dialogues, included by the <modal-dialogue> funcsHeader attribute. -->
 <template id="special-functions-header">
   <p class="text-center"><small>Click on the function you want to use. Hover over a function for a hint at
@@ -528,88 +496,8 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </div>
   </div>
 </modal-dialogue>
-
 <script type="module">
-  import { Template } from "./src/TempFuncs.js";
-
-  class DerivativeTemplate extends Template {
-    constructor() {
-      super("Derivative Template");
-      this.totalOrdSup = this.pattern.querySelector("sup");
-      this.depVarTextField = this.inputs[0];
-      this.indVarTextFields = [this.inputs[1], this.inputs[3], this.inputs[5]];
-      this.ordTextFields = [this.inputs[2], this.inputs[4], this.inputs[6]];
-      this.orders = [1, 0, 0];
-
-      for (let n = 0; n < 3; n++) {
-        this.indVarTextFields[n].addEventListener("input", (event) => this.indVarAction(event));
-        this.ordTextFields[n].addEventListener("input", (event) => this.indVarAction(event));
-      }
-    }
-
-    resetButtonAction() {
-      super.resetButtonAction();
-      this.totalOrdSup.innerText = "";
-      this.orders[0] = 1; this.orders[1] = this.orders[2] = 0;
-    }
-
-    indVarAction(event) {
-      const n = event.target.dataset.index;
-      const indVar = this.indVarTextFields[n].value.trim();
-      let order = this.ordTextFields[n].value.trim();
-      if (indVar.length == 0) {
-        if (order.length > 0) {
-          alert(this.alertHeader +
-            "Specify the independent variable before specifying its order.");
-          this.ordTextFields[n].value = "";
-        }
-        order = 0;
-      } else if (order.length == 0)
-        order = 1;
-      else {
-        order = Number(order);
-        if (!Number.isInteger(order) || order <= 0) {
-          alert(this.alertHeader +
-            "An order must be a positive integer.");
-          this.ordTextFields[n].value = "";
-          return;
-        }
-      }
-      this.orders[n] = order;
-      order = this.orders.reduce((acc, val) => acc + val); // sum of orders
-      if (order > 1) {
-        this.totalOrdSup.innerText = order + " ";
-      } else {
-        this.totalOrdSup.innerText = "";
-      }
-    }
-
-    result() {
-      const depVar = this.depVarTextField.value.trim();
-      let indVarFound = false;
-      if (this.checkNonEmpty && !depVar) {
-        alert(this.alertHeader +
-          "A dependent variable or expression is required.");
-        throw new Error("empty field");
-      }
-      let text = "df(" + depVar;
-      for (let n = 0; n < 3; n++) {
-        const indVar = this.indVarTextFields[n].value.trim();
-        if (indVar.length != 0) {
-          indVarFound = true;
-          text += ", " + indVar;
-          if (this.orders[n] > 1) text += ", " + this.orders[n];
-        }
-      }
-      if (!this.checkNonEmpty || indVarFound) return text + ")";
-      else {
-        alert(this.alertHeader +
-          "At least one independent variable is required.");
-        throw new Error("empty field");
-      }
-    }
-  }
-
+  import {DerivativeTemplate} from './src/DerivativeTemplate.js';
   window.addEventListener("load", () => new DerivativeTemplate());
 </script>
 <modal-dialogue dialogueId="IntegralTemplate" dialogueTitle="Evaluate a Multiple Integral" dialogueSize="modal-lg">
@@ -654,87 +542,8 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     <input type="text" style="min-width: 1em; flex: 0 2 2em;" />
   </div>
 </modal-dialogue>
-
 <script type="module">
-  import { Template } from "./src/TempFuncs.js";
-
-  class IntegralTemplate extends Template {
-    constructor() {
-      super("Integral Template");
-      const fields = this.pattern.children;
-      this.zIntDiv = fields[0];
-      const zLimTextFields = this.zIntDiv.querySelectorAll("input"); // [upper, lower]
-      this.yIntDiv = fields[1];
-      const yLimTextFields = this.yIntDiv.querySelectorAll("input");
-      const xIntDiv = fields[2];
-      const xLimTextFields = xIntDiv.querySelectorAll("input");
-      this.limTextFields = [xLimTextFields, yLimTextFields, zLimTextFields];
-      this.integrandTextField = fields[3];
-      this.intVarTextFields = [fields[5], fields[7], fields[9]];
-      this.yDSpan = fields[6];
-      this.zDSpan = fields[8];
-
-      this.intVarTextFields[0].addEventListener("input", () => {
-        this.intVarTextFields[1].hidden = (this.intVarTextFields[0].value.trim().length == 0);
-      });
-
-      this.intVarTextFields[1].addEventListener("input", () => {
-        const hidden = (this.intVarTextFields[1].value.trim().length == 0);
-        this.yIntDiv.hidden = hidden;
-        this.yDSpan.hidden = hidden;
-        this.intVarTextFields[2].hidden = hidden;
-      });
-
-      this.intVarTextFields[2].addEventListener("input", () => {
-        const hidden = (this.intVarTextFields[2].value.trim().length == 0);
-        this.zIntDiv.hidden = hidden;
-        this.zDSpan.hidden = hidden;
-      });
-
-      this.init();
-    }
-
-    init() {
-      this.zIntDiv.hidden = this.yIntDiv.hidden = true;
-      this.yDSpan.hidden = this.zDSpan.hidden = true;
-      this.intVarTextFields[1].hidden = false;
-      this.intVarTextFields[2].hidden = true;
-    }
-
-    resetButtonAction() {
-      super.resetButtonAction();
-      this.init();
-    }
-
-    result() {
-      let text = this.integrandTextField.value.trim();
-      if (this.checkNonEmpty && (!text || !this.intVarTextFields[0].value.trim())) {
-        alert(this.alertHeader +
-          "The integrand and integration variable are both required.");
-        throw new Error("empty field");
-      }
-      // Wrap integrand in nested integrals:
-      for (let i = 0; i < 3; i++) {
-        const intVar = this.intVarTextFields[i].value.trim();
-        if (intVar) {
-          text = "int(" + text;
-          const lowLim = this.limTextFields[i][1].value.trim();
-          const upLim = this.limTextFields[i][0].value.trim();
-          if (this.checkNonEmpty && (!lowLim !== !upLim)) {
-            // boolean !== is equivalent to exclusive or.
-            alert(this.alertHeader +
-              "The limits must be both empty or both specified.");
-            throw new Error("empty field");
-          }
-          text += ", " + intVar;
-          if (lowLim) text += ", " + lowLim + ", " + upLim;
-          text += ")";
-        }
-      }
-      return text;
-    }
-  }
-
+  import {IntegralTemplate} from './src/IntegralTemplate.js';
   window.addEventListener("load", () => new IntegralTemplate());
 </script>
 <modal-dialogue dialogueId="LimitTemplate" dialogueTitle="Evaluate a Limit of a Function">
@@ -761,38 +570,8 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     <input type="text" placeholder="algebraic" value="ws" style="flex: 0 1 10em;" />
   </div>
 </modal-dialogue>
-
 <script type="module">
-  // Imported classes:
-  import { Template } from "./src/TempFuncs.js";
-
-  // Imported functions:
-  // import { loadPackage } from "./src/Main.js";
-
-  class LimitTemplate extends Template {
-    constructor() {
-      super("Limit Template");
-      // this.dialogue.addEventListener("show.bs.modal", () => loadPackage("matrix"));
-      this.dirInd = 0;
-      this.DIRSTRINGS = ["\u2000", "+", "−"]; // En Quad = U+2000
-      this.dirSup = this.pattern.querySelector("sup");
-      this.dirSup.addEventListener("click", () =>
-        this.dirSup.innerText = this.DIRSTRINGS[this.dirInd = (++this.dirInd) % 3]);
-    }
-
-    resetButtonAction() {
-      super.resetButtonAction();
-      this.dirSup.innerText = this.DIRSTRINGS[this.dirInd = 0];
-    }
-
-    result() {
-      // if (loadSPECFN.isSelected()) preamble("load_package specfn;\n");
-      const dir = ["", "!+", "!-"][this.dirInd];
-      const values = Array.from(this.inputs).map(input => this.getValueCheckNonEmpty(input));
-      return `limit${dir}(${values[2]}, ${values[0]}, ${values[1]})`;
-    }
-  }
-
+  import {LimitTemplate} from './src/LimitTemplate.js';
   window.addEventListener("load", () => new LimitTemplate());
 </script>
 <modal-dialogue dialogueId="SumProdTemplate" dialogueTitle="Evaluate a Sum or Product">
@@ -853,55 +632,8 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </table>
   </div>
 </modal-dialogue>
-
 <script type="module">
-  // Imported classes:
-  import { Template } from "./src/TempFuncs.js";
-
-  class SumProdTemplate extends Template {
-    constructor() {
-      super("SumProd Template");
-      const sumProdTdElement = this.pattern.querySelector("table tr+tr>td:first-child");
-      document.getElementsByName("SumProdTemplate-SumProdButtons").forEach(element =>
-        element.addEventListener("change", () => sumProdTdElement.innerText = element.value));
-      const aElements = document.querySelectorAll("#SumProdTemplate a");
-      aElements[1].hidden = true;
-      document.getElementsByName("SumProdTemplate-SymNumButtons").forEach(element =>
-        element.addEventListener("change", () => aElements.forEach(el => el.hidden = !el.hidden)));
-    }
-
-    resetButtonAction() {
-      super.resetButtonAction();
-      document.getElementById("SumProdTemplate-Sum").click();
-      document.getElementById("SumProdTemplate-Sym").click();
-    }
-
-    result() {
-      const sumProd = document.getElementById("SumProdTemplate-Sum").checked ? "sum" : "prod";
-      if (document.getElementById("SumProdTemplate-Sym").checked) {
-        // symbolic range: use sum/prod function:
-        let text = sumProd + "(" +
-          this.getValueCheckNonEmpty(this.inputs[1]) // operand
-          + ", " + this.getValueCheckNonEmpty(this.inputs[2]); // var
-        let t = this.inputs[3].value.trim(); // lowLim
-        if (t) {
-          text += ", " + t;
-          t = this.inputs[0].value.trim(); // upLim
-          if (t) text += ", " + t;
-        }
-        return text + ")";
-      } else {
-        // numeric range: use for loop:
-        // switchNameOnOff("rounded");
-        return "for " + this.getValueCheckNonEmpty(this.inputs[2]) // var
-          + " := " + this.getValueCheckNonEmpty(this.inputs[3]) // lowLim
-          + " : " + this.getValueCheckNonEmpty(this.inputs[0]) // upLim
-          + " " + sumProd + " "
-          + this.getValueCheckNonEmpty(this.inputs[1]); // operand
-      }
-    }
-  }
-
+  import {SumProdTemplate} from './src/SumProdTemplate.js';
   window.addEventListener("load", () => new SumProdTemplate());
 </script>
 <modal-dialogue dialogueId="MatrixTemplate" dialogueTitle="Create a Matrix">
@@ -932,52 +664,8 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     <span style="font-size: 10em; line-height: 50%; grid-area: R;">)</span>
   </div>
 </modal-dialogue>
-
 <script type="module">
-  // Imported classes:
-  import { Template } from "./src/TempFuncs.js";
-
-  // Imported functions:
-  import { loadPackage } from "./src/Main.js";
-
-  class MatrixTemplate extends Template {
-    constructor() {
-      super("Matrix Template");
-      this.dialogue.addEventListener("show.bs.modal", () => loadPackage("matrix"));
-    }
-
-    result() {
-      const maxRows = 4, maxCols = 4, rows = [];
-      // Determine the matrix dimensions (nRows * nCols) and convert empty values to "0":
-      let nColsI, nCols = 0, nRows = 0;
-      for (let i = 0; i < maxRows; i++) {
-        const row = [];
-        nColsI = 0;
-        for (let j = 0; j < maxCols; j++) {
-          const value = this.inputs[i * maxCols + j].value;
-          if (value) {
-            row.push(value);
-            nColsI = j + 1;
-          } else row.push("0");
-        }
-        if (nColsI > nCols) nCols = nColsI;
-        if (nColsI > 0) nRows = i + 1;
-        rows.push(row);
-      }
-      // Construct and return the REDUCE input:
-      let text = "mat((";
-      for (let i = 0; i < nRows; i++) {
-        if (i > 0) text += "), (";
-        const row = rows[i];
-        for (let j = 0; j < nCols; j++) {
-          if (j > 0) text += ", ";
-          text += row[j];
-        }
-      }
-      return text + "))";
-    }
-  }
-
+  import {MatrixTemplate} from './src/MatrixTemplate.js';
   window.addEventListener("load", () => new MatrixTemplate());
 </script>
 <modal-dialogue dialogueId="SolveTemplate" dialogueTitle="Solve Algebraic Equations">
@@ -1022,7 +710,6 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
         </tr>
       </tbody>
     </table>
-
     <!-- <table style="margin-left: auto; margin-right: auto; margin-top: 1em;" class="text-start">
       <colgroup>
         <col>
@@ -1093,47 +780,10 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
         </tr>
       </tbody>
     </table> -->
-
   </div>
 </modal-dialogue>
-
 <script type="module">
-  // Imported classes:
-  import { Template } from "./src/TempFuncs.js";
-
-  class SolveTemplate extends Template {
-    constructor() {
-      super("Solve Template");
-    }
-
-    result() {
-      // Process equations and unknowns:
-      const eqns = [], vars = [];
-      for (let i = 0; i < this.inputs.length; i++) {
-        let value = this.inputs[i].value.trim();
-        if (value) eqns.push(value);
-        value = this.inputs[++i].value.trim();
-        if (value) vars.push(value);
-      }
-      if (eqns.length === 0) {
-        alert(this.alertHeader +
-          "At least one equation/expression is required.");
-        throw new Error("empty field");
-      }
-      // Construct and return the REDUCE input:
-      let text = "solve(";
-      if (eqns.length === 1) text += eqns[0];
-      else text += "{" + eqns.join(", ") + "}";
-      // Process variables and, if numeric, start values:
-      if (vars.length > 0) {
-        text += ", ";
-        if (vars.length === 1) text += vars[0];
-        else text += "{" + vars.join(", ") + "}";
-      }
-      return text + ")";
-    }
-  }
-
+  import {SolveTemplate} from './src/SolveTemplate.js';
   window.addEventListener("load", () => new SolveTemplate());
 </script>
 <modal-dialogue dialogueId="ODESolveTemplate" dialogueTitle="Solve an Ordinary Differential Equation">
@@ -1286,66 +936,8 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
       rows="2" style="width: 100%"></textarea>
   </div>
 </modal-dialogue>
-
 <script type="module">
-  // Imported classes:
-  import { Template } from "./src/TempFuncs.js";
-
-  class ForTemplate extends Template {
-    constructor() {
-      super("For Template");
-      const forElements = this.pattern.querySelectorAll("div.for");
-      forElements[1].hidden = true;
-      document.getElementsByName("ForTemplate-EachButtons").forEach(element =>
-        element.addEventListener("change", () =>
-          forElements.forEach(el => { el.hidden = !el.hidden })));
-      this.inOn = "in";
-      this.inButton = document.getElementById("ForTemplate-InButton");
-      this.inButton.parentElement.querySelectorAll("ul>li>button").forEach(element =>
-        element.addEventListener("click", () => {
-          this.inOn = element.value;
-          this.inButton.innerText = this.inOn;
-        }));
-      this.doWhat = "do";
-      this.doButton = document.getElementById("ForTemplate-DoButton");
-      this.doButton.parentElement.querySelectorAll("ul>li>button").forEach(element =>
-        element.addEventListener("click", () => {
-          this.doWhat = element.value;
-          this.doButton.innerText = this.doWhat;
-        }));
-      this.forButton = document.getElementById("ForTemplate-ForButton");
-      this.textArea = this.pattern.querySelector("textarea");
-    }
-
-    resetButtonAction() {
-      super.resetButtonAction();
-      this.forButton.click();
-      this.inButton.innerText = this.inOn = "in";
-      this.doButton.innerText = this.doWhat = "do";
-      this.textArea.value = "";
-    }
-
-    result() {
-      let text = "for ";
-      if (this.forButton.checked) {
-        // Iterate over a numerical range:
-        text += this.getValueCheckNonEmpty(this.inputs[0]) // forVar
-          + " := " + this.getValueCheckNonEmpty(this.inputs[1]); // from
-        const step = this.inputs[2].value.trim(); // step
-        if (!step || step === "1")
-          text += " : ";
-        else
-          text += " step " + step + " until ";
-        text += this.getValueCheckNonEmpty(this.inputs[3]); // until
-      } else  // Iterate over a list:
-        text += "each " + this.getValueCheckNonEmpty(this.inputs[4]) // foreachVar
-          + " " + this.inOn
-          + " " + this.getValueCheckNonEmpty(this.inputs[5]); // foreachList
-      return text + " " + this.doWhat
-        + " " + this.getValueCheckNonEmpty(this.textArea); // exprn
-    }
-  }
-
+  import {ForTemplate} from './src/ForTemplate.js';
   window.addEventListener("load", () => new ForTemplate());
 </script>
 <modal-dialogue dialogueId="ExpLogFunctions" dialogueTitle="Exponentials, Logarithms, Powers, Roots, etc."
@@ -1423,38 +1015,8 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </div>
   </div>
 </modal-dialogue>
-
 <script type="module">
-  // Imported classes:
-  import { Functions } from "./src/TempFuncs.js";
-
-  // Imported functions:
-  import { loadPackage } from "./src/Main.js";
-
-  class ExpLogFunctions extends Functions {
-    constructor() {
-      super("ExpLogFunctions");
-      this.dialogue.querySelector("div.function-templates>div:last-child")
-        .addEventListener("click", () => loadPackage("trigd"));
-    }
-
-    result() {
-      const values = [...this.selectedFunction.getElementsByTagName("input")]
-        .map(el => el.value.trim());
-      const fn = this.selectedFunction.dataset.function;
-      switch (fn) {
-        case "logb":
-          return `logb(${values[1]},${values[0]})`;
-        case "power":
-          return `(${values[0]})^(${values[1]})`;
-        case "root":
-          return `(${values[1]})^(1/(${values[0]}))`;
-        default:
-          return `${fn}(${values.join()})`;
-      }
-    }
-  }
-
+  import {ExpLogFunctions} from './src/ExpLogFunctions.js';
   window.addEventListener("load", () => new ExpLogFunctions());
 </script>
 <modal-dialogue dialogueId="GammaEtcFunctions" dialogueTitle="Gamma, Beta and Related Functions" dialogueSize="modal-lg"
@@ -1527,15 +1089,12 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </div>
   </div>
 </modal-dialogue>
-
 <script type="module">
   import { Functions } from "./src/TempFuncs.js";
-
   class GammaEtcFunctions extends Functions {
     constructor() {
       super("GammaEtcFunctions");
     }
-
     result() {
       const values = [...this.selectedFunction.getElementsByTagName("input")]
         .map(el => el.value.trim());
@@ -1544,7 +1103,6 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
       return `${fn}(${values.join()})`;
     }
   }
-
   window.addEventListener("load", () => new GammaEtcFunctions());
 </script>
 <modal-dialogue dialogueId="IntegralFunctions" dialogueTitle="Integral Functions" dialogueSize="modal-lg"
@@ -1602,16 +1160,13 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </div>
   </div>
 </modal-dialogue>
-
 <script type="module">
   import { Functions } from "./src/TempFuncs.js";
-
   class IntegralFunctions extends Functions {
     constructor() {
       super("IntegralFunctions");
     }
   }
-
   window.addEventListener("load", () => new IntegralFunctions());
 </script>
 <modal-dialogue dialogueId="AiryBesselFunctions" dialogueTitle="Airy, Bessel and Related Functions"
@@ -1681,16 +1236,13 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </div>
   </div>
 </modal-dialogue>
-
 <script type="module">
   import { Functions } from "./src/TempFuncs.js";
-
   class AiryBesselFunctions extends Functions {
     constructor() {
       super("AiryBesselFunctions");
     }
   }
-
   window.addEventListener("load", () => new AiryBesselFunctions());
 </script>
 <modal-dialogue dialogueId="StruveEtcFunctions"
@@ -1774,14 +1326,11 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </div>
   </div>
 </modal-dialogue>
-
 <script type="module">
   // Imported classes:
   import { Functions } from "./src/TempFuncs.js";
-
   // Imported functions:
   import { loadPackage } from "./src/Main.js";
-
   class StruveEtcFunctions extends Functions {
     constructor() {
       super("StruveEtcFunctions");
@@ -1789,7 +1338,6 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
         .forEach(element => element.addEventListener("click", () => loadPackage("specfn")));
     }
   }
-
   window.addEventListener("load", () => new StruveEtcFunctions());
 </script>
 <modal-dialogue dialogueId="OrthoPolyFunctions" dialogueTitle="Classical Orthogonal Polynomials" dialogueSize="modal-lg"
@@ -1860,46 +1408,14 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </div>
   </div>
 </modal-dialogue>
-
 <script type="module">
-  // Imported classes:
-  import { Functions } from "./src/TempFuncs.js";
-
-  // Imported functions:
-  import { loadPackage } from "./src/Main.js";
-
-  class OrthoPolyFunctions extends Functions {
-    constructor() {
-      super("OrthoPolyFunctions");
-      this.dialogue.addEventListener("show.bs.modal", () => loadPackage("specfn"));
-    }
-
-    result() {
-      const values = [...this.selectedFunction.getElementsByTagName("input")]
-        .map(el => el.value.trim());
-      const fn = this.selectedFunction.dataset.function;
-      switch (fn) {
-        case "JacobiP":
-          return `JacobiP(${values[2]},${values[0]},${values[1]},${values[3]})`;
-        case "GegenbauerP":
-          return `GegenbauerP(${values[1]},${values[0]},${values[2]})`;
-        case "AssocLegendreP":
-          return `LegendreP(${values[1]},${values[0]},${values[2]})`;
-        case "GenLaguerreP":
-          return `LaguerreP(${values[1]},${values[0]},${values[2]})`;
-        default:
-          return `${fn}(${values.join()})`;
-      }
-    }
-  }
-
+  import {OrthoPolyFunctions} from './src/OrthoPolyFunctions.js';
   window.addEventListener("load", () => new OrthoPolyFunctions());
 </script>
 <script type="module">
   import * as WebREDUCE from './src/index.js';
   Object.assign(window, {WebREDUCE, ...WebREDUCE});
 </script>
-
   <main id="gnuplot" role="main" class="container" style="display: none">
   <div class="row">
     <div class="col-md-2">
@@ -1939,7 +1455,6 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     <div id="output" style="height: 50vh;"></div>
     </div>
   </div>
-
     <!-- Main logic -->
     <script src="gnuplot/index.js"></script>
     <!-- JS Libraries -->
