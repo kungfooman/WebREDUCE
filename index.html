@@ -1238,53 +1238,56 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </div>
   </div>
 </modal-dialogue>
-<script type="module">
-  import {OrthoPolyFunctions} from './src/OrthoPolyFunctions.js';
-  window.addEventListener("load", () => new OrthoPolyFunctions());
-</script>
-<script type="module">
-  import * as WebREDUCE from './src/index.js';
-  Object.assign(window, {WebREDUCE, ...WebREDUCE});
-</script>
-  <main id="gnuplot" role="main" class="container" style="display: none">
-  <div class="row">
-    <div class="col-md-2">
-    <input id="load-button" type="button" value="Load" class="form-control" title='Load a pre-configured example from the list on the right.' disabled>
+    <script type="module">
+      import {OrthoPolyFunctions} from './src/OrthoPolyFunctions.js';
+      window.addEventListener("load", () => new OrthoPolyFunctions());
+    </script>
+    <script type="module">
+      import * as WebREDUCE from './src/index.js';
+      Object.assign(window, {WebREDUCE, ...WebREDUCE});
+    </script>
+    <center><p>System Output</p></center>
+    <div class="row" id="SystemOutput"></div>
+    <center><p>Plotting</p></center>
+    <main id="gnuplot" role="main" class="container" style="display: none">
+    <div class="row">
+      <div class="col-md-2">
+      <input id="load-button" type="button" value="Load" class="form-control" title='Load a pre-configured example from the list on the right.' disabled>
+      </div>
+      <div class="col-md-4">
+      <div class="form-group">
+        <select class="form-control" id="template-select" disabled>
+        <option>Function Plotting</option>
+        <option>Data Plotting</option>
+        <option>Linear Regression</option>
+        </select>
+      </div>
+      </div>
+      <div class="col-md-2">
+      <input id="download-button" type="button" value="Download Files" class="form-control" title="Download the gnuplot script and data file to your computer (right-click on the plot to download it)." disabled>
+      </div>
     </div>
-    <div class="col-md-4">
-    <div class="form-group">
-      <select class="form-control" id="template-select" disabled>
-      <option>Function Plotting</option>
-      <option>Data Plotting</option>
-      <option>Linear Regression</option>
-      </select>
+    <div class="row">
+      <div class="col-md-6">
+      <small>Script:<small></small></small>
+      <div id="input" style="height: 50vh;">plot sin(x)</div>
+      </div>
+      <div class="col-md-6">
+      <small>Image:<small></small></small>
+      <div id="gnuplot-image">
+      </div>
+      </div>
     </div>
+    <div class="row">
+      <div class="col-md-6">
+      <small>Data:<small></small></small>
+      <div id="data" style="height: 50vh;"></div>
+      </div>
+      <div class="col-md-6">
+      <small>Output:<small></small></small>
+      <div id="output" style="height: 50vh;"></div>
+      </div>
     </div>
-    <div class="col-md-2">
-    <input id="download-button" type="button" value="Download Files" class="form-control" title="Download the gnuplot script and data file to your computer (right-click on the plot to download it)." disabled>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-    <small>Script:<small></small></small>
-    <div id="input" style="height: 50vh;">plot sin(x)</div>
-    </div>
-    <div class="col-md-6">
-    <small>Image:<small></small></small>
-    <div id="gnuplot-image">
-    </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-    <small>Data:<small></small></small>
-    <div id="data" style="height: 50vh;"></div>
-    </div>
-    <div class="col-md-6">
-    <small>Output:<small></small></small>
-    <div id="output" style="height: 50vh;"></div>
-    </div>
-  </div>
     <!-- Main logic -->
     <script src="gnuplot/index.js"></script>
     <!-- JS Libraries -->

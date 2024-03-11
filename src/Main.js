@@ -54,7 +54,8 @@ const mathjson2reduceButton = document.getElementById("mathjson2reduceButton");
 mathjson2reduceButton.onclick = () => {
   const json = JSON.parse(mi._mathfield.getValue("math-json"));
   const red = mathjson2reduce(json);
-  inputDiv.innerText = red;
+  const div = lastInput ?? document.getElementsByClassName("InputDiv")[0];
+  div.innerText = red;
 }
 /** Later Button HTML Element. */
 export const laterButton = document.getElementById('LaterButton');
@@ -101,7 +102,9 @@ export function getOutputElement() {
       return o;
     }
   }
-  return document.body;
+  // Will happen only at startup - once an input cell is clicked,
+  // its output cell will be the receiver of output.
+  return document.getElementById("SystemOutput");
 }
 /**
  * Send plain (i.e. non maths) text to the I/O display by appending
