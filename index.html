@@ -98,60 +98,21 @@
     .fs-normal {
         font-size: medium;
     }
+    .row {
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: whitesmoke;
+      border-radius: 20px;
+      box-shadow: 2px -4px 6px 4px #76dfff59;
+    }
 </style>
 </head>
 <body>
     <div class="container-fluid">
-        <header class="navbar navbar-expand-md navbar-light">
-            <a class="navbar-brand d-none d-md-block" href="https://sourceforge.net/p/reduce-algebra/" title="REDUCE project page">
-                <img src="images/icon.png" alt="" />
-            </a>
-            <span class="mx-auto">REDUCE</span>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- The following link is hidden on the search page! -->
-            <a id="top-search-button" class="btn d-none d-md-block" title="Search the REDUCE web site" href="/search.php">
-                <svg width="13" height="13" viewBox="0 0 13 13">
-                    <path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z">
-                    </path>
-                </svg>
-            </a>
-        </header>
+
         <div class="row">
-            ﻿<nav id="navmenu" class="col-md-3 col-xl-2 d-md-block collapse">
-    <div class="sticky-top">
-        <ul>
-            <li title="The REDUCE Computer Algebra System"><a href="/index.php">Home</a></li>
-<li title="REDUCE features and design characteristics"><a href="/features.php">Features</a></li>
-<li title="How to download, install and run REDUCE"><a href="/obtaining.php">Obtain and Run</a></li>
-<li title="User guides for REDUCE, its packages and Lisp systems"><a href="/documentation.php">Documentation</a></li>
-<li title="Details of books about REDUCE"><a href="/books.php">Books</a></li>
-<li title="Answers to questions about using REDUCE"><a href="/support.php">Support Q & A</a></li>
-<li title="Simple examples of using REDUCE"><a href="/tutorials.php">Tutorials</a></li>
-<li title="External packages that use REDUCE"><a href="/packages.php">External Packages</a></li>
-<li title="Join the REDUCE developer community!"><a href="/helpwanted.php">Help Wanted!</a></li>
-<li title="Publications that reference REDUCE"><a href="/bibliography.php">Bibliography</a></li>
-<li title="REDUCE history and contributors"><a href="/about.php">About REDUCE</a></li>
-<li title="Projects related to REDUCE"><a href="/projects.php">Related Projects</a></li>
-<li title="Search the REDUCE web site"><a href="/search.php">Search&nbsp;
-      <svg width="13" height="13" viewBox="0 0 13 13">
-        <path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z">
-        </path>
-      </svg></a></li>
-<li title="Full REDUCE site map and recently updated files"><a href="/sitemap.php">Site Map / Recent</a></li>
-<li title="Run REDUCE as a web app in your web browser"><a href="/web-reduce/about.php?start">Web REDUCE</a></li>
-        </ul>
-        <a href="https://sourceforge.net/p/reduce-algebra/" rel="nofollow">
-            <p>
-          Download REDUCE from<br />
-          <img alt="SourceForge" src="images/sflogo.png">
-            </p>
-        </a>
-    </div>
-</nav>
-            <div id="main" class="col-md-9 col-xl-7">
-                <h1>Web REDUCE</h1>
+            <div id="main">
 <!-- Menu bar -->
 <nav id="Menubar" class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -209,11 +170,6 @@
                     <a class="nav-link dropdown-toggle" href="#" id="ViewMenuLink" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">View</a>
                     <ul class="dropdown-menu" aria-labelledby="ViewMenuLink">
-                        <li class="dropdown-item">
-                            <input id="FullWindowCheckbox" type="checkbox" />
-                            <label for="FullWindowCheckbox">Full Window</label>
-                        </li>
-                        <hr class="dropdown-divider">
                         <li class="dropdown-item">
                             <input id="IOColouringCheckbox" type="checkbox" checked="checked" />
                             <label for="IOColouringCheckbox">I/O Colouring</label>
@@ -346,53 +302,11 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
         title="Select later keyboard input. Keyboard Shortcut: Control+DownArrow.">▼ Later Input</button>
   <button id="mathjson2reduceButton">mathjson2reduce</button>
 </div>
-</div><!-- opened in begin-body.php -->
-<footer class="col-xl-3">
-    <div class="sticky-top">
-        <hr class="d-display d-xl-none" />
-        <p>
-            Page last modified on
-            Tuesday 2nd January 2024.
-        </p>
-        <p>
-            All information available through this web site is
-            Copyright &copy; Anthony C. Hearn and the
-            <a href="https://sourceforge.net/p/reduce-algebra/_members/">REDUCE
-                developers</a> 2009&ndash;2024. All Rights Reserved.
-        </p>
-        <p>
-            Please report broken links (both in-coming and out-going), other
-            errors or suggestions for improvement to
-            <a href="https://sites.google.com/site/fjwcentaur/feedback">webmaster</a>.
-        </p>
-        <p>
-            This web site is built using <a id="php" href="https://www.php.net/">PHP</a>
-            and <a id="bootstrap" href="https://getbootstrap.com/">Bootstrap</a>.
-            It should be
-            <a href="javascript:void(location.href =
-                     'https://html5.validator.nu/?doc='+encodeURIComponent(location.href))" style="color:black;text-decoration:none;">valid</a>
-            <!-- target="_blank" or holding down ctrl causes this to fail! -->
-            <a href="https://en.wikipedia.org/wiki/XHTML#XHTML5">XHTML5</a>.
-        </p>
-        <p>
-            Microsoft Internet Explorer does not display this web site
-            correctly; please use a current web browser.
-        </p>
-        <div style="display: flex; flex-wrap: wrap-reverse; justify-content: space-around;">
-            <a href="https://www.mathjax.org">
-                <img title="Powered by MathJax" src="images/mathjax_badge.gif" alt="Powered by MathJax" />
-            </a>
-        </div>
-    </div>
-</footer>
+</div>
 </div>
 </div>
 <!-- Bootstrap JavaScript bundle with Popper -->
 <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
-<script>
-    document.getElementById("php").append(" " + "8.2.12");
-    document.getElementById("bootstrap").append(" " + bootstrap.Tooltip.VERSION);
-</script>
 <script type="module" src="src/Main.js"></script>
 <script type="module" src="src/InputEditor.js"></script>
 <script type="module" src="src/FileMenu.js"></script>
