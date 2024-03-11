@@ -16,6 +16,8 @@
   <script src="node_modules/mathlive/dist/mathlive.mjs" type="module"></script>
   <!-- https://github.com/cortex-js/compute-engine -->
   <script src="node_modules/@cortex-js/compute-engine/dist/compute-engine.esm.js" type="module"></script>
+  <script>MathJax = { tex: { macros: { "*": "\\\\," } } };</script>
+  <script async="async" src="./node_modules/mathjax/es5/tex-chtml.js"></script>
   <script type="module">
   import {ComputeEngine} from "./node_modules/@cortex-js/compute-engine/dist/compute-engine.esm.js";
   const ce = new ComputeEngine();
@@ -24,89 +26,6 @@
   ce.latexOptions.precision = 7;
   window.ce = ce;
   </script>
-  <style type="text/css">
-  .mathfield {
-    height: 7em;
-    width: 100%;
-    margin-top: 0.5em;
-    /*
-    display: inline-flex;
-    align-items: center;
-    */
-  }
-    #IODisplayIframe,
-    #InputDiv {
-      width: 100%
-    }
-    #IODisplayIframe {
-      border: medium solid black;
-      height: 25em;
-      resize: vertical;
-      /* Works in Chrome but not Firefox; see
-      https://stackoverflow.com/questions/8117761/how-can-i-make-an-iframe-resizable */
-    }
-    #InputDiv {
-        font-family: var(--bs-font-monospace);
-        /* Bootstrap pre default */
-        border: thin solid black;
-        height: 7em;
-        resize: vertical;
-        padding: 2px;
-        overflow-y: auto;
-        white-space: pre-wrap;
-    }
-    #InputDiv:focus {
-        background-color: white;
-        outline: medium outset blue;
-    }
-    div.labelling {
-        font-weight: bold;
-        margin-top: 5px;
-        margin-bottom: 2px;
-    }
-    #buttons {
-        margin-top: 5px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-evenly;
-    }
-    div.modal-body input[type="text"] {
-        text-align: center;
-        font-style: italic;
-    }
-    div.function-templates {
-        display: grid;
-        grid-row-gap: 20px;
-        align-items: center;
-        justify-content: center;
-    }
-    div.function-templates.three-col {
-        grid-template-columns: repeat(auto-fill, 250px);
-    }
-    div.function-templates.two-col {
-        grid-template-columns: repeat(auto-fill, 340px);
-    }
-    div.function-templates>div.selected {
-        outline: auto blue medium;
-    }
-    div.function-templates p {
-        margin-bottom: 0;
-    }
-    .fs-big {
-        font-size: 150%;
-    }
-    .fs-normal {
-        font-size: medium;
-    }
-    .row {
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: whitesmoke;
-      border-radius: 20px;
-      box-shadow: 2px -4px 6px 4px #76dfff59;
-    }
-</style>
 </head>
 <body>
     <div class="container-fluid">
@@ -124,21 +43,26 @@
             <ul class="navbar-nav">
                 <!-- REDUCE Menu -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle disabled" href="#" id="REDUCEMenuLink" role="button"
+                    <a class="nav-link dropdown-toggle" href="#" id="REDUCEMenuLink" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">REDUCE</a>
                     <ul class="dropdown-menu" aria-labelledby="REDUCEMenuLink">
                         <li><button id="StartREDUCEMenuItem" class="dropdown-item" type="button">Start REDUCE</button>
                         </li>
-                        <li><button id="LoadPackagesMenuItem" class="dropdown-item" data-bs-toggle="modal"
-                                data-bs-target="#LoadPackagesDialogue" type="button">Load Packages&hellip;</button></li>
-                        <li><button id="StopREDUCEMenuItem" class="dropdown-item" type="button">Stop REDUCE</button>
+                        <li>
+                          <button
+                            id="LoadPackagesMenuItem"
+                            class="dropdown-item"
+                            data-bs-toggle="modal"
+                            data-bs-target="#LoadPackagesDialogue"
+                            type="button">Load Packages&hellip;
+                          </button>
                         </li>
-                        <li><button id="RestartREDUCEMenuItem" class="dropdown-item" type="button">Restart
-                                REDUCE</button></li>
-                        <li><button id="ClearDisplayMenuItem" class="dropdown-item" type="button">Clear I/O
-                                Display</button></li>
-                        <li><button id="PrintDisplayMenuItem" class="dropdown-item" type="button">Print I/O
-                                Display</button></li>
+                        <li>
+                          <button id="StopREDUCEMenuItem" class="dropdown-item" type="button">Stop REDUCE</button>
+                        </li>
+                        <li>
+                          <button id="RestartREDUCEMenuItem" class="dropdown-item" type="button">Restart REDUCE</button>
+                        </li>
                     </ul>
                 </li>
                 <!-- File Menu -->
@@ -252,16 +176,8 @@
         </div>
     </div>
 </nav>
-<div class="labelling">
-    <label for="IODisplayIframe">Input/Output Display</label>
-</div>
-<iframe id="IODisplayIframe">
-    The obsolete browser does not support the iframe HTML element and so cannot run Web REDUCE.
-</iframe>
-<div class="labelling">
-    <label for="InputDiv">Input Editor</label>
-</div>
-<div id="InputDiv" contenteditable="true" spellcheck="false"></div>
+<div class="InputDiv" contenteditable="true" spellcheck="false"></div>
+<div class="OutputDiv">output div</div>
 <div style="width: 100%;">
   <!--
     const mi = document.getElementById('mathinput');
@@ -293,12 +209,12 @@
   </script>
 </div>
 <div id="buttons">
-    <button id="EarlierButton" type="button" disabled="disabled"
+    <button id="EarlierButton" click="earlierInput()" type="button" disabled="disabled"
         title="Select earlier keyboard input. Keyboard Shortcut: Control+UpArrow.">▲ Earlier Input</button>
-    <button id="SendInputButton" type="button" title="Send the input above to REDUCE, terminating with a semicolon if necessary.
+    <button id="SendInputButton" type="button" click="sendInput()" title="Send the input above to REDUCE, terminating with a semicolon if necessary.
 Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)">Send
         Input</button>
-    <button id="LaterButton" type="button" disabled="disabled"
+    <button id="LaterButton" type="button" click="laterInput" disabled="disabled"
         title="Select later keyboard input. Keyboard Shortcut: Control+DownArrow.">▼ Later Input</button>
   <button id="mathjson2reduceButton">mathjson2reduce</button>
 </div>

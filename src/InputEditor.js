@@ -6,20 +6,23 @@
  * input into a single call of sendToReduce() or delay successive calls
  * by about 100ms (which is obviously unreliable).
  */
-// Imported variables:
-import { inputDiv, earlierButton, sendInputButton, laterButton, noOutput, Global } from "./Main.js";
-// Imported functions:
+import { earlierButton, laterButton, noOutput, Global, getOutputElement } from "./Main.js";
 import { hideViewMenuLink, refocus, sendToReduce, sendToReduceAndEcho, stopREDUCE } from "./Main.js";
+export const inputDiv = document.getElementsByClassName('InputDiv')[0];
 const inputList = [];
 let inputListIndex = 0;
 let maxInputListIndex = -1;
 const quitPattern = /\b(?:bye|quit)\s*[;$]/i; // case insensitive
+export let lastInput; // document.getElementsByClassName("InputDiv")[0];
 function sendInput(event) {
+    //debugger;
+    lastInput = event.target;
+    getOutputElement().innerHTML = '';
     if (noOutput)
         return; // REDUCE not yet loaded!
     Global.inputFromKbd = true;
     // Strip trailing white space from the input:
-    let text = inputDiv.innerText.replace(/\s+$/, "");
+    let text = lastInput.innerText.replace(/\s+$/, "");
     if (text.length > 0) {
         if (!event.shiftKey) {
             // Ensure the input ends with a terminator:
@@ -44,14 +47,12 @@ function sendInput(event) {
                 sendToReduce("off echo;");
                 Global.echo = false;
                 setTimeout(sendToReduceAndEcho, 100, text);
-            }
-            else {
-                sendToReduceAndEcho(text);
+            } else {
+                sendToReduce(text);
             }
         }
         inputListIndex = inputList.push(text);
         maxInputListIndex = inputListIndex - 1;
-        inputDiv.innerHTML = "";
         earlierButton.disabled = false;
         laterButton.disabled = true;
         if (quitPattern.test(text))
@@ -59,26 +60,24 @@ function sendInput(event) {
     }
     refocus();
 }
-sendInputButton.addEventListener('click', sendInput);
 function earlierInput(event) {
     event.preventDefault();
     if (inputListIndex > 0) {
-        inputDiv.innerText = inputList[--inputListIndex];
+        lastInput.innerText = inputList[--inputListIndex];
         if (inputListIndex <= maxInputListIndex)
             laterButton.disabled = false;
     }
     if (inputListIndex == 0)
         earlierButton.disabled = true;
-    inputDiv.focus();
+    lastInput.focus();
 }
-earlierButton.addEventListener('click', earlierInput);
 function laterInput(event) {
     event.preventDefault();
     if (inputListIndex < maxInputListIndex) {
-        inputDiv.innerText = inputList[++inputListIndex];
+        lastInput.innerText = inputList[++inputListIndex];
     }
     else {
-        inputDiv.innerHTML = "";
+        lastInput.innerHTML = "";
         inputListIndex = maxInputListIndex + 1;
     }
     if (inputListIndex > 0) {
@@ -87,10 +86,16 @@ function laterInput(event) {
     if (inputListIndex > maxInputListIndex) {
         laterButton.disabled = true;
     }
-    inputDiv.focus();
+    lastInput.focus();
 }
-laterButton.addEventListener('click', laterInput);
-inputDiv.addEventListener("keydown", event => {
+function inputKeyDown(target) {
+    // console.log("event", event);
+    if (event.shiftKey) {
+        if (event.key === 'Enter') {
+            createNewInput();
+            event.preventDefault();
+        }
+    }
     if (event.ctrlKey) {
         switch (event.key) {
             case "Enter":
@@ -103,6 +108,25 @@ inputDiv.addEventListener("keydown", event => {
                 laterInput(event);
         }
     }
+}
+function createNewInput() {
+    const inputNew = document.createElement('div');
+    inputNew.innerText = "";
+    inputNew.contentEditable = "true";
+    inputNew.spellcheck = true;
+    inputNew.classList.add("InputDiv");
+    getOutputElement().after(inputNew);
+    lastInput = inputNew;
+    inputNew.focus();
+    inputNew.addEventListener("keydown", inputKeyDown);
+    inputNew.addEventListener("click", (event) => {
+        lastInput = event.target;
+    });
+}
+// todo refactor all this to remove code duplication
+inputDiv.addEventListener("keydown", inputKeyDown);
+inputDiv.addEventListener("click", (event) => {
+    lastInput = event.target;
 });
 /**********************
  * Delimiter matching *

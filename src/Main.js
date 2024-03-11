@@ -1,3 +1,4 @@
+import { lastInput } from "./InputEditor.js";
 import {mathjson2reduce} from "./mathjson2reduce.js";
 // Global variables assigned in more than one module:
 export const Global = {
@@ -16,7 +17,6 @@ const startREDUCEMenuItem = document.getElementById("StartREDUCEMenuItem");
 const loadPackagesMenuItem = document.getElementById("LoadPackagesMenuItem");
 const stopREDUCEMenuItem = document.getElementById("StopREDUCEMenuItem");
 const restartREDUCEMenuItem = document.getElementById("RestartREDUCEMenuItem");
-const clearDisplayMenuItem = document.getElementById("ClearDisplayMenuItem");
 const ioColouringCheckbox = document.getElementById('IOColouringCheckbox');
 ioColouringCheckbox.checked = true;
 // Can only apply bootstrap.Dropdown.getInstance() once everything is set up, so do it dynamically.
@@ -37,20 +37,19 @@ typesetMathsCheckbox.checked = true;
 const centreTypesetMathsCheckbox = document.getElementById('CentreTypesetMathsCheckbox');
 centreTypesetMathsCheckbox.checked = true;
 /** Input Editor HTML Element. */
-export const inputDiv = document.getElementById('InputDiv');
+export const inputDiv = document.getElementsByClassName('InputDiv')[0];
 inputDiv.innerHTML = "";
 inputDiv.focus();
 export function refocus() {
-  if (mobileVersion) // Ensure I/O Display is visible:
-    window.scrollTo(0, document.getElementById("IODisplayIframe").offsetTop);
-  else // Focus the input editor:
-    inputDiv.focus();
+  //if (mobileVersion) // Ensure I/O Display is visible:
+  //  window.scrollTo(0, document.getElementById("IODisplayIframe").offsetTop);
+  //else // Focus the input editor:
+  //inputDiv.focus();
 }
 /** Earlier Button HTML Element. */
 export const earlierButton = document.getElementById('EarlierButton');
 earlierButton.disabled = true;
 /** Send Input Button HTML Element. */
-export const sendInputButton = document.getElementById('SendInputButton');
 const mathjson2reduceButton = document.getElementById("mathjson2reduceButton");
 mathjson2reduceButton.onclick = () => {
   const json = JSON.parse(mi._mathfield.getValue("math-json"));
@@ -63,7 +62,6 @@ laterButton.disabled = true;
 const fileMenuLink = document.getElementById("FileMenuLink");
 const templatesMenuLink = document.getElementById("TemplatesMenuLink");
 const functionsMenuLink = document.getElementById("FunctionsMenuLink");
-let ioDisplayWindow, ioDisplayHead, ioDisplayBody;
 /** True if REDUCE has not yet produced any output. */
 export let noOutput = true;
 export let worker;
@@ -72,7 +70,7 @@ function setRunningState(running) {
   loadPackagesMenuItem.disabled = !running;
   stopREDUCEMenuItem.disabled = !running;
   restartREDUCEMenuItem.disabled = !running;
-  sendInputButton.disabled = !running;
+  //sendInputButton.disabled = !running;
   typesetMathsCheckbox.disabled = !running;
   fileMenuLink.classList.toggle("disabled", !running);
   templatesMenuLink.classList.toggle("disabled", !running);
@@ -88,10 +86,22 @@ if (typeof Worker === "undefined") {
  * Scroll the REDUCE I/O display to the bottom.
  */
 function scrollIODisplayToBottom() {
-  ioDisplayWindow.scroll(0, ioDisplayBody.scrollHeight);
+  //window.scroll(0, document.body.scrollHeight);
 }
-function clearIODisplay() {
-  ioDisplayBody.innerHTML = "";
+export function getOutputElement() {
+  if (lastInput) {
+    if (lastInput.nextElementSibling.classList.contains("OutputDiv")) {
+      const output = lastInput.nextElementSibling;
+      //output.innerHTML = ""; // todo: keep history of DOM's for quick comparisons
+      return output;
+    } else {
+      const o = document.createElement('div');
+      o.classList.add('OutputDiv');
+      lastInput.after(o);
+      return o;
+    }
+  }
+  return document.body;
 }
 /**
  * Send plain (i.e. non maths) text to the I/O display by appending
@@ -100,10 +110,12 @@ function clearIODisplay() {
  * @param {string} [displayClass] - The HTML class attribute to attach to the <pre> element.
  */
 export function sendPlainTextToIODisplay(text, displayClass) {
+  if (text.trim() === '') {
+    return;
+  }
   if (noOutput) {
     // This code executes immediately after REDUCE loads:
-    window.scrollTo(0, document.getElementById("Menubar").offsetTop);
-    clearIODisplay();
+    //window.scrollTo(0, document.getElementById("Menubar").offsetTop);
     setRunningState(true);
     displayClass = undefined;
     noOutput = false;
@@ -115,7 +127,8 @@ export function sendPlainTextToIODisplay(text, displayClass) {
     pre.classList.add(displayClass);
   }
   pre.innerText = text;
-  ioDisplayBody.appendChild(pre);
+  const output = getOutputElement();
+  output.append(pre);
   scrollIODisplayToBottom();
 }
 /**
@@ -169,13 +182,13 @@ function reduceWebMessageHandler(event) {
         // "junk" that reads "latex:\black$\displaystyle" and a final "U+0005".
         // Those are fragments that the REDUCE interface for TeXmacs inserts.
         output = output.substring(n + 1 + 26, output.length - 2);
-        output = ioDisplayWindow.MathJax.tex2chtml(output);
+        output = MathJax.tex2chtml(output);
         output.classList.add("output");
-        ioDisplayBody.appendChild(output);
+        getOutputElement().append(output);
         // The MathJax documentation doesn't tell the whole story!
         // See https://github.com/mathjax/MathJax/issues/2365:
-        ioDisplayWindow.MathJax.startup.document.clear();
-        ioDisplayWindow.MathJax.startup.document.updateDocument();
+        MathJax.startup.document.clear();
+        MathJax.startup.document.updateDocument();
         scrollIODisplayToBottom();
       } else {
         // Textual rather than mathematical output from REDUCE gets inserted as is.
@@ -230,8 +243,7 @@ function sleep(ms) {
     setTimeout(resolve, ms);
   });
 }
-async function startREDUCE() {
-  ioDisplayBody.innerHTML = "REDUCE is loading. Please wait&hellip;";
+export async function startREDUCE() {
   try {
     // Doesn't seem to catch errors in the worker!
     // Need to catch worker errors in the worker and pass them out as messages.
@@ -359,14 +371,12 @@ export function loadPackage(pkg) {
 startREDUCEMenuItem.addEventListener("click", startREDUCE);
 stopREDUCEMenuItem.addEventListener("click", stopREDUCE);
 restartREDUCEMenuItem.addEventListener("click", () => { stopREDUCE(); startREDUCE(); });
-clearDisplayMenuItem.addEventListener("click", clearIODisplay);
-document.getElementById("PrintDisplayMenuItem").addEventListener("click", () => ioDisplayWindow.print());
 // I/O Colouring:
 const ioColouringStyleElement = document.createElement("style");
 ioColouringStyleElement.innerText = "pre.input {color: red;} *.output {color: blue;}";
 ioColouringCheckbox.addEventListener("change", () => {
   if (ioColouringCheckbox.checked)
-    ioDisplayHead.appendChild(ioColouringStyleElement);
+    document.head.appendChild(ioColouringStyleElement);
   else
     ioColouringStyleElement.remove();
   hideViewMenuLink();
@@ -386,47 +396,40 @@ typesetMathsCheckbox.addEventListener("change", () => {
 });
 // Centre Typeset Maths:
 centreTypesetMathsCheckbox.addEventListener("change", event => {
-  ioDisplayWindow.MathJax.config.chtml.displayAlign = centreTypesetMathsCheckbox.checked ? 'center' : 'left';
-  ioDisplayWindow.MathJax.startup.getComponents(); // See http://docs.mathjax.org/en/latest/web/configuration.html
+  MathJax.config.chtml.displayAlign = centreTypesetMathsCheckbox.checked ? 'center' : 'left';
+  MathJax.startup.getComponents(); // See http://docs.mathjax.org/en/latest/web/configuration.html
   hideViewMenuLink();
 });
-// *****************************
-// Load and configure the iframe
-// *****************************
-{
-  const iframe = document.getElementById("IODisplayIframe");
-  // Don't try to access the iframe DOM until the iframe has loaded!
-  iframe.addEventListener("load", () => {
-    debug && console.log("IODisplayIframe loaded.");
-    ioDisplayWindow = iframe.contentWindow;
-    ioDisplayHead = iframe.contentDocument.head;
-    ioDisplayBody = iframe.contentDocument.body;
-    ioDisplayHead.appendChild(ioColouringStyleElement); // IOColouringCheckbox initially checked
-    document.getElementById("REDUCEMenuLink").classList.remove("disabled"); // Enable REDUCE menu
-    if (location.search.includes("spoof")) {
-      setRunningState(true);
-      sendToReduce = (str) => { };
-    }
-    else if (!location.search.includes("noautorun"))
-      startREDUCE();
-  });
-  iframe.srcdoc = `<!DOCTYPE html>
-<html>
-<head>
-  <title>Web REDUCE</title>
-  <style>
-    body {background-color: white;}
-    body, pre {font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
-    pre {white-space: pre-wrap; margin: 0; font-size: 14px;}
-    pre.info {background-color: yellow;}
-    pre.warning {background-color: #ffa50040;} /* orange, 1/4 opaque */
-    pre.error {background-color: #ff000040;} /* red, 1/4 opaque */
-  </style>
-  <script>MathJax = { tex: { macros: { "*": "\\\\," } } };</script>
-  <script async="async" src="./node_modules/mathjax/es5/tex-chtml.js"></script>
-</head>
-<body>
-  By default, REDUCE should load automatically.
-</body>
-</html>`;
-}
+
+const iframe = document.createElement("div");
+document.body.append(iframe);
+//iframe.id = 'IODisplaIODisplayIframeyIframe';
+//ioDisplayHead.appendChild(ioColouringStyleElement); // IOColouringCheckbox initially checked
+//    if (location.search.includes("spoof")) {
+//      setRunningState(true);
+//      sendToReduce = (str) => { };
+//    }
+//    else if (!location.search.includes("noautorun"))
+//      startREDUCE();
+//  });
+//iframe.srcdoc = `<!DOCTYPE html>
+//<html>
+//<head>
+//  <title>Web REDUCE</title>
+//  <style>
+//    body {background-color: white;}
+//    body, pre {font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
+//    pre {white-space: pre-wrap; margin: 0; font-size: 14px;}
+//    pre.info {background-color: yellow;}
+//    pre.warning {background-color: #ffa50040;} /* orange, 1/4 opaque */
+//    pre.error {background-color: #ff000040;} /* red, 1/4 opaque */
+//  </style>
+//  <script>MathJax = { tex: { macros: { "*": "\\\\," } } };</script>
+//  <script async="async" src="./node_modules/mathjax/es5/tex-chtml.js"></script>
+//</head>
+//<body>
+//  By default, REDUCE should load automatically.
+//</body>
+//</html>`;
+//}
+window.onload = startREDUCE;
