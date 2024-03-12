@@ -1,3 +1,11 @@
+/** @type {Record<string, string>} */
+export const mathjsonOps = {
+  Add: '+',
+  Subtract: '-',
+  Multiply: '*',
+  Divide: '/',
+  Power: '**',
+};
 /**
  * @example
  *   const json = JSON.parse(mi._mathfield.getValue("math-json"));
@@ -29,17 +37,22 @@ function mathjson2reduce(mathjson) {
     const [triple, name, from, to] = args;
     console.assert(triple === 'Triple');
     const bodyReduce = mathjson2reduce(body);
-    return `for ${name} := ${from} : ${to} sum ${bodyReduce}`;
-  } else if (
-    type === 'Multiply' ||
-    type === 'Power' || 
-    type === 'Add' ||
-    type === 'Subtract'
-  ) {
-    const op = {Multiply: '*', Power: '**', Add: '+', Subtract: '-'}[type];
+    const fromReduce = mathjson2reduce(from);
+    const toReduce = mathjson2reduce(to);
+    return `for ${name} := ${fromReduce} : ${toReduce} sum ${bodyReduce}`;
+  } else if (type === 'Product') {
+    const body = mathjson[1];
+    const args = mathjson[2];
+    const [triple, name, from, to] = args;
+    console.assert(triple === 'Triple');
+    const bodyReduce = mathjson2reduce(body);
+    const fromReduce = mathjson2reduce(from);
+    const toReduce = mathjson2reduce(to);
+    return `for ${name} := ${fromReduce} : ${toReduce} product ${bodyReduce}`;
+  } else if (mathjsonOps[type]) {
+    const op = mathjsonOps[type];
     const [,...args] = mathjson;
     const argsReduce = args.map(mathjson2reduce).join(` ${op} `);
-    console.log("mathjson", mathjson);
     return `(${argsReduce})`;
   } else if (type === 'Delimiter') {
     const val = mathjson2reduce(mathjson[1]);
