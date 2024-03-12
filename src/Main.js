@@ -51,9 +51,13 @@ export function refocus() {
 export const earlierButton = document.getElementById('EarlierButton');
 earlierButton.disabled = true;
 /** Send Input Button HTML Element. */
+export function getMathJSON() {
+  return JSON.parse(mi._mathfield.getValue("math-json"));
+}
 const mathjson2reduceButton = document.getElementById("mathjson2reduceButton");
+
 mathjson2reduceButton.onclick = () => {
-  const json = JSON.parse(mi._mathfield.getValue("math-json"));
+  const json = getMathJSON();
   const red = mathjson2reduce(json);
   const div = lastInput ?? document.getElementsByClassName("InputDiv")[0];
   div.innerText = red;
