@@ -128,10 +128,11 @@ ul {
 }
 .OutputDiv {
   height: fit-content;
-  border: medium solid black;
+  /*border: medium solid black;*/
+  background-color: #e6fff2;
   resize: vertical;
-  padding: 1em;
-  margin: 1em;
+  padding: 0.2em;
+  margin: 0.2em;
 }
 .mathfield {
   height: 7em;
@@ -142,14 +143,25 @@ ul {
   align-items: center;
   */
 }
+.InputIdentifier {
+  float: left;
+  font-weight: bold;
+  color: #3F51B5;
+  padding: 0.4em;
+  margin: 0.4em;
+}
+/* fix Bootstrap super large pre'S */
+pre {
+  margin-bottom: 0 !important;
+}
 .InputDiv {
   font-family: var(--bs-font-monospace);
   /* Bootstrap pre default */
   border: thin solid black;
   height: fit-content;
   resize: vertical;
-  padding: 1em;
-  margin: 1em;
+  padding: 0.4em;
+  margin: 0.4em;
   overflow-y: auto;
   white-space: pre-wrap;
 }
@@ -206,5 +218,8 @@ div.function-templates p {
   box-shadow: 2px -4px 6px 4px #76dfff59;
 }
 mjx-container[jax="CHTML"][display="true"] {
+  /*
   text-align: left !important;
+  */
+  font-size: large;
 }

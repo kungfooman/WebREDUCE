@@ -27,3 +27,6 @@ json = JSON.parse(mi._mathfield.getValue("math-json"));
 boxedFunction = ce.box(json);
 boxedFunction.evaluate();
 ```
+
+Example expressions:
+ - $$ \pi\in\mathbb{N} $$

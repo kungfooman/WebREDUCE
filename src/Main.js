@@ -1,4 +1,4 @@
-import { lastInput } from "./InputEditor.js";
+import { createNewInput, lastInput } from "./InputEditor.js";
 import {mathjson2reduce} from "./mathjson2reduce.js";
 // Global variables assigned in more than one module:
 export const Global = {
@@ -37,9 +37,10 @@ typesetMathsCheckbox.checked = true;
 const centreTypesetMathsCheckbox = document.getElementById('CentreTypesetMathsCheckbox');
 centreTypesetMathsCheckbox.checked = true;
 /** Input Editor HTML Element. */
-export const inputDiv = document.getElementsByClassName('InputDiv')[0];
-inputDiv.innerHTML = "";
-inputDiv.focus();
+export const inputDiv = "todo getInputDiv()";
+//export const inputDiv = document.getElementsByClassName('InputDiv')[0];
+//inputDiv.innerHTML = "";
+//inputDiv.focus();
 export function refocus() {
   //if (mobileVersion) // Ensure I/O Display is visible:
   //  window.scrollTo(0, document.getElementById("IODisplayIframe").offsetTop);
@@ -104,6 +105,7 @@ export function getOutputElement() {
   }
   // Will happen only at startup - once an input cell is clicked,
   // its output cell will be the receiver of output.
+  // debugger;
   return document.getElementById("SystemOutput");
 }
 /**
@@ -130,8 +132,7 @@ export function sendPlainTextToIODisplay(text, displayClass) {
     pre.classList.add(displayClass);
   }
   pre.innerText = text;
-  const output = getOutputElement();
-  output.append(pre);
+  getOutputElement().append(pre);
   scrollIODisplayToBottom();
 }
 /**
@@ -289,6 +290,8 @@ export async function startREDUCE() {
         >>
       end;
     >>$`);
+    await sleep(100);
+    createNewInput();
   } catch (error) {
     reduceWebErrorHandler(error);
     throw error; // cannot continue

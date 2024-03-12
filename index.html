@@ -176,8 +176,13 @@
         </div>
     </div>
 </nav>
+<div class="row" id="SystemOutput"></div>
+<!--
+
 <div class="InputDiv" contenteditable="true" spellcheck="false"></div>
 <div class="OutputDiv">output div</div>
+-->
+
 <div style="width: 100%;">
   <!--
     const mi = document.getElementById('mathinput');
@@ -217,6 +222,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     <button id="LaterButton" type="button" click="laterInput" disabled="disabled"
         title="Select later keyboard input. Keyboard Shortcut: Control+DownArrow.">▼ Later Input</button>
   <button id="mathjson2reduceButton">mathjson2reduce</button>
+  <button onclick="createNewInput()">createNewInput()</button>
 </div>
 </div>
 </div>
@@ -1246,8 +1252,6 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
       import * as WebREDUCE from './src/index.js';
       Object.assign(window, {WebREDUCE, ...WebREDUCE});
     </script>
-    <center><p>System Output</p></center>
-    <div class="row" id="SystemOutput"></div>
     <center><p>Plotting</p></center>
     <main id="gnuplot" role="main" class="container" style="display: none">
     <div class="row">

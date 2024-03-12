@@ -109,13 +109,17 @@ function inputKeyDown(target) {
         }
     }
 }
-function createNewInput() {
+let newID = 1;
+export function createNewInput() {
+    const divID = document.createElement('div');
+    divID.classList.add('InputIdentifier');
+    divID.innerText = `${newID++}:`;
     const inputNew = document.createElement('div');
     inputNew.innerText = "";
     inputNew.contentEditable = "true";
     inputNew.spellcheck = true;
     inputNew.classList.add("InputDiv");
-    getOutputElement().after(inputNew);
+    getOutputElement().after(divID, inputNew);
     lastInput = inputNew;
     inputNew.focus();
     inputNew.addEventListener("keydown", inputKeyDown);
@@ -123,11 +127,6 @@ function createNewInput() {
         lastInput = event.target;
     });
 }
-// todo refactor all this to remove code duplication
-inputDiv.addEventListener("keydown", inputKeyDown);
-inputDiv.addEventListener("click", (event) => {
-    lastInput = event.target;
-});
 /**********************
  * Delimiter matching *
  **********************/
@@ -161,7 +160,7 @@ function enableMatchDelims(enable) {
     }
     inputDiv.focus();
 }
-enableMatchDelims(true);
+// enableMatchDelims(true);
 /**
  * Filter keyboard events that trigger delimiter matching.
  * @param {KeyboardEvent} event - keyboard event to handle.
