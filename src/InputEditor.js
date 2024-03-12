@@ -132,6 +132,10 @@ export function createNewInput() {
   inputNew.addEventListener("click", (event) => {
     lastInput = event.target;
   });
+  // When you switch between inputs via Tab / Shift+Tab
+  inputNew.addEventListener("focus", (event) => {
+    lastInput = event.target;
+  });
 }
 /**********************
  * Delimiter matching *
