@@ -144,11 +144,11 @@ ul {
   */
 }
 .InputIdentifier {
-  float: left;
   font-weight: bold;
   color: #3F51B5;
   padding: 0.4em;
   margin: 0.4em;
+  width: 100%;
 }
 /* fix Bootstrap super large pre'S */
 pre {

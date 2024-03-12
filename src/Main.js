@@ -92,14 +92,15 @@ function scrollIODisplayToBottom() {
 }
 export function getOutputElement() {
   if (lastInput) {
-    if (lastInput.nextElementSibling.classList.contains("OutputDiv")) {
-      const output = lastInput.nextElementSibling;
+    if (lastInput.closest("table").nextElementSibling.classList.contains("OutputDiv")) {
+      const output = lastInput.closest("table").nextElementSibling;
       //output.innerHTML = ""; // todo: keep history of DOM's for quick comparisons
       return output;
     } else {
       const o = document.createElement('div');
+      //l..nextElementSibling
       o.classList.add('OutputDiv');
-      lastInput.after(o);
+      lastInput.closest("table").after(o);
       return o;
     }
   }

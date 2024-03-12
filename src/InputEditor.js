@@ -108,15 +108,24 @@ function inputKeyDown(event) {
 }
 let newID = 1;
 export function createNewInput() {
+  const table = document.createElement('table');
+  const tr = document.createElement('tr');
+  const tdLeft = document.createElement('td');
+  const tdRight = document.createElement('td');
+  tr.append(tdLeft, tdRight);
+  table.append(tr);
+  table.classList.add('InputIdentifier');
+  tdLeft.style.width = "1em";
   const divID = document.createElement('div');
-  divID.classList.add('InputIdentifier');
   divID.innerText = `${newID++}:`;
   const inputNew = document.createElement('div');
   inputNew.innerText = "";
   inputNew.contentEditable = "true";
   inputNew.spellcheck = true;
   inputNew.classList.add("InputDiv");
-  getOutputElement().after(divID, inputNew);
+  tdLeft.append(divID);
+  tdRight.append(inputNew);
+  getOutputElement().after(table);
   lastInput = inputNew;
   inputNew.focus();
   inputNew.addEventListener("keydown", inputKeyDown);
