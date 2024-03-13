@@ -1,5 +1,9 @@
-import { createNewInput, lastInput } from "./InputEditor.js";
-import {mathjson2reduce} from "./mathjson2reduce.js";
+import {createNewInput, lastInput} from "./InputEditor.js";
+import {appendOutputElement      } from "./appendOutputElement.js";
+import {getOutputElement         } from "./getOutputElement.js";
+import {mathjson2reduce          } from "./mathjson2reduce.js";
+import {sendToReduce             } from "./sendToReduce.js";
+import {sleep                    } from "./sleep.js";
 // Global variables assigned in more than one module:
 export const Global = {
   echo: false,
@@ -94,27 +98,6 @@ if (typeof Worker === "undefined") {
 function scrollIODisplayToBottom() {
   //window.scroll(0, document.body.scrollHeight);
 }
-export function getOutputElement() {
-  if (lastInput) {
-    if (lastInput.closest("table").nextElementSibling.classList.contains("OutputDiv")) {
-      const output = lastInput.closest("table").nextElementSibling;
-      //output._reduce = [];
-      //output.innerHTML = ""; // todo: keep history of DOM's for quick comparisons
-      return output;
-    } else {
-      const o = document.createElement('div');
-      o._reduce = [];
-      //l..nextElementSibling
-      o.classList.add('OutputDiv');
-      lastInput.closest("table").after(o);
-      return o;
-    }
-  }
-  // Will happen only at startup - once an input cell is clicked,
-  // its output cell will be the receiver of output.
-  // debugger;
-  return document.getElementById("SystemOutput");
-}
 /**
  * Send plain (i.e. non maths) text to the I/O display by appending
  * a <pre> element. Then scroll the display to the bottom.
@@ -139,10 +122,7 @@ export function sendPlainTextToIODisplay(text, displayClass) {
     pre.classList.add(displayClass);
   }
   pre.innerText = text;
-  const outputElement = getOutputElement();
-  outputElement.append(pre);
-  outputElement._reduce = outputElement._reduce ?? [];
-  outputElement._reduce.push(text);
+  appendOutputElement(pre, text);
   scrollIODisplayToBottom();
 }
 /**
@@ -230,36 +210,6 @@ function reduceWebErrorHandler(event) {
   // console.error(event.message, event);
   sendPlainTextToIODisplay(event.toString(), "error");
 }
-/**
- * Send a text string to REDUCE as input.
- * @param {string} str - The REDUCE input.
- */
-export let sendToReduce = (str) => {
-  debug && console.log(` INPUT: ${str}`); // for debugging
-  // This function posts a string to REDUCE, which treats it rather as if
-  // it had been keyboard input. At the start of a run I use this to send a
-  // sequence of commands to REDUCE to adjust its input and output processing
-  // to suit the needs I have here.
-  const buf = new Uint8Array(str.length + 1);
-  // Array of 8-bit unsigned integers, null-terminated, to match a C/C++ string
-  // (hence the length + 1). The contents are initialized to 0.
-  for (let i = 0; i < str.length; i++) {
-    buf[i] = str.charCodeAt(i); // Returns a number that is the UTF-16 code unit value at the given index.
-  }
-  worker.postMessage({
-    funcName: 'insert_buffer',
-    callbackId: '',
-    data: buf
-  });
-};
-/**
- * @param {number} ms - How long to sleep in milliseconds.
- */
-function sleep(ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
-}
 export async function startREDUCE() {
   try {
     // Doesn't seem to catch errors in the worker!
@@ -275,7 +225,7 @@ export async function startREDUCE() {
       on nat, fancy, errcont;
       off int;
     >>$`);
-    await sleep(200);
+    await sleep(1000); // TODO: write "BLA" and wait for "BLA"
     loadPackage('gnuplot');
     await sleep(200);
     loadPackage('turtle');
@@ -419,10 +369,8 @@ centreTypesetMathsCheckbox.addEventListener("change", event => {
   MathJax.startup.getComponents(); // See http://docs.mathjax.org/en/latest/web/configuration.html
   hideViewMenuLink();
 });
-
 const iframe = document.createElement("div");
 document.body.append(iframe);
-//iframe.id = 'IODisplaIODisplayIframeyIframe';
 //ioDisplayHead.appendChild(ioColouringStyleElement); // IOColouringCheckbox initially checked
 //    if (location.search.includes("spoof")) {
 //      setRunningState(true);
@@ -431,10 +379,6 @@ document.body.append(iframe);
 //    else if (!location.search.includes("noautorun"))
 //      startREDUCE();
 //  });
-//iframe.srcdoc = `<!DOCTYPE html>
-//<html>
-//<head>
-//  <title>Web REDUCE</title>
 //  <style>
 //    body {background-color: white;}
 //    body, pre {font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
@@ -443,12 +387,4 @@ document.body.append(iframe);
 //    pre.warning {background-color: #ffa50040;} /* orange, 1/4 opaque */
 //    pre.error {background-color: #ff000040;} /* red, 1/4 opaque */
 //  </style>
-//  <script>MathJax = { tex: { macros: { "*": "\\\\," } } };</script>
-//  <script async="async" src="./node_modules/mathjax/es5/tex-chtml.js"></script>
-//</head>
-//<body>
-//  By default, REDUCE should load automatically.
-//</body>
-//</html>`;
-//}
 window.onload = startREDUCE;

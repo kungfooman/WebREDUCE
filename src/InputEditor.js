@@ -6,8 +6,11 @@
  * input into a single call of sendToReduce() or delay successive calls
  * by about 100ms (which is obviously unreliable).
  */
-import { earlierButton, laterButton, noOutput, Global, getOutputElement } from "./Main.js";
-import { hideViewMenuLink, refocus, sendToReduce, sendToReduceAndEcho, stopREDUCE } from "./Main.js";
+import {earlierButton, laterButton, noOutput, Global              } from "./Main.js";
+import {hideViewMenuLink, refocus, sendToReduceAndEcho, stopREDUCE} from "./Main.js";
+import {clearOutputElement                                        } from "./clearOutputElement.js";
+import {getOutputElement                                          } from "./getOutputElement.js";
+import {sendToReduce                                              } from "./sendToReduce.js";
 export const inputDiv = document.getElementsByClassName('InputDiv')[0];
 const inputList = [];
 let inputListIndex = 0;
@@ -17,8 +20,7 @@ export let lastInput; // document.getElementsByClassName("InputDiv")[0];
 function sendInput(event) {
   //debugger;
   lastInput = event.target;
-  getOutputElement().innerHTML = '';
-  getOutputElement()._reduce.length = 0;
+  clearOutputElement();
   if (noOutput)
     return; // REDUCE not yet loaded!
   Global.inputFromKbd = true;

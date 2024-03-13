@@ -8,11 +8,9 @@
  * Other browsers, such as Firefox, need a fallback implementation, which is horrible!
  * See https://web.dev/browser-fs-access/.
  */
-// Imported variables:
-import { debug, typesetMathsCheckbox, inputDiv, Global } from "./Main.js";
-// Imported functions:
-import { hideMenuLink, refocus, sendPlainTextToIODisplay, sendToReduce, enableTypesetMaths } from "./Main.js";
-;
+import {debug, typesetMathsCheckbox, inputDiv, Global                      } from "./Main.js";
+import {hideMenuLink, refocus, sendPlainTextToIODisplay, enableTypesetMaths} from "./Main.js";
+import {sendToReduce                                                       } from './sendToReduce.js';
 const supported = "showOpenFilePicker" in window;
 const echoFileInputCheckbox = document.getElementById("EchoFileInputCheckbox");
 echoFileInputCheckbox.checked = true;
