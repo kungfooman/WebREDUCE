@@ -18,6 +18,7 @@ function sendInput(event) {
   //debugger;
   lastInput = event.target;
   getOutputElement().innerHTML = '';
+  getOutputElement()._reduce.length = 0;
   if (noOutput)
     return; // REDUCE not yet loaded!
   Global.inputFromKbd = true;

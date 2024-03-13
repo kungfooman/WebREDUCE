@@ -98,10 +98,12 @@ export function getOutputElement() {
   if (lastInput) {
     if (lastInput.closest("table").nextElementSibling.classList.contains("OutputDiv")) {
       const output = lastInput.closest("table").nextElementSibling;
+      //output._reduce = [];
       //output.innerHTML = ""; // todo: keep history of DOM's for quick comparisons
       return output;
     } else {
       const o = document.createElement('div');
+      o._reduce = [];
       //l..nextElementSibling
       o.classList.add('OutputDiv');
       lastInput.closest("table").after(o);
@@ -137,7 +139,10 @@ export function sendPlainTextToIODisplay(text, displayClass) {
     pre.classList.add(displayClass);
   }
   pre.innerText = text;
-  getOutputElement().append(pre);
+  const outputElement = getOutputElement();
+  outputElement.append(pre);
+  outputElement._reduce = outputElement._reduce ?? [];
+  outputElement._reduce.push(text);
   scrollIODisplayToBottom();
 }
 /**
@@ -191,9 +196,12 @@ function reduceWebMessageHandler(event) {
         // "junk" that reads "latex:\black$\displaystyle" and a final "U+0005".
         // Those are fragments that the REDUCE interface for TeXmacs inserts.
         output = output.substring(n + 1 + 26, output.length - 2);
+        const outputTeX = output;
         output = MathJax.tex2chtml(output);
         output.classList.add("output");
-        getOutputElement().append(output);
+        const outputElement = getOutputElement();
+        outputElement.append(output);
+        outputElement._reduce.push(/*event.data.line*/outputTeX);
         // The MathJax documentation doesn't tell the whole story!
         // See https://github.com/mathjax/MathJax/issues/2365:
         MathJax.startup.document.clear();
