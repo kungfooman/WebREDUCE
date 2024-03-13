@@ -9,6 +9,7 @@ export * from './InputEditor.js';
 export * from './IntegralTemplate.js';
 export * from './js2reduce.js';
 export * from './LimitTemplate.js';
+export * from './loadPackage.js';
 export * from './LoadPackagesDialogue.js';
 export * from './Main.js';
 export * from './mathjson2reduce.js';

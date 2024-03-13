@@ -1,6 +1,7 @@
 import {createNewInput, lastInput} from "./InputEditor.js";
 import {appendOutputElement      } from "./appendOutputElement.js";
 import {getOutputElement         } from "./getOutputElement.js";
+import {loadPackage              } from "./loadPackage.js";
 import {mathjson2reduce          } from "./mathjson2reduce.js";
 import {sendToReduce             } from "./sendToReduce.js";
 import {sleep                    } from "./sleep.js";
@@ -226,10 +227,8 @@ export async function startREDUCE() {
       off int;
     >>$`);
     await sleep(1000); // TODO: write "BLA" and wait for "BLA"
-    loadPackage('gnuplot');
-    await sleep(200);
-    loadPackage('turtle');
-    await sleep(200);
+    await loadPackage('gnuplot');
+    await loadPackage('turtle');
     sendToReduce(`<<
       % Test: symbolic plot!-filename(); % Should return "/tmp/data.txt"
       symbolic procedure plot!-filename();
@@ -317,21 +316,6 @@ export function sendToReduceAndEcho(text) {
 export function sendToReduceAndEchoNoAsciify(text) {
   sendPlainTextToIODisplay(text, "input");
   sendToReduce(text);
-}
-const loadedPackages = new Set(); // should probably be in a closure!
-/**
- * Load the specified package once only.
- * @param {string} pkg - Name of package to be loaded.
- */
-export function loadPackage(pkg) {
-  if (loadedPackages.has(pkg)) {
-    return;
-  }
-  sendToReduceAndEchoNoAsciify(`load_package ${pkg};`);
-  // Need to wait for REDUCE to digest this.
-  // Should wait for the next prompt, but can't at present,
-  // so only use when there is a natural pause!
-  loadedPackages.add(pkg);
 }
 // ************
 // Menu Support

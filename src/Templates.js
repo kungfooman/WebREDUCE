@@ -1,7 +1,5 @@
-// Imported classes:
-import { Template } from "./TempFuncs.js";
-// Imported functions:
-import { loadPackage } from "./Main.js";
+import {Template   } from "./TempFuncs.js";
+import {loadPackage} from "./loadPackage.js";
 class ODESolveTemplate extends Template {
     constructor() {
         super("ODESolve Template");

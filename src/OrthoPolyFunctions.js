@@ -1,5 +1,5 @@
 import {Functions  } from "./TempFuncs.js";
-import {loadPackage} from "./Main.js";
+import {loadPackage} from "./loadPackage.js";
 class OrthoPolyFunctions extends Functions {
   constructor() {
     super("OrthoPolyFunctions");

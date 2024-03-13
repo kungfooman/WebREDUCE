@@ -1,5 +1,5 @@
 import {Template   } from "./TempFuncs.js";
-import {loadPackage} from "./Main.js";
+import {loadPackage} from "./loadPackage.js";
 class MatrixTemplate extends Template {
   constructor() {
     super("Matrix Template");
