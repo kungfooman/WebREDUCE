@@ -14,6 +14,12 @@ export const mathjsonOps = {
  * @returns {string|undefined}
  */
 function mathjson2reduce(mathjson) {
+  if (mathjson.fn) {
+    mathjson = mathjson.fn;
+  }
+  if (mathjson.sym) {
+    return mathjson.sym;
+  }
   const type = mathjson[0];
   if (typeof mathjson === 'string') {
     if (mathjson === 'ExponentialE') {
@@ -49,6 +55,12 @@ function mathjson2reduce(mathjson) {
     const fromReduce = mathjson2reduce(from);
     const toReduce = mathjson2reduce(to);
     return `for ${name} := ${fromReduce} : ${toReduce} product ${bodyReduce}`;
+  } else if (type === 'Integrate') {
+    const [, f, tripleNameFromTo] = getMathJSON();
+    const [, name, from, to] = tripleNameFromTo;
+    const fReduce = mathjson2reduce(f);
+    const nameFromToReduce = `${name} = (${from} .. ${to})`;
+    return `num_int(${fReduce}, ${nameFromToReduce})`;
   } else if (mathjsonOps[type]) {
     const op = mathjsonOps[type];
     const [,...args] = mathjson;
