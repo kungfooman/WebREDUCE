@@ -16,7 +16,7 @@ export * from './Main.js';
 export * from './mathjson2reduce.js';
 export * from './MatrixTemplate.js';
 export * from './OrthoPolyFunctions.js';
-//export * from './reduce2js.js';
+export * from './reduce2js.js';
 export * from './saveInputs.js';
 export * from './sendToReduce.js';
 export * from './sleep.js';
