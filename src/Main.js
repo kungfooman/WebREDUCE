@@ -1,5 +1,6 @@
 import {createNewInput, lastInput} from "./InputEditor.js";
 import {appendOutputElement      } from "./appendOutputElement.js";
+import {getMathJSON              } from "./getMathJSON.js";
 import {getOutputElement         } from "./getOutputElement.js";
 import {loadPackage              } from "./loadPackage.js";
 import {mathjson2reduce          } from "./mathjson2reduce.js";
@@ -56,11 +57,7 @@ export function refocus() {
 export const earlierButton = document.getElementById('EarlierButton');
 earlierButton.disabled = true;
 /** Send Input Button HTML Element. */
-export function getMathJSON() {
-  return JSON.parse(mi._mathfield.getValue("math-json"));
-}
 const mathjson2reduceButton = document.getElementById("mathjson2reduceButton");
-
 mathjson2reduceButton.onclick = () => {
   const json = getMathJSON();
   const red = mathjson2reduce(json);

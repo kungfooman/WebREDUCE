@@ -1,3 +1,4 @@
+import {getMathJSON} from './getMathJSON.js';
 /** @type {Record<string, string>} */
 export const mathjsonOps = {
   Add: '+',

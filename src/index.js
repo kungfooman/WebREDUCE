@@ -4,6 +4,7 @@ export * from './DerivativeTemplate.js';
 export * from './ExpLogFunctions.js';
 export * from './FileMenu.js';
 export * from './ForTemplate.js';
+export * from './getMathJSON.js';
 export * from './getOutputElement.js';
 export * from './InputEditor.js';
 export * from './IntegralTemplate.js';
