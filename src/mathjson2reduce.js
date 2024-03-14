@@ -1,4 +1,3 @@
-import {getMathJSON} from './getMathJSON.js';
 /** @type {Record<string, string>} */
 export const mathjsonOps = {
   Add: '+',
@@ -39,29 +38,27 @@ function mathjson2reduce(mathjson) {
     return mathjson;
   }
   if (type === 'Sum') {
-    const body = mathjson[1];
-    const args = mathjson[2];
-    const [triple, name, from, to] = args;
+    const body = mathjson2reduce(mathjson[1]);
+    const [triple, name, from, to] = mathjson[2].map(mathjson2reduce);
     console.assert(triple === 'Triple');
-    const bodyReduce = mathjson2reduce(body);
-    const fromReduce = mathjson2reduce(from);
-    const toReduce = mathjson2reduce(to);
-    return `for ${name} := ${fromReduce} : ${toReduce} sum ${bodyReduce}`;
+    return `for ${name} := ${from} : ${to} sum ${body}`;
   } else if (type === 'Product') {
-    const body = mathjson[1];
-    const args = mathjson[2];
-    const [triple, name, from, to] = args;
+    const body = mathjson2reduce(mathjson[1]);
+    const [triple, name, from, to] = mathjson[2].map(mathjson2reduce);
     console.assert(triple === 'Triple');
-    const bodyReduce = mathjson2reduce(body);
-    const fromReduce = mathjson2reduce(from);
-    const toReduce = mathjson2reduce(to);
-    return `for ${name} := ${fromReduce} : ${toReduce} product ${bodyReduce}`;
+    return `for ${name} := ${from} : ${to} product ${body}`;
   } else if (type === 'Integrate') {
-    const [, f, tripleNameFromTo] = getMathJSON();
-    const [, name, from, to] = tripleNameFromTo;
+    const [, f, tripleNameFromTo] = mathjson;
+    const [, name, from, to] = tripleNameFromTo.map(mathjson2reduce);
     const fReduce = mathjson2reduce(f);
     const nameFromToReduce = `${name} = (${from} .. ${to})`;
     return `num_int(${fReduce}, ${nameFromToReduce})`;
+  } else if (type === 'Square') {
+    const tmpReduce = mathjson2reduce(mathjson[1]);
+    return `(${tmpReduce} ^ 2)`;
+  } else if (type === 'Negate') {
+    const tmpReduce = mathjson2reduce(mathjson[1]);
+    return `-${tmpReduce}`;
   } else if (mathjsonOps[type]) {
     const op = mathjsonOps[type];
     const [,...args] = mathjson;
