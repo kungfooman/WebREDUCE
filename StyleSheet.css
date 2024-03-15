@@ -143,6 +143,10 @@ ul {
   align-items: center;
   */
 }
+#SystemOutput {
+  max-height: 20em;
+  overflow: scroll;
+}
 .InputIdentifier {
   font-weight: bold;
   color: #3F51B5;
