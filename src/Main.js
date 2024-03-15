@@ -270,4 +270,3 @@ document.body.append(iframe);
 //    pre.warning {background-color: #ffa50040;} /* orange, 1/4 opaque */
 //    pre.error {background-color: #ff000040;} /* red, 1/4 opaque */
 //  </style>
-window.onload = startREDUCE;

@@ -22,6 +22,8 @@ export * from './saveInputs.js';
 export * from './sendToReduce.js';
 export * from './sleep.js';
 export * from './SolveTemplate.js';
+export * from './startREDUCE.js';
+export * from './stopREDUCE.js';
 export * from './SumProdTemplate.js';
 export * from './TempFuncs.js';
 export * from './Templates.js';

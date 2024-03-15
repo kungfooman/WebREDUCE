@@ -16,7 +16,15 @@
   <script src="node_modules/mathlive/dist/mathlive.mjs" type="module"></script>
   <!-- https://github.com/cortex-js/compute-engine -->
   <script src="node_modules/@cortex-js/compute-engine/dist/compute-engine.esm.js" type="module"></script>
-  <script>MathJax = { tex: { macros: { "*": "\\\\," } } };</script>
+  <script>
+    window.MathJax = {
+      tex: {
+        macros: {
+          "*": "\\\\,"
+        }
+      }
+    };
+  </script>
   <script async="async" src="./node_modules/mathjax/es5/tex-chtml.js"></script>
   <script type="module">
   import {ComputeEngine} from "./node_modules/@cortex-js/compute-engine/dist/compute-engine.esm.js";
@@ -29,7 +37,6 @@
 </head>
 <body>
     <div class="container-fluid">
-
         <div class="row">
             <div id="main">
 <!-- Menu bar -->
@@ -1245,6 +1252,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </script>
     <script type="module">
       import * as WebREDUCE from './src/index.js';
+      window.onload = WebREDUCE.startREDUCE;
       Object.assign(window, {WebREDUCE, ...WebREDUCE});
     </script>
     <center><p>Plotting</p></center>
