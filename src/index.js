@@ -6,6 +6,7 @@ export * from './FileMenu.js';
 export * from './ForTemplate.js';
 export * from './getMathJSON.js';
 export * from './getOutputElement.js';
+export * from './importReduce.js';
 export * from './InputEditor.js';
 export * from './IntegralTemplate.js';
 export * from './js2reduce.js';
