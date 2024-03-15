@@ -1,4 +1,5 @@
 export * from './appendOutputElement.js';
+export * from './asciify.js';
 export * from './clearOutputElement.js';
 export * from './DerivativeTemplate.js';
 export * from './ExpLogFunctions.js';
