@@ -209,9 +209,9 @@ export function sendToReduceAndEcho(text) {
  * Called in this file, InputEditor.mjs and TempFuncs.mjs.
  * @param {string} text - Input text to be sent to REDUCE.
  */
-export function sendToReduceAndEchoNoAsciify(text) {
+export async function sendToReduceAndEchoNoAsciify(text) {
   sendPlainTextToIODisplay(text, "input");
-  sendToReduce(text);
+  await sendToReduce(text);
 }
 // ************
 // Menu Support

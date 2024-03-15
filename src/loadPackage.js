@@ -9,8 +9,7 @@ async function loadPackage(pkg) {
   if (loadedPackages.has(pkg)) {
     return;
   }
-  sendToReduceAndEchoNoAsciify(`load_package ${pkg};`);
-  await sleep(200);
+  await sendToReduceAndEchoNoAsciify(`load_package ${pkg};`);
   // Need to wait for REDUCE to digest this.
   // Should wait for the next prompt, but can't at present,
   // so only use when there is a natural pause!

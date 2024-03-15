@@ -14,18 +14,21 @@ async function startREDUCE() {
     worker = new Worker(Global.mobileVersion ? "mobile/reduce.web.js" : "reduce.web.js");
     worker.onmessage = reduceWebMessageHandler;
     worker.onerror = reduceWebErrorHandler;
+    // Waiting 500ms is probably not REDUCE related, but MathJax.
+    // For some reason there is simply no TeX formatting otherwise.
+    // TODO: send init message from worker - may be worker script related aswell.
+    await sleep(500);
     // The rejectionhandled and unhandledrejection events described
     // on MDN don't seem to work or to be in the official spec!
-    sendToReduce(`<<
+    await sendToReduce(`<<
       lisp (!*redefmsg := nil);
       load_package tmprint;
       on nat, fancy, errcont;
       off int;
     >>$`);
-    await sleep(1000); // TODO: write "BLA" and wait for "BLA"
     await loadPackage('gnuplot');
     await loadPackage('turtle');
-    sendToReduce(`<<
+    await sendToReduce(`<<
       % Test: symbolic plot!-filename(); % Should return "/tmp/data.txt"
       symbolic procedure plot!-filename();
       begin
@@ -48,7 +51,6 @@ async function startREDUCE() {
         >>
       end;
     >>$`);
-    await sleep(100);
     createNewInput();
   } catch (error) {
     reduceWebErrorHandler(error);
