@@ -5,6 +5,6 @@ import {sendToReduce} from "./sendToReduce.js";
 async function importReduce(filename) {
   const res = await fetch(filename);
   const txt = await res.text();
-  sendToReduce(txt);
+  await sendToReduce(txt);
 }
 export {importReduce};
