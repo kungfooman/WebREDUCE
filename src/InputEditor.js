@@ -6,11 +6,14 @@
  * input into a single call of sendToReduce() or delay successive calls
  * by about 100ms (which is obviously unreliable).
  */
-import {earlierButton, laterButton, noOutput, Global              } from "./Main.js";
-import {hideViewMenuLink, refocus, sendToReduceAndEcho, stopREDUCE} from "./Main.js";
-import {clearOutputElement                                        } from "./clearOutputElement.js";
-import {getOutputElement                                          } from "./getOutputElement.js";
-import {sendToReduce                                              } from "./sendToReduce.js";
+import {Global                    } from './Global.js';
+import {stopREDUCE                } from './stopREDUCE.js';
+import {earlierButton, laterButton} from "./Main.js";
+import {hideViewMenuLink, refocus } from "./Main.js";
+import {sendToReduceAndEcho       } from "./Main.js";
+import {clearOutputElement        } from "./clearOutputElement.js";
+import {getOutputElement          } from "./getOutputElement.js";
+import {sendToReduce              } from "./sendToReduce.js";
 export const inputDiv = document.getElementsByClassName('InputDiv')[0];
 const inputList = [];
 let inputListIndex = 0;
@@ -21,8 +24,9 @@ function sendInput(event) {
   //debugger;
   lastInput = event.target;
   clearOutputElement();
-  if (noOutput)
+  if (Global.noOutput) {
     return; // REDUCE not yet loaded!
+  }
   Global.inputFromKbd = true;
   // Strip trailing white space from the input:
   let text = lastInput.innerText.replace(/\s+$/, "");

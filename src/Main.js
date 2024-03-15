@@ -1,34 +1,26 @@
-import {createNewInput, lastInput} from "./InputEditor.js";
-import {appendOutputElement      } from "./appendOutputElement.js";
-import {getMathJSON              } from "./getMathJSON.js";
-import {getOutputElement         } from "./getOutputElement.js";
-import {loadPackage              } from "./loadPackage.js";
-import {mathjson2reduce          } from "./mathjson2reduce.js";
-import {sendToReduce             } from "./sendToReduce.js";
-import {sleep                    } from "./sleep.js";
-// Global variables assigned in more than one module:
-export const Global = {
-  echo: false,
-  hideOutput: false,
-  inputFromKbd: undefined,
-  outputToFile: undefined,
-  outputToArray: undefined
-};
+import {Global                  } from "./Global.js";
+import {lastInput               } from "./InputEditor.js";
+import {getMathJSON             } from "./getMathJSON.js";
+import {getOutputElement        } from "./getOutputElement.js";
+import {mathjson2reduce         } from "./mathjson2reduce.js";
+import {sendPlainTextToIODisplay} from "./sendPlainTextToIODisplay.js";
+import {sendToReduce            } from "./sendToReduce.js";
+import {startREDUCE             } from "./startREDUCE.js";
+import {stopREDUCE              } from "./stopREDUCE.js";
 /** True if console logging is enabled. */
 export const debug = location.search.includes("debug");
-/** True if mobile version selected. */
-export const mobileVersion = (location.search.includes("mobile"));
 // Set up access to document elements and reset their defaults for when the page is reloaded:
-const startREDUCEMenuItem = document.getElementById("StartREDUCEMenuItem");
-const loadPackagesMenuItem = document.getElementById("LoadPackagesMenuItem");
-const stopREDUCEMenuItem = document.getElementById("StopREDUCEMenuItem");
+const startREDUCEMenuItem   = document.getElementById("StartREDUCEMenuItem");
+const loadPackagesMenuItem  = document.getElementById("LoadPackagesMenuItem");
+const stopREDUCEMenuItem    = document.getElementById("StopREDUCEMenuItem");
 const restartREDUCEMenuItem = document.getElementById("RestartREDUCEMenuItem");
-const ioColouringCheckbox = document.getElementById('IOColouringCheckbox');
+const ioColouringCheckbox   = document.getElementById('IOColouringCheckbox');
 ioColouringCheckbox.checked = true;
 // Can only apply bootstrap.Dropdown.getInstance() once everything is set up, so do it dynamically.
 /**
  * Close a dropdown menu; used in menu-item check-box change-event
  * handlers so that clicking on the check box closes the menu.
+ * @param {any} menuLink
  */
 export function hideMenuLink(menuLink) {
   bootstrap.Dropdown.getInstance(menuLink).hide();
@@ -70,10 +62,7 @@ laterButton.disabled = true;
 const fileMenuLink = document.getElementById("FileMenuLink");
 const templatesMenuLink = document.getElementById("TemplatesMenuLink");
 const functionsMenuLink = document.getElementById("FunctionsMenuLink");
-/** True if REDUCE has not yet produced any output. */
-export let noOutput = true;
-export let worker;
-function setRunningState(running) {
+export function setRunningState(running) {
   startREDUCEMenuItem.disabled = running;
   loadPackagesMenuItem.disabled = !running;
   stopREDUCEMenuItem.disabled = !running;
@@ -91,45 +80,12 @@ if (typeof Worker === "undefined") {
   throw new Error("Can't run REDUCE!");
 }
 /**
- * Scroll the REDUCE I/O display to the bottom.
- */
-function scrollIODisplayToBottom() {
-  //window.scroll(0, document.body.scrollHeight);
-}
-/**
- * Send plain (i.e. non maths) text to the I/O display by appending
- * a <pre> element. Then scroll the display to the bottom.
- * @param {string} text - The plain text to display.
- * @param {string} [displayClass] - The HTML class attribute to attach to the <pre> element.
- */
-export function sendPlainTextToIODisplay(text, displayClass) {
-  if (text.trim() === '') {
-    return;
-  }
-  if (noOutput) {
-    // This code executes immediately after REDUCE loads:
-    //window.scrollTo(0, document.getElementById("Menubar").offsetTop);
-    setRunningState(true);
-    displayClass = undefined;
-    noOutput = false;
-    text = (mobileVersion ? "Mobile " : "") + "Web " + text;
-  }
-  // For now, append text within a <pre> element:
-  const pre = document.createElement("pre");
-  if (displayClass) {
-    pre.classList.add(displayClass);
-  }
-  pre.innerText = text;
-  appendOutputElement(pre, text);
-  scrollIODisplayToBottom();
-}
-/**
  * Respond to a message from the REDUCE web worker,
  * normally by displaying a processed version in ioDisplay.
  * @param {*} event
  * @returns null
  */
-function reduceWebMessageHandler(event) {
+export function reduceWebMessageHandler(event) {
   if (Global.hideOutput) { // hide changes of switches etc.
     Global.hideOutput = false;
     return;
@@ -184,7 +140,7 @@ function reduceWebMessageHandler(event) {
         // See https://github.com/mathjax/MathJax/issues/2365:
         MathJax.startup.document.clear();
         MathJax.startup.document.updateDocument();
-        scrollIODisplayToBottom();
+        //scrollIODisplayToBottom();
       } else {
         // Textual rather than mathematical output from REDUCE gets inserted as is.
         // Highlight errors and warnings in output:
@@ -204,68 +160,11 @@ function reduceWebMessageHandler(event) {
  * @param {ErrorEvent} event
  * @returns null
  */
-function reduceWebErrorHandler(event) {
+export function reduceWebErrorHandler(event) {
   // console.error(event.message, event);
   sendPlainTextToIODisplay(event.toString(), "error");
 }
-export async function startREDUCE() {
-  try {
-    // Doesn't seem to catch errors in the worker!
-    // Need to catch worker errors in the worker and pass them out as messages.
-    worker = new Worker(mobileVersion ? "mobile/reduce.web.js" : "reduce.web.js");
-    worker.onmessage = reduceWebMessageHandler;
-    worker.onerror = reduceWebErrorHandler;
-    // The rejectionhandled and unhandledrejection events described
-    // on MDN don't seem to work or to be in the official spec!
-    sendToReduce(`<<
-      lisp (!*redefmsg := nil);
-      load_package tmprint;
-      on nat, fancy, errcont;
-      off int;
-    >>$`);
-    await sleep(1000); // TODO: write "BLA" and wait for "BLA"
-    await loadPackage('gnuplot');
-    await loadPackage('turtle');
-    sendToReduce(`<<
-      % Test: symbolic plot!-filename(); % Should return "/tmp/data.txt"
-      symbolic procedure plot!-filename();
-      begin
-        return "/tmp/plotdata.txt";
-      end;
-      symbolic procedure PlotOpenDisplay();
-      begin
-        plotpipe!* := open("/tmp/plotcmds.txt", 'output);
-        if null plotheader!* then <<
-          nil
-        >> else if atom plotheader!* then <<
-          plotprin2 plotheader!*;
-          plotterpri()
-        >> else if eqcar(plotheader!*,'list) then
-          for each x in cdr plotheader!* do <<
-          plotprin2 x;
-          plotterpri()
-        >> else <<
-          typerr(plotheader!*,"gnuplot header");
-        >>
-      end;
-    >>$`);
-    await sleep(100);
-    createNewInput();
-  } catch (error) {
-    reduceWebErrorHandler(error);
-    throw error; // cannot continue
-  }
-}
-export function stopREDUCE() {
-  worker.terminate();
-  sendPlainTextToIODisplay("REDUCE stopped");
-  setRunningState(false);
-  noOutput = true;
-  Global.hideOutput = false;
-}
-// *****************
-// Utility Functions
-// *****************
+/** @type {Record<any, any>} */
 const toASCII = {
   Α: "!Alpha", Β: "!Beta", Γ: "!Gamma", Δ: "!Delta", Ε: "!Epsilon", Ζ: "!Zeta", Η: "!Eta", Θ: "!Theta",
   Ι: "!Iota", Κ: "!Kappa", Λ: "!Lambda", Μ: "!Mu", Ν: "!Nu", Ξ: "!Xi", Ο: "!Omicron", Π: "!Pi",
@@ -320,7 +219,10 @@ export function sendToReduceAndEchoNoAsciify(text) {
 // REDUCE menu:
 startREDUCEMenuItem.addEventListener("click", startREDUCE);
 stopREDUCEMenuItem.addEventListener("click", stopREDUCE);
-restartREDUCEMenuItem.addEventListener("click", () => { stopREDUCE(); startREDUCE(); });
+restartREDUCEMenuItem.addEventListener("click", () => {
+  stopREDUCE();
+  startREDUCE();
+});
 // I/O Colouring:
 const ioColouringStyleElement = document.createElement("style");
 ioColouringStyleElement.innerText = "pre.input {color: red;} *.output {color: blue;}";

@@ -1,4 +1,5 @@
-import {debug, worker} from "./Main.js";
+import {debug } from "./Main.js";
+import {worker} from "./startREDUCE.js";
 /**
  * Send a text string to REDUCE as input.
  * @param {string} str - The REDUCE input.
