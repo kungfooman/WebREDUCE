@@ -202,10 +202,11 @@ restartREDUCEMenuItem.addEventListener("click", () => {
 const ioColouringStyleElement = document.createElement("style");
 ioColouringStyleElement.innerText = "pre.input {color: red;} *.output {color: blue;}";
 ioColouringCheckbox.addEventListener("change", () => {
-  if (ioColouringCheckbox.checked)
+  if (ioColouringCheckbox.checked) {
     document.head.appendChild(ioColouringStyleElement);
-  else
+  } else {
     ioColouringStyleElement.remove();
+  }
   hideViewMenuLink();
 });
 // Typeset Maths:
@@ -227,8 +228,6 @@ centreTypesetMathsCheckbox.addEventListener("change", event => {
   MathJax.startup.getComponents(); // See http://docs.mathjax.org/en/latest/web/configuration.html
   hideViewMenuLink();
 });
-const iframe = document.createElement("div");
-document.body.append(iframe);
 //ioDisplayHead.appendChild(ioColouringStyleElement); // IOColouringCheckbox initially checked
 //    if (location.search.includes("spoof")) {
 //      setRunningState(true);
