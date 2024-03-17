@@ -231,9 +231,7 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
 </div>
 <!-- Bootstrap JavaScript bundle with Popper -->
 <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
-<script type="module" src="src/Main.js"></script>
-<script type="module" src="src/InputEditor.js"></script>
-<script type="module" src="src/FileMenu.js"></script>
+<script type="module" src="src/index.js"></script>
 <!-- Modal Dialogues -->
 <script type="module" src="src/TempFuncs.js"></script>
 <script type="module" src="src/Templates.js"></script>
@@ -1252,7 +1250,10 @@ Keyboard Shortcut: Control+Enter. (Also hold Shift to prevent auto-termination.)
     </script>
     <script type="module">
       import * as WebREDUCE from './src/index.js';
-      window.onload = WebREDUCE.startREDUCE;
+      window.onload = () => {
+        WebREDUCE.startREDUCE();
+        enableDragAndDrop();
+      };
       Object.assign(window, {WebREDUCE, ...WebREDUCE});
     </script>
     <center><p>Plotting</p></center>

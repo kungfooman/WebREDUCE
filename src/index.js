@@ -2,6 +2,7 @@ export * from './appendOutputElement.js';
 export * from './asciify.js';
 export * from './clearOutputElement.js';
 export * from './DerivativeTemplate.js';
+export * from './enableDragAndDrop.js';
 export * from './ExpLogFunctions.js';
 export * from './FileMenu.js';
 export * from './ForTemplate.js';
