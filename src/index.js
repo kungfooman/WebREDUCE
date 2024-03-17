@@ -22,6 +22,7 @@ export * from './MatrixTemplate.js';
 export * from './OrthoPolyFunctions.js';
 export * from './reduce2js.js';
 export * from './saveInputs.js';
+export * from './saveInputsAndOutputs.js';
 export * from './sendToReduce.js';
 export * from './sleep.js';
 export * from './SolveTemplate.js';
