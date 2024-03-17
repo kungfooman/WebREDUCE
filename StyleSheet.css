@@ -154,9 +154,13 @@ ul {
   margin: 0.4em;
   width: 100%;
 }
-/* fix Bootstrap super large pre'S */
 pre {
+  /* fix Bootstrap super large pre'S */
   margin-bottom: 0 !important;
+  /* Make it look a bit more like redcsl */
+  font-size: 1em !important;
+  font-weight: bold !important;
+  text-align: center !important;
 }
 .InputDiv {
   font-family: var(--bs-font-monospace);
