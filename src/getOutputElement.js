@@ -1,6 +1,6 @@
 import {lastInput} from "./InputEditor.js";
 function getOutputElement() {
-  if (lastInput) {
+  if (lastInput?.isConnected) {
     if (lastInput.closest("table").nextElementSibling.classList.contains("OutputDiv")) {
       const output = lastInput.closest("table").nextElementSibling;
       //output._reduce = [];
