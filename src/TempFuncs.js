@@ -51,15 +51,18 @@ class TempFuncs {
    */
   constructor(dialogueId) {
     this.dialogue = document.getElementById(dialogueId);
-    this.inputs = this.dialogue.querySelectorAll("input[type=text]");
-    this.buttons = this.dialogue.querySelectorAll("div.modal-footer > button");
-    this.buttons[0].addEventListener("click", () => this.resetButtonAction());
+    this.inputs = this.dialogue?.querySelectorAll("input[type=text]");
+    this.buttons = this.dialogue?.querySelectorAll("div.modal-footer > button");
+    this.buttons?.[0].addEventListener("click", () => this.resetButtonAction());
     // Just using the function this.resetButtonAction fails because this in resetButtonAction refers to the wrong object!
     // this.dialogue.addEventListener("hidden.bs.modal", () => inputDiv.focus());
     // Save initial input values:
     this.initialInputValues = [];
-    for (let i = 0; i < this.inputs.length; i++)
-      this.initialInputValues.push(this.inputs[i].value);
+    if (this.inputs) {
+      for (let i = 0; i < this.inputs.length; i++) {
+        this.initialInputValues.push(this.inputs[i].value);
+      }
+    }
   }
   /**
    * Reset the values of all input fields.
@@ -117,10 +120,10 @@ export class Template extends TempFuncs {
    */
   constructor(templateName) {
     super(templateName.replace(/\s+/g, ""));
-    this.pattern = this.dialogue.querySelector("div.pattern");
+    this.pattern = this.dialogue?.querySelector("div.pattern");
     this.alertHeader = `${templateName} Error\n`;
     // Edit button action:
-    this.buttons[1].addEventListener("click", () => {
+    this.buttons?.[1].addEventListener("click", () => {
       try {
         // No fields are normally required:
         this.checkNonEmpty = false;
@@ -130,7 +133,7 @@ export class Template extends TempFuncs {
       lastInput.focus(); // always return focus to input editor
     });
     // Evaluate button action:
-    this.buttons[2].addEventListener("click", () => {
+    this.buttons?.[2].addEventListener("click", () => {
       try {
         // Check required fields provided:
         this.checkNonEmpty = true;
@@ -235,6 +238,6 @@ function saveSelectionProps() {
   };
 }
 document.getElementById("TemplatesMenuLink")
-  .addEventListener('show.bs.dropdown', saveSelectionProps);
+  ?.addEventListener('show.bs.dropdown', saveSelectionProps);
 document.getElementById("FunctionsMenuLink")
-  .addEventListener('show.bs.dropdown', saveSelectionProps);
+  ?.addEventListener('show.bs.dropdown', saveSelectionProps);

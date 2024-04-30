@@ -23,31 +23,35 @@ symmetry tables talp taylor tps tri trigd trigint trigsimp turtle utf8 v3tools
 wu xcolor xideal z3 zeilberg ztrans)`;
 const packages = loadable_packages.slice(1, -1).split(/\s+/);
 const loadPackagesDialogue = document.getElementById("LoadPackagesDialogue");
-const pkgButtonGrid = loadPackagesDialogue.querySelector("div.modal-body > div");
+const pkgButtonGrid = loadPackagesDialogue?.querySelector("div.modal-body > div");
 const pkgButtons = [];
 let pkgNo = 1;
-for (const pkg of packages) {
-  const pkgId = "LoadPackageButton" + pkgNo++;
-  const button = document.createElement("input");
-  button.setAttribute("type", "checkbox");
-  button.setAttribute("id", pkgId);
-  button.setAttribute("autocomplete", "off");
-  button.className = "btn-check";
-  pkgButtonGrid.appendChild(button);
-  pkgButtons.push(button);
-  const label = document.createElement("label");
-  label.className = "btn btn-outline-primary";
-  label.setAttribute("for", pkgId);
-  label.innerText = pkg;
-  pkgButtonGrid.appendChild(label);
-  label.addEventListener("click", enableManualButton);
-  label.addEventListener("dblclick", loadThisPackage);
-  label.addEventListener("contextmenu", showManualForThisPackage);
+if (pkgButtonGrid) {
+  for (const pkg of packages) {
+    const pkgId = "LoadPackageButton" + pkgNo++;
+    const button = document.createElement("input");
+    button.setAttribute("type", "checkbox");
+    button.setAttribute("id", pkgId);
+    button.setAttribute("autocomplete", "off");
+    button.className = "btn-check";
+    pkgButtonGrid.appendChild(button);
+    pkgButtons.push(button);
+    const label = document.createElement("label");
+    label.className = "btn btn-outline-primary";
+    label.setAttribute("for", pkgId);
+    label.innerText = pkg;
+    pkgButtonGrid.appendChild(label);
+    label.addEventListener("click", enableManualButton);
+    label.addEventListener("dblclick", loadThisPackage);
+    label.addEventListener("contextmenu", showManualForThisPackage);
+  }
 }
-const buttons = loadPackagesDialogue.querySelectorAll("div.modal-footer > button");
-buttons[0].addEventListener("click", () => pkgButtons.forEach(btn => btn.checked = false));
-buttons[1].disabled = true;
-buttons[2].addEventListener("click", loadButtonAction);
+const buttons = loadPackagesDialogue?.querySelectorAll("div.modal-footer > button");
+if (buttons) {
+  buttons[0].addEventListener("click", () => pkgButtons.forEach(btn => btn.checked = false));
+  buttons[1].disabled = true;
+  buttons[2].addEventListener("click", loadButtonAction);
+}
 /**
  * Load the selected package(s).
  * Run when the "Load" button is clicked.
@@ -81,7 +85,9 @@ function enableManualButton() {
   // Normal click action must happen first!
   setTimeout(() => { buttons[1].disabled = (pkgButtons.filter(btn => btn.checked).length !== 1); });
 }
-buttons[1].addEventListener("click", showManualForSelectedPackage);
+if (buttons) {
+  buttons[1].addEventListener("click", showManualForSelectedPackage);
+}
 /**
  * Show the manual entry for the (first) selected package.
  * Run when the "Display Manual Entry" button is clicked.

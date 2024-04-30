@@ -16,7 +16,9 @@ const loadPackagesMenuItem  = document.getElementById("LoadPackagesMenuItem");
 const stopREDUCEMenuItem    = document.getElementById("StopREDUCEMenuItem");
 const restartREDUCEMenuItem = document.getElementById("RestartREDUCEMenuItem");
 const ioColouringCheckbox   = document.getElementById('IOColouringCheckbox');
-ioColouringCheckbox.checked = true;
+if (ioColouringCheckbox) {
+  ioColouringCheckbox.checked = true;
+}
 // Can only apply bootstrap.Dropdown.getInstance() once everything is set up, so do it dynamically.
 /**
  * Close a dropdown menu; used in menu-item check-box change-event
@@ -32,9 +34,13 @@ export function hideViewMenuLink() {
 }
 /** Typeset Maths View Menu HTML Element. */
 export const typesetMathsCheckbox = document.getElementById('TypesetMathsCheckbox');
-typesetMathsCheckbox.checked = true;
+if (typesetMathsCheckbox) {
+  typesetMathsCheckbox.checked = true;
+}
 const centreTypesetMathsCheckbox = document.getElementById('CentreTypesetMathsCheckbox');
-centreTypesetMathsCheckbox.checked = true;
+if (centreTypesetMathsCheckbox) {
+  centreTypesetMathsCheckbox.checked = true;
+}
 /** Input Editor HTML Element. */
 export const inputDiv = "todo getInputDiv()";
 //export const inputDiv = document.getElementsByClassName('InputDiv')[0];
@@ -48,22 +54,32 @@ export function refocus() {
 }
 /** Earlier Button HTML Element. */
 export const earlierButton = document.getElementById('EarlierButton');
-earlierButton.disabled = true;
+if (earlierButton) {
+  earlierButton.disabled = true;
+}
 /** Send Input Button HTML Element. */
 const mathjson2reduceButton = document.getElementById("mathjson2reduceButton");
-mathjson2reduceButton.onclick = () => {
-  const json = getMathJSON();
-  const red = mathjson2reduce(json);
-  const div = lastInput ?? document.getElementsByClassName("InputDiv")[0];
-  div.innerText = red;
+if (mathjson2reduceButton) {
+  mathjson2reduceButton.onclick = () => {
+    const json = getMathJSON();
+    const red = mathjson2reduce(json);
+    const div = lastInput ?? document.getElementsByClassName("InputDiv")[0];
+    div.innerText = red;
+  }
 }
 /** Later Button HTML Element. */
 export const laterButton = document.getElementById('LaterButton');
-laterButton.disabled = true;
+if (laterButton) {
+  laterButton.disabled = true;
+}
 const fileMenuLink = document.getElementById("FileMenuLink");
 const templatesMenuLink = document.getElementById("TemplatesMenuLink");
 const functionsMenuLink = document.getElementById("FunctionsMenuLink");
 export function setRunningState(running) {
+  if (!startREDUCEMenuItem) {
+    // Not running with UI stuff.
+    return;
+  }
   startREDUCEMenuItem.disabled = running;
   loadPackagesMenuItem.disabled = !running;
   stopREDUCEMenuItem.disabled = !running;
@@ -132,6 +148,10 @@ export function reduceWebMessageHandler(event) {
         // Those are fragments that the REDUCE interface for TeXmacs inserts.
         output = output.substring(n + 1 + 26, output.length - 2);
         const outputTeX = output;
+        if (!window.MathJax) {
+          console.warn('reduceWebMessageHandler> No MathJax instance available.', {output});
+          return;
+        }
         output = MathJax.tex2chtml(output);
         output.classList.add("output");
         const outputElement = getOutputElement();
@@ -192,16 +212,16 @@ export async function sendToReduceAndEchoNoAsciify(text) {
 // Menu Support
 // ************
 // REDUCE menu:
-startREDUCEMenuItem.addEventListener("click", startREDUCE);
-stopREDUCEMenuItem.addEventListener("click", stopREDUCE);
-restartREDUCEMenuItem.addEventListener("click", () => {
+startREDUCEMenuItem?.addEventListener("click", startREDUCE);
+stopREDUCEMenuItem?.addEventListener("click", stopREDUCE);
+restartREDUCEMenuItem?.addEventListener("click", () => {
   stopREDUCE();
   startREDUCE();
 });
 // I/O Colouring:
 const ioColouringStyleElement = document.createElement("style");
 ioColouringStyleElement.innerText = "pre.input {color: red;} *.output {color: blue;}";
-ioColouringCheckbox.addEventListener("change", () => {
+ioColouringCheckbox?.addEventListener("change", () => {
   if (ioColouringCheckbox.checked) {
     document.head.appendChild(ioColouringStyleElement);
   } else {
@@ -218,12 +238,12 @@ export function enableTypesetMaths(enable) {
   Global.hideOutput = true;
   sendToReduce(enable ? 'on fancy;' : 'off fancy;');
 }
-typesetMathsCheckbox.addEventListener("change", () => {
+typesetMathsCheckbox?.addEventListener("change", () => {
   enableTypesetMaths(typesetMathsCheckbox.checked);
   hideViewMenuLink();
 });
 // Centre Typeset Maths:
-centreTypesetMathsCheckbox.addEventListener("change", event => {
+centreTypesetMathsCheckbox?.addEventListener("change", event => {
   MathJax.config.chtml.displayAlign = centreTypesetMathsCheckbox.checked ? 'center' : 'left';
   MathJax.startup.getComponents(); // See http://docs.mathjax.org/en/latest/web/configuration.html
   hideViewMenuLink();

@@ -15,16 +15,24 @@ import {hideMenuLink, refocus, enableTypesetMaths} from "./Main.js";
 import {sendToReduce                             } from './sendToReduce.js';
 const supported = "showOpenFilePicker" in window;
 const echoFileInputCheckbox = document.getElementById("EchoFileInputCheckbox");
-echoFileInputCheckbox.checked = true;
+if (echoFileInputCheckbox) {
+  echoFileInputCheckbox.checked = true;
+}
 const fileMenuLink = document.getElementById("FileMenuLink");
-echoFileInputCheckbox.addEventListener("change", () => hideMenuLink(fileMenuLink));
+echoFileInputCheckbox?.addEventListener("change", () => hideMenuLink(fileMenuLink));
 const outputFileMenuItem = document.getElementById("OutputFileMenuItem");
 const outputHereMenuItem = document.getElementById("OutputHereMenuItem");
-outputHereMenuItem.disabled = true;
+if (outputHereMenuItem) {
+  outputHereMenuItem.disabled = true;
+}
 const outputOpenMenuItem = document.getElementById("OutputOpenMenuItem");
-outputOpenMenuItem.disabled = true;
+if (outputOpenMenuItem) {
+  outputOpenMenuItem.disabled = true;
+}
 const shutFileMenuItem = document.getElementById("ShutFileMenuItem");
-shutFileMenuItem.disabled = true;
+if (shutFileMenuItem) {
+  shutFileMenuItem.disabled = true;
+}
 let typesetMathsEnabled;
 let fileOpen;
 if (supported) {
@@ -63,7 +71,7 @@ if (supported) {
     });
   };
 }
-document.getElementById("InputFileMenuItem").addEventListener('click', async () => {
+document.getElementById("InputFileMenuItem")?.addEventListener('click', async () => {
   Global.inputFromKbd = false;
   try {
     const file = await fileOpen();
@@ -136,7 +144,7 @@ function displayOutputtingToFile() {
 function displayOutputtingToTerminal() {
   sendPlainTextToIODisplay("Outputting to terminal...", "info");
 }
-outputFileMenuItem.addEventListener('click', async () => {
+outputFileMenuItem?.addEventListener('click', async () => {
   try {
     if (supported) {
       // @ts-ignore non-standard Window method
@@ -171,7 +179,7 @@ outputFileMenuItem.addEventListener('click', async () => {
   }
   inputDiv.focus();
 });
-outputHereMenuItem.addEventListener('click', () => {
+outputHereMenuItem?.addEventListener('click', () => {
   if (supported) {
     Global.outputToFile = undefined;
   } else {
@@ -187,7 +195,7 @@ outputHereMenuItem.addEventListener('click', () => {
   outputHereMenuItem.disabled = true;
   inputDiv.focus();
 });
-outputOpenMenuItem.addEventListener('click', () => {
+outputOpenMenuItem?.addEventListener('click', () => {
   if (supported) {
     Global.outputToFile = writable;
   } else {
@@ -202,7 +210,7 @@ outputOpenMenuItem.addEventListener('click', () => {
   outputOpenMenuItem.disabled = true;
   inputDiv.focus();
 });
-shutFileMenuItem.addEventListener('click', async () => {
+shutFileMenuItem?.addEventListener('click', async () => {
   if (supported) {
     try {
       await writable.close();

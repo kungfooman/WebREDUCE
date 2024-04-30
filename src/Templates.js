@@ -3,7 +3,7 @@ import {loadPackage} from "./loadPackage.js";
 class ODESolveTemplate extends Template {
     constructor() {
         super("ODESolve Template");
-        this.dialogue.addEventListener("show.bs.modal", () => loadPackage("odesolve"));
+        this.dialogue?.addEventListener("show.bs.modal", () => loadPackage("odesolve"));
     }
     result() {
         let ode = this.getValueCheckNonEmpty(this.inputs[0]);

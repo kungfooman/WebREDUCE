@@ -14,7 +14,7 @@ async function handleFile(filename, content) {
 async function enableDragAndDrop() {
   const e = document.getElementById("SystemOutput");
   if (!(e instanceof HTMLDivElement)) {
-    console.error("SystemOutput isn't a <div>!");
+    console.warn("enableDragAndDrop> SystemOutput isn't a <div>!");
     return;
   }
   e.ondrop = async function (event) {

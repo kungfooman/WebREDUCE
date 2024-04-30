@@ -132,7 +132,7 @@ export function createNewInput() {
   inputNew.classList.add("InputDiv");
   tdLeft.append(divID);
   tdRight.append(inputNew);
-  getOutputElement().after(table);
+  getOutputElement()?.after(table);
   lastInput = inputNew;
   inputNew.focus();
   inputNew.addEventListener("keydown", inputKeyDown);
@@ -150,8 +150,10 @@ export function createNewInput() {
 let highlighted = false; // true when text is highlighted.
 const selection = getSelection();
 const matchDelimsCheckbox = document.getElementById("MatchDelimsCheckbox");
-matchDelimsCheckbox.checked = true;
-matchDelimsCheckbox.addEventListener("change", () => {
+if (matchDelimsCheckbox) {
+  matchDelimsCheckbox.checked = true;
+}
+matchDelimsCheckbox?.addEventListener("change", () => {
   enableMatchDelims(matchDelimsCheckbox.checked);
   hideViewMenuLink();
 });
